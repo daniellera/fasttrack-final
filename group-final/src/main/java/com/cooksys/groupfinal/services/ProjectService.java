@@ -1,6 +1,7 @@
 package com.cooksys.groupfinal.services;
 
 import com.cooksys.groupfinal.dtos.ProjectDto;
+import com.cooksys.groupfinal.dtos.ProjectRequestDto;
 
 import java.util.List;
 import java.util.Set;
@@ -13,5 +14,6 @@ public interface ProjectService {
 
     Set<ProjectDto> getAllTeamProjects(Long id);
 
-//    ProjectDto createProject();
+
+    ProjectDto createProject(ProjectRequestDto projectRequestDto);
 }
