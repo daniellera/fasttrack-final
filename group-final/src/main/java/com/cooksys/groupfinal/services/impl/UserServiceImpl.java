@@ -74,7 +74,7 @@ public class UserServiceImpl implements UserService {
 			throw new BadRequestException("Username is already taken. Please choose another and try again.");
 		}
 		
-		if(userRequestDto.isAdmin()) {
+		if(userRequestDto.isAdmin() == true) {
 			User adminUser = fullUserMapper.requestDtoToEntity(userRequestDto);
 			Set<Team> teams = new HashSet<>();
 			Set<Company> companies = new HashSet<>();
