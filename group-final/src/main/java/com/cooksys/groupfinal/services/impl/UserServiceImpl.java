@@ -35,12 +35,12 @@ public class UserServiceImpl implements UserService {
         return user.get();
     }
 	
-	private User usernameExists(String username) {
+	private boolean usernameExists(String username) {
 		Optional<User> usernameCheck = userRepository.findByCredentialsUsername(username);
 		if(usernameCheck.isPresent()) {
 			throw new BadRequestException("The username is already taken. Please chose another and try again.");
 		}
-		return usernameCheck.get();
+		return false;
 	}
 	
 	
@@ -64,13 +64,11 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public FullUserDto createUser(UserRequestDto userRequestDto) {
 		User userToCreate = fullUserMapper.requestDtoToEntity(userRequestDto);
-		User usernameCheck = usernameExists(userToCreate.getCredentials().getUsername());
 		
-		if(usernameCheck != null) {
-			throw new BadRequestException("Username is taken. Please choose another and try again.");
-			
-		} else {
-		
+		if(usernameExists(userToCreate.getCredentials().getUsername()) != false) {
+			throw new BadRequestException("Username is already taken. Please choose another and try again.");
+		}
+
 		userToCreate.getCredentials().setUsername(userRequestDto.getCredentials().getUsername());
 		userToCreate.getCredentials().setPassword(userRequestDto.getCredentials().getPassword());
 		userToCreate.getProfile().setFirstName(userRequestDto.getProfile().getFirstName());
@@ -90,7 +88,4 @@ public class UserServiceImpl implements UserService {
 		return fullUserMapper.entityToFullUserDto(userRepository.saveAndFlush(userToCreate));
 		}
 			
-		
-	}
-
 }
