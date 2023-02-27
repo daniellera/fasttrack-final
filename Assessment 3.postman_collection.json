@@ -1,8 +1,9 @@
 {
 	"info": {
-		"_postman_id": "087cb022-9884-4ff5-8e69-dc9cbc298ee8",
+		"_postman_id": "e4a689ef-0387-4cee-8bbd-163eb22e4599",
 		"name": "Assessment 3",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "22748227"
 	},
 	"item": [
 		{
@@ -28,6 +29,34 @@
 					"path": [
 						"users",
 						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST /users/create",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"profile\":{\n    \"firstName\": \"Alex\",\n    \"lastName\": \"Miller\",\n    \"email\" : \"alex@mail.com\",\n    \"phone\" : \"9999999999\"\n    },\n    \"credentials\":{\n        \"username\" : \"alex@mail.com\",\n        \"password\" : \"password\"\n    }\n\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/users/create",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"create"
 					]
 				}
 			},
@@ -207,6 +236,142 @@
 					"port": "8080",
 					"path": [
 						"announcements"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /projects",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/projects",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"projects"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /projects/active",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/projects/active",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"projects",
+						"active"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /projects/team/id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/projects/team/17",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"projects",
+						"team",
+						"17"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST /projects/create-project",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "JSON"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"New Angular Content\",\n\t\"description\": \"New Angular video content and assignments are on the way!\",\n\t\"active\": true,\n\t\"teamId\": 11\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/projects/create-project",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"projects",
+						"create-project"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PATCH /projects/update-project/projectId",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "JSON"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"New Angular Content\",\n\t\"description\": \"New Angular video content and assignments are on the way!\",\n\t\"active\": true\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/projects/update-project/8",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"projects",
+						"update-project",
+						"8"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get users companies",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/users/29/companies",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"29",
+						"companies"
 					]
 				}
 			},
