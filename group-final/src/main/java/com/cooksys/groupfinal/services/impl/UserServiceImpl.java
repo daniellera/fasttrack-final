@@ -1,13 +1,17 @@
 package com.cooksys.groupfinal.services.impl;
 
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.stereotype.Service;
 
 import com.cooksys.groupfinal.dtos.CredentialsDto;
 import com.cooksys.groupfinal.dtos.FullUserDto;
 import com.cooksys.groupfinal.dtos.UserRequestDto;
+import com.cooksys.groupfinal.entities.Company;
 import com.cooksys.groupfinal.entities.Credentials;
+import com.cooksys.groupfinal.entities.Team;
 import com.cooksys.groupfinal.entities.User;
 import com.cooksys.groupfinal.exceptions.BadRequestException;
 import com.cooksys.groupfinal.exceptions.NotAuthorizedException;
@@ -56,6 +60,7 @@ public class UserServiceImpl implements UserService {
         }
         if (userToValidate.getStatus().equals("PENDING")) {
         	userToValidate.setStatus("JOINED");
+        	userToValidate.setActive(true);
         	userRepository.saveAndFlush(userToValidate);
         }
         return fullUserMapper.entityToFullUserDto(userToValidate);
@@ -67,6 +72,17 @@ public class UserServiceImpl implements UserService {
 		
 		if(usernameExists(userToCreate.getCredentials().getUsername()) != false) {
 			throw new BadRequestException("Username is already taken. Please choose another and try again.");
+		}
+		
+		if(userRequestDto.isAdmin()) {
+			User adminUser = fullUserMapper.requestDtoToEntity(userRequestDto);
+			Set<Team> teams = new HashSet<>();
+			Set<Company> companies = new HashSet<>();
+			teams.addAll(userToCreate.getTeams());
+			adminUser.setTeams(teams);
+			companies.addAll(userToCreate.getCompanies());
+			adminUser.setCompanies(companies);
+			userRepository.saveAndFlush(adminUser);
 		}
 
 		userToCreate.getCredentials().setUsername(userRequestDto.getCredentials().getUsername());
