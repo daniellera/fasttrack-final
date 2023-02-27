@@ -1,17 +1,19 @@
-export const userObject = (isLoggedIn, isAdmin, firstName, lastName, company) => {
+export const createUserObject = (id, isLoggedIn, isAdmin, firstName, lastName, companies) => {
     return(
     {
+        id: id,
         isLoggedIn: isLoggedIn,
         isAdmin: isAdmin,
         firstName: firstName,
         lastName: lastName,
-        company: company
+        companies: company
     })
 }
 
-export const announcementObject = (author, dateCreated, title, message) => {
+export const createAnnouncementObject = (id, author, dateCreated, title, message) => {
     return(
     {
+        id: id,
         author: author,
         dateCreated: dateCreated,
         title: title,
@@ -19,27 +21,31 @@ export const announcementObject = (author, dateCreated, title, message) => {
     })
 }
 
-export const teamObject = (teamName, qtyProjects, members) => {
+export const createTeamObject = (id, teamName, qtyProjects, members) => {
     return(
     {
+        id: id,
         teamName: teamName,
         qtyProjects: qtyProjects,
         members: members
     })
 }
 
-export const projectObject = (isActive, projectName, projectDescription) => {
+export const createProjectObject = (id, isActive, projectName, projectDescription, teamId) => {
     return(
     {
+        id: id,
         isActive: isActive,
         projectName: projectName,
-        projectDescription: projectDescription
+        projectDescription: projectDescription,
+        teamId: teamId
     })
 }
 
-export const registryEntryObject = (firstName, lastName, email, phone, status) => {
+export const createUserRegistryObject = (id, firstName, lastName, email, phone, status) => {
     return(
     {
+        id: id,
         firstName: firstName,
         lastName: lastName,
         email: email,
