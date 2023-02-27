@@ -1,6 +1,33 @@
 import { Navigate } from 'react-router-dom'
 import { useRecoilState } from 'recoil'
+// import { isStyledComponent } from 'styled-components'
 import { userState } from '../../globalstate'
+import styled from 'styled-components'
+
+const CompanyWrapper = styled.div`
+    color: #051622;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 85vh;
+    
+    & h1 {
+        font-family: 'Inter', sans-serif;
+        color: #1BA098;
+        font-size: 4em;
+    }
+
+    & select {
+        font-family: 'Fira sans', sans-serif;
+        color: #5533FF;
+        font-weight: bold;
+        font-size: 1.5em;
+        border-radius: 0.5em;
+        padding: 0.3em 0.7em;
+    }
+`
+
 // import Dropdown from '../../Components/Dropdown'
 
 const CompanyScreen = () => {
@@ -23,13 +50,13 @@ const CompanyScreen = () => {
     }
     else {
         return (
-            <div className='company' id='company-wrapper'>
+            <CompanyWrapper className='company' id='company-wrapper'>
                 <h1 className='company' id='company-header'>Select Company</h1>
-                <select name='company' id='company-dropdown' className='company dropdown' onChange={selectCompany}>
+                <select name='company' id='company-dropdown' className='company dropdown' onChange={'selectCompany'}>
                     <option>Pick an option</option>
-                    {companies.map(companyObj => <option key={companyObj.id} value={companyObj}>{companyObj.name}</option>)}
+                    {/* {companies.map(companyObj => <option key={companyObj.id} value={companyObj}>{companyObj.name}</option>)} */}
                 </select>
-            </div>
+            </CompanyWrapper>
         )
     }
 }
