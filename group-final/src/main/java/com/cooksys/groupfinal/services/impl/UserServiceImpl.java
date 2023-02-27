@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.cooksys.groupfinal.dtos.CredentialsDto;
 import com.cooksys.groupfinal.dtos.FullUserDto;
+import com.cooksys.groupfinal.dtos.UserRequestDto;
 import com.cooksys.groupfinal.entities.Credentials;
 import com.cooksys.groupfinal.entities.User;
 import com.cooksys.groupfinal.exceptions.BadRequestException;
@@ -23,7 +24,7 @@ import lombok.RequiredArgsConstructor;
 public class UserServiceImpl implements UserService {
 	
 	private final UserRepository userRepository;
-  private final FullUserMapper fullUserMapper;
+	private final FullUserMapper fullUserMapper;
 	private final CredentialsMapper credentialsMapper;
 	
 	private User findUser(String username) {
@@ -33,6 +34,15 @@ public class UserServiceImpl implements UserService {
         }
         return user.get();
     }
+	
+	private User usernameExists(String username) {
+		Optional<User> usernameCheck = userRepository.findByCredentialsUsername(username);
+		if(usernameCheck.isPresent()) {
+			throw new BadRequestException("The username is already taken. Please chose another and try again.");
+		}
+		return usernameCheck.get();
+	}
+	
 	
 	@Override
 	public FullUserDto login(CredentialsDto credentialsDto) {
@@ -50,11 +60,37 @@ public class UserServiceImpl implements UserService {
         }
         return fullUserMapper.entityToFullUserDto(userToValidate);
 	}
-	
-	
-	
-	
-	
-	
+
+	@Override
+	public FullUserDto createUser(UserRequestDto userRequestDto) {
+		User userToCreate = fullUserMapper.requestDtoToEntity(userRequestDto);
+		User usernameCheck = usernameExists(userToCreate.getCredentials().getUsername());
+		
+		if(usernameCheck != null) {
+			throw new BadRequestException("Username is taken. Please choose another and try again.");
+			
+		} else {
+		
+		userToCreate.getCredentials().setUsername(userRequestDto.getCredentials().getUsername());
+		userToCreate.getCredentials().setPassword(userRequestDto.getCredentials().getPassword());
+		userToCreate.getProfile().setFirstName(userRequestDto.getProfile().getFirstName());
+		userToCreate.getProfile().setLastName(userRequestDto.getProfile().getLastName());
+		userToCreate.getProfile().setEmail(userRequestDto.getProfile().getEmail());
+		userToCreate.getProfile().setPhone(userRequestDto.getProfile().getPhone());
+		userToCreate.setActive(true);
+		
+		if(userRequestDto.isAdmin() == true) {
+			userToCreate.setAdmin(userRequestDto.isAdmin());
+			userRepository.saveAndFlush(userToCreate);
+		} else {
+			userToCreate.setAdmin(false);
+			userRepository.saveAndFlush(userToCreate);
+		}
+		
+		return fullUserMapper.entityToFullUserDto(userRepository.saveAndFlush(userToCreate));
+		}
+			
+		
+	}
 
 }
