@@ -27,6 +27,7 @@ public class UserController {
     }
 	
 	@PostMapping("/create")
+	@CrossOrigin(origins="*")
 	public FullUserDto createUser(@RequestBody UserRequestDto userRequestDto) {
 		return userService.createUser(userRequestDto);
 	}
