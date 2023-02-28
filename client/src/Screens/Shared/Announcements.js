@@ -8,7 +8,7 @@ import NavBar from "../../Components/NavBar";
 import { userState, announcementsState } from "../../globalstate";
 import Button from "../../Components/Button";
 import Announcement from "../../Components/Announcement";
-import AnnouncementPopup from "../../Components/AnnouncementPopup";
+import Popup from "../../Components/Popup";
 import { createAnnouncementObject } from "../../Services/objects";
 import { getDateToday } from "../../Services/helpers";
 
@@ -71,12 +71,18 @@ const Announcements = () => {
   const handleSubmit = () => {
     let newTitle = document.getElementById("newMessageTitle").value;
     let newMessage = document.getElementById("newMessageBody").value;
-    let newAnnouncement = createAnnouncementObject(user.id, user.firstName + " " + user.lastName, getDateToday(), newTitle, newMessage);
+    let newAnnouncement = createAnnouncementObject(
+      user.id,
+      user.firstName + " " + user.lastName,
+      getDateToday(),
+      newTitle,
+      newMessage
+    );
     setAnnouncements([...announcements, newAnnouncement]);
     //send request to backend to create new announcement
     //store response from backend in recoil
     togglePopup();
-  }
+  };
 
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
 
@@ -137,17 +143,23 @@ const Announcements = () => {
           ))}
         </div>
         {isOpen && (
-          <AnnouncementPopup
+          <Popup
             content={
               <div style={{ textAlign: "center" }}>
                 <h3 style={{ textAlign: "left" }}>Title</h3>
-                  <Input id="newMessageTitle" />
-                  <h3 style={{ textAlign: "left" }}>Message</h3>
-                  <Input id="newMessageBody" />
-                  <Button onClick={handleSubmit} w="199px" h="45px" bg="#1BA098" c="#FFFFFF" mg="3%">
-                    Submit
-                  </Button>
-
+                <Input id="newMessageTitle" />
+                <h3 style={{ textAlign: "left" }}>Message</h3>
+                <Input id="newMessageBody" />
+                <Button
+                  onClick={handleSubmit}
+                  w="199px"
+                  h="45px"
+                  bg="#1BA098"
+                  c="#FFFFFF"
+                  mg="3%"
+                >
+                  Submit
+                </Button>
               </div>
             }
             handleClose={togglePopup}
