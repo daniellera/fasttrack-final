@@ -94,78 +94,81 @@ const Announcements = () => {
     return <Navigate replace to="/" />;
   } else {
     return (
-      <StyledAnnouncements>
+      <div>
+        {" "}
         <NavBar />
-        <StyledHr w="100%" bd="2px solid #deb992" />
-        <div>
-          {!isMobile ? (
-            <h1>Announcements</h1>
-          ) : (
-            <StyledButtonDiv>
-              <h1 style={{ fontSize: "32px" }}>Announcements</h1>
+        <StyledAnnouncements>
+          <StyledHr w="100%" bd="2px solid #deb992" />
+          <div>
+            {!isMobile ? (
+              <h1>Announcements</h1>
+            ) : (
+              <StyledButtonDiv>
+                <h1 style={{ fontSize: "32px" }}>Announcements</h1>
 
+                <Button
+                  w="110.19px"
+                  h="30.48px"
+                  bg="#1BA098"
+                  c="#FFFFFF"
+                  mg="10% 0% 0% 10%"
+                  onClick={togglePopup}
+                >
+                  New
+                </Button>
+              </StyledButtonDiv>
+            )}
+          </div>
+          {!isMobile ? (
+            <StyledButtonDiv mg="0% 0% 5% 60%">
               <Button
-                w="110.19px"
-                h="30.48px"
+                w="103px"
+                h="32px"
                 bg="#1BA098"
                 c="#FFFFFF"
-                mg="10% 0% 0% 10%"
                 onClick={togglePopup}
               >
                 New
               </Button>
             </StyledButtonDiv>
+          ) : (
+            ""
           )}
-        </div>
-        {!isMobile ? (
-          <StyledButtonDiv mg="0% 0% 5% 60%">
-            <Button
-              w="103px"
-              h="32px"
-              bg="#1BA098"
-              c="#FFFFFF"
-              onClick={togglePopup}
-            >
-              New
-            </Button>
-          </StyledButtonDiv>
-        ) : (
-          ""
-        )}
-        <StyledHr w="80%" bd="1px solid #deb992" />
-        <div>
-          {announcements.map((announcement, idx) => (
-            <Announcement
-              announcement={announcement}
-              key={idx}
-              isMobile={isMobile}
+          <StyledHr w="80%" bd="1px solid #deb992" />
+          <div>
+            {announcements.map((announcement, idx) => (
+              <Announcement
+                announcement={announcement}
+                key={idx}
+                isMobile={isMobile}
+              />
+            ))}
+          </div>
+          {isOpen && (
+            <Popup
+              content={
+                <div style={{ textAlign: "center" }}>
+                  <h3 style={{ textAlign: "left" }}>Title</h3>
+                  <Input id="newMessageTitle" />
+                  <h3 style={{ textAlign: "left" }}>Message</h3>
+                  <Input id="newMessageBody" />
+                  <Button
+                    onClick={handleSubmit}
+                    w="199px"
+                    h="45px"
+                    bg="#1BA098"
+                    c="#FFFFFF"
+                    mg="3%"
+                  >
+                    Submit
+                  </Button>
+                </div>
+              }
+              handleClose={togglePopup}
             />
-          ))}
-        </div>
-        {isOpen && (
-          <Popup
-            content={
-              <div style={{ textAlign: "center" }}>
-                <h3 style={{ textAlign: "left" }}>Title</h3>
-                <Input id="newMessageTitle" />
-                <h3 style={{ textAlign: "left" }}>Message</h3>
-                <Input id="newMessageBody" />
-                <Button
-                  onClick={handleSubmit}
-                  w="199px"
-                  h="45px"
-                  bg="#1BA098"
-                  c="#FFFFFF"
-                  mg="3%"
-                >
-                  Submit
-                </Button>
-              </div>
-            }
-            handleClose={togglePopup}
-          />
-        )}
-      </StyledAnnouncements>
+          )}
+        </StyledAnnouncements>
+      </div>
     );
   }
 };

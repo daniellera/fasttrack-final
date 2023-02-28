@@ -2,11 +2,12 @@ import { Navigate, Link } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { useState } from "react";
 import NavBar from "../../Components/NavBar";
-import { userState, teamsState, projectsState } from "../../globalstate";
+import { userState, projectsState } from "../../globalstate";
 import styled from "styled-components";
+import { useMediaQuery } from "react-responsive";
 
 import Button from "../../Components/Button";
-import Project from "../../Components/Project";
+import ProjectItem from "../../Components/ProjectItem";
 import Popup from "../../Components/Popup";
 
 const StyledProjects = styled.div`
@@ -22,7 +23,7 @@ const StyledProjects = styled.div`
     position: absolute;
     width: 80px;
     height: 36px;
-    left: 40px;
+    left: 10px;
     top: 52px;
 
     font-family: "Mulish";
@@ -66,11 +67,21 @@ const Input = styled.input`
   }
 `;
 
+const StyledH3 = styled.h3`
+  font-family: "Mulish";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16.2439px;
+  line-height: 150%;
+  text-align: left;
+`;
+
 const Projects = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [user, setUser] = useRecoilState(userState);
-  const [teams] = useRecoilState(teamsState);
+  const [user] = useRecoilState(userState);
   const [projects, setProjects] = useRecoilState(projectsState);
+
+  const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
 
   const togglePopup = () => {
     setIsOpen(!isOpen);
@@ -78,6 +89,8 @@ const Projects = () => {
 
   if (!user.isLoggedIn) {
     return <Navigate replace to="/" />;
+  } else if (!user.isAdmin) {
+    return <Navigate replace to="/project" />;
   } else {
     return (
       <div>
@@ -85,9 +98,19 @@ const Projects = () => {
         <StyledHr w="100%" bd="2px solid #deb992" />
         <StyledProjects>
           <Link to="/">
-            <span>&#62;Back</span>
+            {!isMobile ? (
+              <span>&#62;Back</span>
+            ) : (
+              <span style={{ fontSize: "15px" }}>&#62;Back</span>
+            )}
           </Link>
-          <h1>Projects for Team1</h1>
+          {!isMobile ? (
+            <h1>Projects for {user.selectedTeam}</h1>
+          ) : (
+            <h1 style={{ fontSize: "25px" }}>
+              Projects for {user.selectedTeam}
+            </h1>
+          )}
         </StyledProjects>
         <div
           style={{
@@ -111,16 +134,16 @@ const Projects = () => {
         </div>
         <div>
           {projects.map((project, idx) => (
-            <Project project={project} key={idx} />
+            <ProjectItem project={project} key={idx} />
           ))}
         </div>
         {isOpen && (
           <Popup
             content={
               <div style={{ textAlign: "center" }}>
-                <h3 style={{ textAlign: "left" }}>Project Name</h3>
+                <StyledH3>Project Name</StyledH3>
                 <Input id="newProjectName" />
-                <h3 style={{ textAlign: "left" }}>Description</h3>
+                <StyledH3>Description</StyledH3>
                 <Input id="newDescription" />
                 <Button
                   //   onClick={handleSubmit}
