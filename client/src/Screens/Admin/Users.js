@@ -47,7 +47,7 @@ const UserRegistryWrapper = styled.div`
     }
 
     & #popup-btn {
-        font-family: 'Mulish';
+        font-family: 'Mulish', sans-serif;
         font-size: 12px;
         font-weight: bold;
         padding: 0.5em 1em;
@@ -112,7 +112,7 @@ const AddUserDiv = styled.div`
     gap: 1em;
 
     & input {
-        font-family: 'Mulish';
+        font-family: 'Mulish', sans-serif;
         font-weight: 400;
         font-size: 16px;
         border: 0;
@@ -142,7 +142,7 @@ const AddUserDiv = styled.div`
     }
 
     & #submit-btn {
-        font-family: 'Mulish';
+        font-family: 'Mulish', sans-serif;
         font-size: 12px;
         font-weight: bold;
         padding: 0.5em 1em;
