@@ -16,5 +16,5 @@ public interface TeamService {
 
     TeamDto createTeam(TeamRequestDto teamRequestDto);
 
-//    Set<TeamDto> getTeamsByCompany(CompanyDto companyDto);
+    Set<TeamDto> getTeamsByUserId(Long userId);
 }
