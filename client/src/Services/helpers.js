@@ -1,5 +1,6 @@
 import {createUserObject, createAnnouncementObject, createTeamObject, createProjectObject, createUserRegistryObject} from "./objects.js";
 
+//----------General Helpers----------\\
 export const countTeamProjects = (projectsDto, teamId) => {
     let result = 0;
     for(let project of projectsDto){
@@ -8,6 +9,7 @@ export const countTeamProjects = (projectsDto, teamId) => {
     return result
 }
 
+//----------Parsing Data From Backend----------\\
 export const parseCompanyAnouncementsDto = (announcementsDto) => {
     
     let result = [];
