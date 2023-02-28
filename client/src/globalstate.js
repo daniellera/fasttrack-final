@@ -3,34 +3,156 @@ import { recoilPersist } from "recoil-persist";
 
 const { persistAtom } = recoilPersist();
 
+//Global States
 export const userState = atom({
-  key: "userState",
-  default: {
-    isLoggedIn: true, //changed
-    isAdmin: true, //changed
-  },
-  effects_UNSTABLE: [persistAtom],
-});
-
-export const announcementsState = atom({
-  key: "announcementsState",
-  default: [],
-});
-
-export const companyState = atom({
-  key: "companyState",
-  default: [],
-});
-
-export const allUsersState = atom({
-  key: "allUsersState",
-  default: [],
+    key: 'userState',
+    default: { //login, takes username and password
+        id: "[USER 1 ID]",
+        isLoggedIn: true,
+        isAdmin: true,
+        firstName: "[FIRSTNAME]",
+        lastName: "[LASTNAME]",
+        companies: [
+            {
+                id: "[COMPANY 1 ID",
+                name: "[COMPANY 1 NAME]"
+            } 
+        ]
+    },
+    effects_UNSTABLE: [persistAtom]
 });
 
 export const errorState = atom({
-  key: "errorState",
-  default: {
-    isError: false,
-    message: "",
-  },
+    key: 'errorState',
+    default: {
+        isError: false,
+        message: ''
+    }
+});
+
+//Page Specific States
+export const announcementsState = atom({
+    key: 'announcementsState',
+    default: [ //getCompanyAnnouncements, takes company id
+        {
+            id: "[ANNOUNCEMENT 1 ID]",
+            author: "[AUTHOR]",
+            dateCreated: "[DATE]",
+            title: "[TITLE]",
+            message: "[MESSAGE]"
+        },
+        {
+            id: "[ANNOUNCEMENT 2 ID]",
+            author: "[AUTHOR]",
+            dateCreated: "[DATE]",
+            title: "[TITLE]",
+            message: "[MESSAGE]"
+        },
+        {
+            id: "[ANNOUNCEMENT 3 ID]",
+            author: "[AUTHOR]",
+            dateCreated: "[DATE]",
+            title: "[TITLE]",
+            message: "[MESSAGE]"
+        }
+    ]
+});
+
+export const teamsState = atom({
+    key: 'teamsState',
+    default: [ //getCompanyTeams, takes company id
+        {
+            id: "[TEAM 1 ID]",
+            teamName: "[TEAM 1 NAME]",
+            qtyProjects: "[# OF PROJECTS]",
+            members: ["[MEMBER 1]", "[MEMBER 2]", "[MEMBER 3"]
+        },
+        {
+            id: "[TEAM 2 ID]",
+            teamName: "[TEAM 2 NAME]",
+            qtyProjects: "[# OF PROJECTS]",
+            members: ["[MEMBER 1]", "[MEMBER 2]", "[MEMBER 3"]
+        },
+        {
+            id: "[TEAM 3 ID]",
+            teamName: "[TEAM 3 NAME]",
+            qtyProjects: "[# OF PROJECTS]",
+            members: ["[MEMBER 1]", "[MEMBER 2]", "[MEMBER 3"]
+        }
+    ]
+});
+
+export const companyState = atom({
+    key: 'companyState',
+    default: [ //login, takes username and password
+        {
+            id: "[COMPANY 1 ID",
+            name: "[COMPANY 1 NAME]"
+        },
+        {
+            id: "[COMPANY 2 ID",
+            name: "[COMPANY 2 NAME]"
+        },
+        {
+            id: "[COMPANY 3 ID",
+            name: "[COMPANY 3 NAME]"
+        }
+    ]
+});
+
+export const projectsState = atom({
+    key: 'projectsState',
+    default: [//GET company/{id}/teams/{id}/projects, takes company id and team id
+        {
+            id: "[PROJECT 1 ID]",
+            projectName: "[PROJECT 1 NAME]",
+            isActive: "[TRUE]",
+            projectDecription: "[PROJECT 1 DESCRIPTION]",
+            team: "[TEAM ID ASSIGNED TO PROJECT]"
+        },
+        {
+            id: "[PROJECT 2 ID]",
+            projectName: "[PROJECT 2 NAME]",
+            isActive: "[TRUE]",
+            projectDecription: "[PROJECT 2 DESCRIPTION]",
+            teamId: "[TEAM ID ASSIGNED TO PROJECT]"
+        },
+        {
+            id: "[PROJECT 3 ID]",
+            projectName: "[PROJECT 3 NAME]",
+            isActive: "[TRUE]",
+            projectDecription: "[PROJECT 3 DESCRIPTION]",
+            teamId: "[TEAM ID ASSIGNED TO PROJECT]"
+        }
+    ]
+});
+
+export const userRegistryState = atom({
+    key: 'userRegistryState',
+    default: [//GET company/{id}/users, takes company id
+        {
+            id: "[USER 1 ID]",
+            firstName: "[FIRST NAME 1]",
+            lastName: "[LAST NAME 1]",
+            email: "[EMAIL 1]",
+            phone: "[PHONE NUMBER 1",
+            status : "[STATUS 1]",
+        },
+        {
+            id: "[USER 2 ID]",
+            firstName: "[FIRST NAME 2]",
+            lastName: "[LAST NAME 2]",
+            email: "[EMAIL 2]",
+            phone: "[PHONE NUMBER 2",
+            status : "[STATUS 2]",
+        },
+        {
+            id: "[USER 3 ID]",
+            firstName: "[FIRST NAME 3]",
+            lastName: "[LAST NAME 3]",
+            email: "[EMAIL 3]",
+            phone: "[PHONE NUMBER 3",
+            status : "[STATUS 3]",
+        }
+    ]
 });
