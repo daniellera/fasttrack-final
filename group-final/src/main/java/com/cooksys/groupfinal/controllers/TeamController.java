@@ -1,15 +1,11 @@
 package com.cooksys.groupfinal.controllers;
 
-import com.cooksys.groupfinal.dtos.CompanyDto;
 import com.cooksys.groupfinal.dtos.TeamDto;
 import com.cooksys.groupfinal.dtos.TeamRequestDto;
+import com.cooksys.groupfinal.services.TeamService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import com.cooksys.groupfinal.services.TeamService;
-
-import lombok.RequiredArgsConstructor;
-
-import java.util.List;
 import java.util.Set;
 
 @RestController
