@@ -42,8 +42,8 @@ const Announcement = ({ announcement, idx }) => {
   return (
     <StyledAnnouncements>
       <StyledUser key={idx}>
-        <StyledSpan>{announcement.user}</StyledSpan>
-        <StyledSpan>{announcement.date}</StyledSpan>
+        <StyledSpan>{announcement.author}</StyledSpan>
+        <StyledSpan>{announcement.dateCreated}</StyledSpan>
       </StyledUser>
       <StyledP>{announcement.title}</StyledP>
       <StyledP>{announcement.message}</StyledP>
