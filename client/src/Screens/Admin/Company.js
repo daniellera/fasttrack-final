@@ -1,8 +1,8 @@
 import { Navigate } from 'react-router-dom'
 import { useRecoilState } from 'recoil'
-// import { isStyledComponent } from 'styled-components'
-import { userState } from '../../globalstate'
+import { userState, companyState } from '../../globalstate'
 import styled from 'styled-components'
+import Dropdown from '../../Components/Dropdown'
 
 const CompanyWrapper = styled.div`
     display: flex;
@@ -28,20 +28,21 @@ const CompanyWrapper = styled.div`
     }
 `
 
-// import Dropdown from '../../Components/Dropdown'
-
 const CompanyScreen = () => {
     const [user, setUser] = useRecoilState(userState)
+    const [companies, setCompanies] = useRecoilState(companyState)
 
-    // State
-    // 
-    // const [selectedCompany, setSelectedCompany]
-    // const companies
-    // 
-    // const selectCompany = () => {
-    //     if 'Pick an option', do nothing
-    //     else setSelectedCompany in state    
-    // }
+    const companyOptions = companies.map(
+        (company, index) => <option key={index} value={index}>{company.name}</option>
+    )
+
+    const selectCompany = event => {
+        setUser(prev => ({
+            ...prev,
+            selectedCompany: companies[event.target.value]
+        }))
+        window.location.replace('/announcements')
+    }
 
     if (!user.isLoggedIn) {
         return <Navigate replace to="/" />
@@ -52,11 +53,13 @@ const CompanyScreen = () => {
         return (
             <CompanyWrapper className='company' id='company-wrapper'>
                 <h1 className='company' id='company-header'>Select Company</h1>
-                <select name='company' id='company-dropdown' className='company dropdown' onChange={'selectCompany'}>
-                    <option disabled selected hidden value=''>Pick an option</option>
-                    <option>Dummy option</option>
-                    {/* {companies.map(companyObj => <option key={companyObj.id} value={companyObj}>{companyObj.name}</option>)} */}
-                </select>
+                <Dropdown
+                    name='company'
+                    id='company-dropdown'
+                    className='company dropdown'
+                    selectOption={selectCompany}
+                    options={companyOptions}
+                />
             </CompanyWrapper>
         )
     }
