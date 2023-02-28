@@ -5,7 +5,6 @@ import { userState } from '../../globalstate'
 import styled from 'styled-components'
 
 const CompanyWrapper = styled.div`
-    color: #051622;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -53,7 +52,8 @@ const CompanyScreen = () => {
             <CompanyWrapper className='company' id='company-wrapper'>
                 <h1 className='company' id='company-header'>Select Company</h1>
                 <select name='company' id='company-dropdown' className='company dropdown' onChange={'selectCompany'}>
-                    <option>Pick an option</option>
+                    <option disabled selected hidden value=''>Pick an option</option>
+                    <option>Dummy option</option>
                     {/* {companies.map(companyObj => <option key={companyObj.id} value={companyObj}>{companyObj.name}</option>)} */}
                 </select>
             </CompanyWrapper>
