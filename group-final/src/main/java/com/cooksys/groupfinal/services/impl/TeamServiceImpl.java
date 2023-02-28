@@ -1,7 +1,6 @@
 package com.cooksys.groupfinal.services.impl;
 
 import com.cooksys.groupfinal.dtos.BasicUserDto;
-import com.cooksys.groupfinal.dtos.CompanyDto;
 import com.cooksys.groupfinal.dtos.TeamDto;
 import com.cooksys.groupfinal.dtos.TeamRequestDto;
 import com.cooksys.groupfinal.entities.Company;
@@ -13,15 +12,11 @@ import com.cooksys.groupfinal.mappers.TeamMapper;
 import com.cooksys.groupfinal.repositories.CompanyRepository;
 import com.cooksys.groupfinal.repositories.TeamRepository;
 import com.cooksys.groupfinal.repositories.UserRepository;
+import com.cooksys.groupfinal.services.TeamService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import com.cooksys.groupfinal.services.TeamService;
-
-import lombok.RequiredArgsConstructor;
-
-import javax.swing.text.html.Option;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -64,7 +59,6 @@ public class TeamServiceImpl implements TeamService {
 
         if(company.isEmpty())
             throw new BadRequestException("Company does not exist");
-//        Optional<Company> company = companyRepository.findById(teamRequestDto.getCompanyId());
         teamToAdd.setName(teamRequestDto.getName());
         teamToAdd.setDescription(teamRequestDto.getDescription());
         teamToAdd.setCompany(company.get());
