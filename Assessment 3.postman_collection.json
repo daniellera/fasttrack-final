@@ -1,90 +1,216 @@
-{
-  "info": {
-    "_postman_id": "908250d6-1613-4474-99ae-a32909e9c36a",
-    "name": "Assessment 3",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-  },
-  "item": [
-    {
-      "name": "POST /users/login",
-      "request": {
-        "method": "POST",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"username\": \"cousingreg\",\n    \"password\": \"mosteligiblebachelor\"\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "localhost:8080/users/login",
-          "host": ["localhost"],
-          "port": "8080",
-          "path": ["users", "login"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "GET /company/id/users",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "localhost:8080/company/6/users",
-          "host": ["localhost"],
-          "port": "8080",
-          "path": ["company", "6", "users"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "GET /company/id/announcements",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "localhost:8080/company/6/announcements",
-          "host": ["localhost"],
-          "port": "8080",
-          "path": ["company", "6", "announcements"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "GET /company/id/teams",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "localhost:8080/company/6/teams",
-          "host": ["localhost"],
-          "port": "8080",
-          "path": ["company", "6", "teams"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "GET /company/companyId/teams/teamId/projects",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "localhost:8080/company/6/teams/11/projects",
-          "host": ["localhost"],
-          "port": "8080",
-          "path": ["company", "6", "teams", "11", "projects"]
-        }
-      },
-      "response": []
-    },
-    {
+	"info": {
+		"_postman_id": "087cb022-9884-4ff5-8e69-dc9cbc298ee8",
+		"name": "Assessment 3",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "POST /users/login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"cousingreg\",\n    \"password\": \"mosteligiblebachelor\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/users/login",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /company/id/users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/company/6/users",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"company",
+						"6",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /company/id/announcements",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Status OK', () => {\r",
+							"    pm.response.to.be.status(200)\r",
+							"})\r",
+							"\r",
+							"pm.test('Should contain two values', () => {\r",
+							"    pm.expect(pm.response.json().length).to.eql(3)\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/company/6/announcements",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"company",
+						"6",
+						"announcements"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /company/id/teams",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/company/6/teams",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"company",
+						"6",
+						"teams"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /company/companyId/teams/teamId/projects",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/company/6/teams/11/projects",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"company",
+						"6",
+						"teams",
+						"11",
+						"projects"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST /announcements",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Status Created', () => {\r",
+							"    pm.response.to.be.status(201)\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"title\": \"Completely new test\",\r\n        \"message\": \"A new announcement was successfully posted through the api!\",\r\n        \"author\": {\r\n            \"id\": 26,\r\n            \"profile\": {\r\n                \"firstName\": \"Gerri\",\r\n                \"lastName\": \"Kellman\",\r\n                \"email\": \"gkellman@email.com\",\r\n                \"phone\": \"(888) 888-8888\"\r\n            },\r\n            \"admin\": true,\r\n            \"active\": true,\r\n            \"status\": \"PENDING\"\r\n        }\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/announcements",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"announcements"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST /announcements Invalid User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Status Created', () => {\r",
+							"    pm.response.to.be.status(404)\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"title\": \"INVALID\",\r\n        \"message\": \"This should not be visible in the database.\",\r\n        \"author\": {\r\n            \"id\": 999,\r\n            \"profile\": {\r\n                \"firstName\": \"invalid\",\r\n                \"lastName\": \"user\",\r\n                \"email\": \"fake@email.com\",\r\n                \"phone\": \"(888) 888-8888\"\r\n            },\r\n            \"admin\": false,\r\n            \"active\": true,\r\n            \"status\": \"PENDING\"\r\n        }\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/announcements",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"announcements"
+					]
+				}
+			},
+			"response": []
+		}, {
       "name": "GET /projects",
       "request": {
         "method": "GET",
@@ -174,5 +300,5 @@
       },
       "response": []
     }
-  ]
+	]
 }

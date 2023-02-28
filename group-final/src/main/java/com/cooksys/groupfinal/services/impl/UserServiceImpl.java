@@ -1,12 +1,17 @@
 package com.cooksys.groupfinal.services.impl;
 
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.stereotype.Service;
 
 import com.cooksys.groupfinal.dtos.CredentialsDto;
 import com.cooksys.groupfinal.dtos.FullUserDto;
+import com.cooksys.groupfinal.dtos.UserRequestDto;
+import com.cooksys.groupfinal.entities.Company;
 import com.cooksys.groupfinal.entities.Credentials;
+import com.cooksys.groupfinal.entities.Team;
 import com.cooksys.groupfinal.entities.User;
 import com.cooksys.groupfinal.exceptions.BadRequestException;
 import com.cooksys.groupfinal.exceptions.NotAuthorizedException;
@@ -23,7 +28,7 @@ import lombok.RequiredArgsConstructor;
 public class UserServiceImpl implements UserService {
 	
 	private final UserRepository userRepository;
-  private final FullUserMapper fullUserMapper;
+	private final FullUserMapper fullUserMapper;
 	private final CredentialsMapper credentialsMapper;
 	
 	private User findUser(String username) {
@@ -33,6 +38,15 @@ public class UserServiceImpl implements UserService {
         }
         return user.get();
     }
+	
+	private boolean usernameExists(String username) {
+		Optional<User> usernameCheck = userRepository.findByCredentialsUsername(username);
+		if(usernameCheck.isPresent()) {
+			throw new BadRequestException("The username is already taken. Please chose another and try again.");
+		}
+		return false;
+	}
+	
 	
 	@Override
 	public FullUserDto login(CredentialsDto credentialsDto) {
@@ -46,15 +60,48 @@ public class UserServiceImpl implements UserService {
         }
         if (userToValidate.getStatus().equals("PENDING")) {
         	userToValidate.setStatus("JOINED");
+        	userToValidate.setActive(true);
         	userRepository.saveAndFlush(userToValidate);
         }
         return fullUserMapper.entityToFullUserDto(userToValidate);
 	}
-	
-	
-	
-	
-	
-	
 
+	@Override
+	public FullUserDto createUser(UserRequestDto userRequestDto) {
+		User userToCreate = fullUserMapper.requestDtoToEntity(userRequestDto);
+		
+		if(usernameExists(userToCreate.getCredentials().getUsername()) != false) {
+			throw new BadRequestException("Username is already taken. Please choose another and try again.");
+		}
+		
+		if(userRequestDto.isAdmin() == true) {
+			User adminUser = fullUserMapper.requestDtoToEntity(userRequestDto);
+			Set<Team> teams = new HashSet<>();
+			Set<Company> companies = new HashSet<>();
+			teams.addAll(userToCreate.getTeams());
+			adminUser.setTeams(teams);
+			companies.addAll(userToCreate.getCompanies());
+			adminUser.setCompanies(companies);
+			userRepository.saveAndFlush(adminUser);
+		}
+
+		userToCreate.getCredentials().setUsername(userRequestDto.getCredentials().getUsername());
+		userToCreate.getCredentials().setPassword(userRequestDto.getCredentials().getPassword());
+		userToCreate.getProfile().setFirstName(userRequestDto.getProfile().getFirstName());
+		userToCreate.getProfile().setLastName(userRequestDto.getProfile().getLastName());
+		userToCreate.getProfile().setEmail(userRequestDto.getProfile().getEmail());
+		userToCreate.getProfile().setPhone(userRequestDto.getProfile().getPhone());
+		userToCreate.setActive(true);
+		
+		if(userRequestDto.isAdmin() == true) {
+			userToCreate.setAdmin(userRequestDto.isAdmin());
+			userRepository.saveAndFlush(userToCreate);
+		} else {
+			userToCreate.setAdmin(false);
+			userRepository.saveAndFlush(userToCreate);
+		}
+		
+		return fullUserMapper.entityToFullUserDto(userRepository.saveAndFlush(userToCreate));
+		}
+			
 }
