@@ -33,7 +33,6 @@ public class TeamServiceImpl implements TeamService {
     @Override
     public Set<TeamDto> getTeams() {
         Set<Team> teams = new HashSet<Team>(teamRepository.findAll());
-
         return teamMapper.entitiesToDtos(teams);
     }
 
@@ -85,6 +84,14 @@ public class TeamServiceImpl implements TeamService {
             throw new BadRequestException("User with id " + userId + " does not exist");
 
         return teamMapper.entitiesToDtos(user.get().getTeams());
+    }
+
+    @Override
+    public int getNumberOfProjectsByTeamId(Long id) {
+        Optional<Team> team = teamRepository.findById(id);
+        if(team.isEmpty())
+            throw new BadRequestException("Team with id " + id + " does not exist");
+        return team.get().getProjects().size();
     }
 
 
