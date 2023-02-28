@@ -6,7 +6,7 @@ export const createUserObject = (id, isLoggedIn, isAdmin, firstName, lastName, c
         isAdmin: isAdmin,
         firstName: firstName,
         lastName: lastName,
-        companies: company
+        companies: companies
     })
 }
 
