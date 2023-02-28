@@ -6,6 +6,7 @@ import java.util.Set;
 
 import org.springframework.stereotype.Service;
 
+import com.cooksys.groupfinal.dtos.CompanyDto;
 import com.cooksys.groupfinal.dtos.CredentialsDto;
 import com.cooksys.groupfinal.dtos.FullUserDto;
 import com.cooksys.groupfinal.dtos.UserRequestDto;
@@ -16,6 +17,7 @@ import com.cooksys.groupfinal.entities.User;
 import com.cooksys.groupfinal.exceptions.BadRequestException;
 import com.cooksys.groupfinal.exceptions.NotAuthorizedException;
 import com.cooksys.groupfinal.exceptions.NotFoundException;
+import com.cooksys.groupfinal.mappers.CompanyMapper;
 import com.cooksys.groupfinal.mappers.CredentialsMapper;
 import com.cooksys.groupfinal.mappers.FullUserMapper;
 import com.cooksys.groupfinal.repositories.UserRepository;
@@ -30,6 +32,7 @@ public class UserServiceImpl implements UserService {
 	private final UserRepository userRepository;
 	private final FullUserMapper fullUserMapper;
 	private final CredentialsMapper credentialsMapper;
+	private final CompanyMapper companyMapper;
 	
 	private User findUser(String username) {
         Optional<User> user = userRepository.findByCredentialsUsernameAndActiveTrue(username);
@@ -45,6 +48,14 @@ public class UserServiceImpl implements UserService {
 			throw new BadRequestException("The username is already taken. Please chose another and try again.");
 		}
 		return false;
+	}
+	private User findUserById(Long userId) {
+		Optional<User> user = userRepository.findById(userId);
+		
+		if(user.isEmpty()) {
+			throw new BadRequestException("User with that id not found");
+		}
+		return user.get();
 	}
 	
 	
@@ -108,5 +119,14 @@ public class UserServiceImpl implements UserService {
 		
 		return fullUserMapper.entityToFullUserDto(userRepository.saveAndFlush(userToCreate));
 		}
+
+	@Override
+	public Set<CompanyDto> findUserCompanies(Long userId) {
+		User userCompanies = findUserById(userId);
+		Set<Company> companies = new HashSet<>();
+		userCompanies.getCompanies().forEach(companies::add);
+		
+		return companyMapper.entitiesToDtos(companies);
+	}
 			
 }
