@@ -149,6 +149,30 @@
         }
       },
       "response": []
+    },
+    {
+      "name": "PATCH /projects/update-project/projectId",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "JSON"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n\t\"name\": \"New Angular Content\",\n\t\"description\": \"New Angular video content and assignments are on the way!\",\n\t\"active\": true\n}"
+        },
+        "url": {
+          "raw": "localhost:8080/projects/update-project/projectId",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["projects", "update-project", "8"]
+        }
+      },
+      "response": []
     }
   ]
 }

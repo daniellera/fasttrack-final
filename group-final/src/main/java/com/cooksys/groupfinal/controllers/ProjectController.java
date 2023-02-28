@@ -39,4 +39,11 @@ public class ProjectController {
 	public ProjectDto createProject(@RequestBody ProjectRequestDto projectRequestDto){
 		return  projectService.createProject(projectRequestDto);
 	}
+
+	//edit a project
+	@PatchMapping("/update-project/{projectId}")
+	public ProjectDto updateProject(@RequestBody ProjectRequestDto projectRequestDto, @PathVariable Long projectId){
+		return projectService.updateProject(projectRequestDto, projectId);
+	}
+
 }

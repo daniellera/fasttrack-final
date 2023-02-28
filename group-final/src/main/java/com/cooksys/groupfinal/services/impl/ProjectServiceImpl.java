@@ -55,13 +55,14 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public ProjectDto createProject(ProjectRequestDto projectRequestDto) {
-        if(projectRequestDto.getName() == null || projectRequestDto.getDescription() == null || !projectRequestDto.isActive()){
-            throw new BadRequestException("Missing property!(name=string || description=string || active=true)");
+        System.out.println(projectRequestDto);
+        if(projectRequestDto.getName() == null || projectRequestDto.getDescription() == null ){
+            throw new BadRequestException("Missing property!(name=string || description=string");
         }
         Project project = new Project();
         project.setName(projectRequestDto.getName());
         project.setDescription(projectRequestDto.getDescription());
-        project.setActive(projectRequestDto.isActive());
+        project.setActive(projectRequestDto.isActive() ? true : false);
 
         Optional<Team> team = teamRepository.findById(projectRequestDto.getTeamId());
         if(team.isEmpty()) throw new NotFoundException("Team id doesn't exist");
@@ -70,6 +71,23 @@ public class ProjectServiceImpl implements ProjectService {
 
         return projectMapper.entityToDto(project);
 
+    }
+
+    @Override
+    public ProjectDto updateProject(ProjectRequestDto projectRequestDto, Long projectId) {
+        Optional<Project> optionalProject = projectRepository.findById(projectId);
+        if (!optionalProject.isPresent()) throw new NotFoundException("id " + projectId + " doesn't exist");
+
+        Project project = optionalProject.get();
+        if (projectRequestDto.getName() != null) {
+            project.setName(projectRequestDto.getName());
+        }
+        if (projectRequestDto.getDescription() != null) {
+            project.setDescription(projectRequestDto.getDescription());
+        }
+        project.setActive(projectRequestDto.isActive());
+        project = projectRepository.saveAndFlush(project);
+        return projectMapper.entityToDto(project);
     }
 
 }
