@@ -25,6 +25,71 @@ export const login = async (username, password) => {
     });
 }
 
+export const createTeam = async (teamName, description, company, teamMembers) => {
+    const response = await api.post("/team", {
+        name: teamName,
+        description: description,
+        company: company,
+        users: teamMembers
+    });
+}
+
+export const createUser = async (username, password, firstName, lastName, email, phone, isAdmin) => {
+    const response = await api.post("/users/create", {
+        credentials:
+        {
+            username: username,
+            password: password
+        },
+        profile:
+        {
+            firstname: firstName,
+            lastname: lastName,
+            email: email,
+            phone: phone
+        },
+        isAdmin: isAdmin
+    });
+}
+
+export const createAnnouncement = async (announcementObject, userState) => {
+    const response = await api.post("/announcements", {
+        title: announcementObject.title,
+        message: announcementObject.message,
+        author:
+        {
+            id: userState.id,
+            profile: {
+                firstname: userState.firstName,
+                lastName: userState.lastName,
+                email: userState.email,
+                phone: userState.phone
+            },
+            isAdmin: userState.isAdmin,
+            active: userState.active,
+            status: userState.status
+        }
+
+    });
+}
+
+export const createProject = async (projectName, projectDescription, active, teamId) => {
+    const response = await api.post("/projects/create-project", {
+        name: projectName,
+        description: projectDescription,
+        active: active,
+        teamId: teamId
+    });
+}
+
 //----------Patch Requests----------\\
+export const updateProject = async (projectId, projectName, projectDescription, active, teamId) => {
+    const response = await api.patch("/projects/update-project/" + projectId, {
+        name: projectName,
+        description: projectDescription,
+        active: active,
+        teamId: teamId
+    });
+}
 
 //----------Delete Requests----------\\
