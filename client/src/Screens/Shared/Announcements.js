@@ -72,11 +72,9 @@ const Announcements = () => {
     let newTitle = document.getElementById("newMessageTitle").value;
     let newMessage = document.getElementById("newMessageBody").value;
     let newAnnouncement = createAnnouncementObject(user.id, user.firstName + " " + user.lastName, getDateToday(), newTitle, newMessage);
-    let newAnnouncements = [...announcements];
+    setAnnouncements([...announcements, newAnnouncement]);
     //send request to backend to create new announcement
     //store response from backend in recoil
-    newAnnouncements.push(newAnnouncement);
-    setAnnouncements(newAnnouncements);
     togglePopup();
   }
 
