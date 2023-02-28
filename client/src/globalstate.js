@@ -12,6 +12,10 @@ export const userState = atom({
         isAdmin: true,
         firstName: "[FIRSTNAME]",
         lastName: "[LASTNAME]",
+        email: "[EMAIL]",
+        phone: "[PHONE]",
+        active: "[ACTIVE STATUS]",
+        status: "[STATUS]",
         companies: [
             {
                 id: "[COMPANY 1 ID",
@@ -67,19 +71,19 @@ export const teamsState = atom({
             id: "[TEAM 1 ID]",
             teamName: "[TEAM 1 NAME]",
             qtyProjects: "[# OF PROJECTS]",
-            members: ["[MEMBER 1]", "[MEMBER 2]", "[MEMBER 3"]
+            members: ["[{MEMBER 1 USER REGISTRY OBJECT}]", "[{MEMBER 2 USER REGISTRY OBJECT}]", "[{MEMBER 3 USER REGISTRY OBJECT}]"]
         },
         {
             id: "[TEAM 2 ID]",
             teamName: "[TEAM 2 NAME]",
             qtyProjects: "[# OF PROJECTS]",
-            members: ["[MEMBER 1]", "[MEMBER 2]", "[MEMBER 3"]
+            members: ["[{MEMBER 1 USER REGISTRY OBJECT}]", "[{MEMBER 2 USER REGISTRY OBJECT}]", "[{MEMBER 3 USER REGISTRY OBJECT}]"]
         },
         {
             id: "[TEAM 3 ID]",
             teamName: "[TEAM 3 NAME]",
             qtyProjects: "[# OF PROJECTS]",
-            members: ["[MEMBER 1]", "[MEMBER 2]", "[MEMBER 3"]
+            members: ["[{MEMBER 1 USER REGISTRY OBJECT}]", "[{MEMBER 2 USER REGISTRY OBJECT}]", "[{MEMBER 3 USER REGISTRY OBJECT}]"]
         }
     ]
 });
@@ -138,6 +142,7 @@ export const userRegistryState = atom({
             lastName: "[LAST NAME 1]",
             email: "[EMAIL 1]",
             phone: "[PHONE NUMBER 1",
+            active: "[ACTIVE STATUS]",
             status : "[STATUS 1]",
         },
         {
@@ -146,6 +151,7 @@ export const userRegistryState = atom({
             lastName: "[LAST NAME 2]",
             email: "[EMAIL 2]",
             phone: "[PHONE NUMBER 2",
+            active: "[ACTIVE STATUS]",
             status : "[STATUS 2]",
         },
         {
@@ -154,6 +160,7 @@ export const userRegistryState = atom({
             lastName: "[LAST NAME 3]",
             email: "[EMAIL 3]",
             phone: "[PHONE NUMBER 3",
+            active: "[ACTIVE STATUS]",
             status : "[STATUS 3]",
         }
     ]
