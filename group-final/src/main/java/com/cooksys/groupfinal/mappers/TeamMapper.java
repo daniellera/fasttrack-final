@@ -2,6 +2,7 @@ package com.cooksys.groupfinal.mappers;
 
 import java.util.Set;
 
+import com.cooksys.groupfinal.dtos.TeamRequestDto;
 import org.mapstruct.Mapper;
 
 import com.cooksys.groupfinal.dtos.TeamDto;
@@ -14,4 +15,7 @@ public interface TeamMapper {
 
   Set<TeamDto> entitiesToDtos(Set<Team> teams);
 
+  Team dtoToEntity(TeamDto teamDto);
+
+  Team requestDtoToEntity(TeamRequestDto teamRequestDto);
 }
