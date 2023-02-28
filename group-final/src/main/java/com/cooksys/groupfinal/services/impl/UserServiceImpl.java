@@ -73,7 +73,12 @@ public class UserServiceImpl implements UserService {
 		if(usernameExists(userToCreate.getCredentials().getUsername()) != false) {
 			throw new BadRequestException("Username is already taken. Please choose another and try again.");
 		}
-		
+		if(userToCreate.getProfile().getEmail() == null) {
+			throw new BadRequestException("You must enter an email address");
+		}
+		if(userToCreate.getCredentials().getPassword() == null) {
+			throw new BadRequestException("You must provide a password");
+		}
 		if(userRequestDto.isAdmin() == true) {
 			User adminUser = fullUserMapper.requestDtoToEntity(userRequestDto);
 			Set<Team> teams = new HashSet<>();
