@@ -14,6 +14,7 @@ const Button = styled.button`
   font-size: 16.2439px;
   line-height: 150%;
   font-size: 20px;
+  padding: 0;
   &:hover {
     cursor: pointer;
     background-color: #20ccc0;

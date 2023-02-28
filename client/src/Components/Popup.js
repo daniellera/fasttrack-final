@@ -1,7 +1,7 @@
 import React from "react";
-import "./AnnouncementPopup.css";
+import "./Popup.css";
 
-const AnnouncementPopup = (props) => {
+const Popup = (props) => {
   return (
     <div className="popup-box">
       <div className="box">
@@ -14,4 +14,4 @@ const AnnouncementPopup = (props) => {
   );
 };
 
-export default AnnouncementPopup;
+export default Popup;

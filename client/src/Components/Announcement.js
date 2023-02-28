@@ -1,6 +1,5 @@
 import { Fragment } from "react";
 import styled from "styled-components";
-import { useMediaQuery } from "react-responsive";
 
 const StyledAnnouncements = styled.div`
   display: flex;
