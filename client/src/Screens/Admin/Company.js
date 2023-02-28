@@ -56,7 +56,7 @@ const CompanyScreen = () => {
                 <Dropdown
                     name='company'
                     id='company-dropdown'
-                    className='company dropdown'
+                    className='company'
                     selectOption={selectCompany}
                     options={companyOptions}
                 />
