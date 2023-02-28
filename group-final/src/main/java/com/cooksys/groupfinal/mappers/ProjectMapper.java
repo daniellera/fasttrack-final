@@ -1,6 +1,7 @@
 package com.cooksys.groupfinal.mappers;
 
 import com.cooksys.groupfinal.dtos.ProjectDto;
+import com.cooksys.groupfinal.dtos.ProjectRequestDto;
 import com.cooksys.groupfinal.entities.Project;
 import org.mapstruct.Mapper;
 
@@ -15,4 +16,5 @@ public interface ProjectMapper {
     Set<ProjectDto> entitiesToDtos(Set<Project> projects);
     List<ProjectDto> entitiesToDtos(List<Project> projects);
 
+    Project requestDtoToEntity(ProjectRequestDto projectRequestDto);
 }
