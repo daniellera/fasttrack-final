@@ -73,15 +73,23 @@ export const createAnnouncement = async (announcementObject, userState) => {
     });
 }
 
-//----------Patch Requests----------\\
+export const createProject = async (projectName, projectDescription, active, teamId) => {
+    const response = await api.post("/projects/create-project", {
+        name: projectName,
+        description: projectDescription,
+        active: active,
+        teamId: teamId
+    });
+}
 
-// export const updateProject = async () => {
-//     const response = await api.patch("/projects/update-project/" + projectId, {
-//         name: teamName,
-//         description: description,
-//         company: company,
-//         users: teamMembers
-//     });
-// }
+//----------Patch Requests----------\\
+export const updateProject = async (projectId, projectName, projectDescription, active, teamId) => {
+    const response = await api.patch("/projects/update-project/" + projectId, {
+        name: projectName,
+        description: projectDescription,
+        active: active,
+        teamId: teamId
+    });
+}
 
 //----------Delete Requests----------\\
