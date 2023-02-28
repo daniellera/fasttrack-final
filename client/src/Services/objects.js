@@ -42,7 +42,7 @@ export const createProjectObject = (id, isActive, projectName, projectDescriptio
     })
 }
 
-export const createUserRegistryObject = (id, firstName, lastName, email, phone, status) => {
+export const createUserRegistryObject = (id, firstName, lastName, email, phone, active, status) => {
     return(
     {
         id: id,
@@ -50,6 +50,7 @@ export const createUserRegistryObject = (id, firstName, lastName, email, phone, 
         lastName: lastName,
         email: email,
         phone: phone,
+        active: active,
         status: status
     })
 }

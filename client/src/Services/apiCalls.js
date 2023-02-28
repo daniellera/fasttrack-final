@@ -25,6 +25,42 @@ export const login = async (username, password) => {
     });
 }
 
+export const createTeam = async (teamName, description, company, teamMembers) => {
+    const response = await api.post("/team", {
+        name: teamName,
+        description: description,
+        company: company,
+        users: teamMembers
+    });
+}
+
+export const createUser = async (username, password, firstName, lastName, email, phone, isAdmin) => {
+    const response = await api.post("/users/create", {
+        credentials:
+        {
+            username: username,
+            password: password
+        },
+        profile:
+        {
+            firstname: firstName,
+            lastname: lastName,
+            email: email,
+            phone: phone
+        },
+        isAdmin: isAdmin
+    });
+}
+
 //----------Patch Requests----------\\
+
+// export const updateProject = async () => {
+//     const response = await api.patch("/projects/update-project/" + projectId, {
+//         name: teamName,
+//         description: description,
+//         company: company,
+//         users: teamMembers
+//     });
+// }
 
 //----------Delete Requests----------\\

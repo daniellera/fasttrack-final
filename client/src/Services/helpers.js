@@ -37,7 +37,7 @@ export const parseCompanyTeamsDto = (companyTeamsDto, projectsDto) => {
         let usersToAdd = [];
         let qtyProjectsToAdd = countTeamProjects(projectsDto, team.id)
         for (let user of team.users) {
-            usersToAdd.push(user.profile.firstname + " " + user.profile.lastname)
+            usersToAdd.push(createUserRegistryObject(user.id, user.profile.firstName, user.profile.lastName, user.profile.email, user.profile.phone, user.active, user.status))
         }
         result.push(createTeamObject(team.id, team.name, qtyProjectsToAdd, usersToAdd))
     }
@@ -56,7 +56,7 @@ export const parseTeamProjectsDto = (projectsDto) => {
 export const parseCompanyUsersDto = (companyUsersDto) => {
     let result = [];
     for (let user of companyUsersDto) {
-        result.push(createUserRegistryObject(user.id, user.profile.firstname, user.profile.lastname, user.profile.email, user.profile.phone, user.status));
+        result.push(createUserRegistryObject(user.id, user.profile.firstname, user.profile.lastname, user.profile.email, user.profile.phone, user.active, user.status));
     }
     return result;
 }
