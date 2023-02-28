@@ -1,11 +1,12 @@
+import { Fragment } from "react";
 import styled from "styled-components";
-//import { announcementsState } from "../../globalstate";
+import { useMediaQuery } from "react-responsive";
 
 const StyledAnnouncements = styled.div`
   display: flex;
   flex-direction: column;
   margin: 2rem;
-  width: 730px;
+  width: ${({ w }) => w};
   background: #0b2d45;
   border-radius: 20px;
 `;
@@ -33,21 +34,34 @@ const StyledP = styled.p`
 const StyledUser = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: ${({ jf }) => jf};
 `;
 
-const Announcement = ({ announcement, idx }) => {
-  console.log(announcement);
-
+const Announcement = ({ announcement, idx, isMobile }) => {
   return (
-    <StyledAnnouncements>
-      <StyledUser key={idx}>
-        <StyledSpan>{announcement.author}</StyledSpan>
-        <StyledSpan>{announcement.dateCreated}</StyledSpan>
-      </StyledUser>
-      <StyledP>{announcement.title}</StyledP>
-      <StyledP>{announcement.message}</StyledP>
-    </StyledAnnouncements>
+    <Fragment>
+      {!isMobile ? (
+        <StyledAnnouncements w="730px">
+          <StyledUser key={idx} jf="space-around">
+            <StyledSpan>{announcement.user}</StyledSpan>
+            <StyledSpan>{announcement.date}</StyledSpan>
+          </StyledUser>
+          <StyledP>{announcement.title}</StyledP>
+          <StyledP>{announcement.message}</StyledP>
+        </StyledAnnouncements>
+      ) : (
+        <StyledAnnouncements w="422.02px">
+          <StyledUser key={idx} jf="center">
+            <StyledSpan style={{ marginRight: "5%" }}>
+              {announcement.author}
+            </StyledSpan>
+            <StyledSpan>{announcement.dateCreated}</StyledSpan>
+          </StyledUser>
+          <StyledP>{announcement.title}</StyledP>
+          <StyledP>{announcement.message}</StyledP>
+        </StyledAnnouncements>
+      )}
+    </Fragment>
   );
 };
 
