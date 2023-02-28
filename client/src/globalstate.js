@@ -37,24 +37,24 @@ export const announcementsState = atom({
     default: [ //getCompanyAnnouncements, takes company id
         {
             id: "[ANNOUNCEMENT 1 ID]",
-            author: "[AUTHOR]",
-            dateCreated: "[DATE]",
-            title: "[TITLE]",
-            message: "[MESSAGE]"
+            author: "[AUTHOR 1]",
+            dateCreated: "[DATE 1]",
+            title: "[TITLE 1]",
+            message: "[MESSAGE 1]"
         },
         {
             id: "[ANNOUNCEMENT 2 ID]",
-            author: "[AUTHOR]",
-            dateCreated: "[DATE]",
-            title: "[TITLE]",
-            message: "[MESSAGE]"
+            author: "[AUTHOR 2]",
+            dateCreated: "[DATE 2]",
+            title: "[TITLE 2]",
+            message: "[MESSAGE 2]"
         },
         {
             id: "[ANNOUNCEMENT 3 ID]",
-            author: "[AUTHOR]",
-            dateCreated: "[DATE]",
-            title: "[TITLE]",
-            message: "[MESSAGE]"
+            author: "[AUTHOR 3]",
+            dateCreated: "[DATE 3]",
+            title: "[TITLE 3]",
+            message: "[MESSAGE 3]"
         }
     ]
 });
