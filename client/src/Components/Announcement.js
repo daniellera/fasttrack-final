@@ -43,8 +43,8 @@ const Announcement = ({ announcement, idx, isMobile }) => {
       {!isMobile ? (
         <StyledAnnouncements w="730px">
           <StyledUser key={idx} jf="space-around">
-            <StyledSpan>{announcement.user}</StyledSpan>
-            <StyledSpan>{announcement.date}</StyledSpan>
+            <StyledSpan>{announcement.author}</StyledSpan>
+            <StyledSpan>{announcement.dateCreated}</StyledSpan>
           </StyledUser>
           <StyledP>{announcement.title}</StyledP>
           <StyledP>{announcement.message}</StyledP>
