@@ -218,6 +218,7 @@ const Users = () => {
             console.log('successful submit')
             // Post new user
             togglePopup()
+            alert('User added successfully!')
         } else {
             setSubmitError(true)
         }
