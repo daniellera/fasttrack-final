@@ -7,6 +7,7 @@ import styled from 'styled-components'
 import Button from '../../Components/Button'
 import Popup from "../../Components/Popup"
 import Dropdown from '../../Components/Dropdown'
+import { useMediaQuery } from "react-responsive";
 
 const UserRegistryWrapper = styled.div`
     & a {
@@ -45,9 +46,10 @@ const UserRegistryWrapper = styled.div`
         padding-bottom: 2em;
     }
 
-    & button {
+    & #popup-btn {
         font-family: 'Mulish';
         font-size: 12px;
+        font-weight: bold;
         padding: 0.5em 1em;
         border: 1px #323F4B;
         border-radius: 15px;
@@ -100,13 +102,75 @@ const No = styled.td`
 `
 
 const AddUserDiv = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 1em auto;
+    width: 25em;
+    max-width: 100%;
+    gap: 1em;
 
+    & input {
+        font-family: 'Mulish';
+        font-weight: 400;
+        font-size: 16px;
+        border: 0;
+        border-bottom: 1px solid #DEB992;
+        color: #DEB992;
+        background: #0B2D45;
+    }
+
+    & * {
+        width: 75%;
+    }
+
+    & div {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+    }
+
+    & h3 {
+        font-weight: normal;
+        margin: 0.3em 0 0.2em 0;
+    }
+
+    & .dropdown {
+        font-size: 16px;
+        width: 45%;
+    }
+
+    & #submit-btn {
+        font-family: 'Mulish';
+        font-size: 12px;
+        font-weight: bold;
+        padding: 0.5em 1em;
+        border: 1px #323F4B;
+        border-radius: 15px;
+        width: 50%;
+    }
+
+    & #submit-error {
+        color: #FF0000;
+        padding: 0;
+    }
+
+    & .mobile {
+        flex-direction: column;
+        gap: inherit;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+    }
 `
 
 const Users = () => {
     const [user, setUser] = useRecoilState(userState)
     const [userRegistry, setUserRegistry] = useRecoilState(userRegistryState)
     const [popup, setPopup] = useState({ isToggled: false })
+    const [submitError, setSubmitError] = useState(false);
+    const isMobile = useMediaQuery({ query: "(max-width: 800px)" });
     const [newUser, setNewUser] = useState({
         firstName: '',
         lastName: '',
@@ -128,14 +192,34 @@ const Users = () => {
             email: '',
             phone: '',
             password: '',
-            isAdmin: false
+            confirmPassword: '',
+            isAdmin: ''
         })
+
+        setSubmitError(false);
     }
 
-    const booleanOptions = (
-        [true, false].map((element, index) => {
-            <option key={index} value={`${element}`}>{`${element}`}</option>
-        })
+    const handleSubmit = () => {
+        if (
+            newUser.firstName &&
+            newUser.lastName &&
+            newUser.email &&
+            newUser.phone &&
+            newUser.password &&
+            newUser.password === newUser.confirmPassword &&
+            newUser.isAdmin !== ''
+        ) {
+            setSubmitError(false)
+            console.log('successful submit')
+            // Post new user
+            togglePopup()
+        } else {
+            setSubmitError(true)
+        }
+    }
+
+    const booleanOptions = ['true', 'false'].map(
+        (element, index) => <option key={index} value={`${element}`}>{`${element}`}</option>
     )
 
     const updateNewUser = event => {
@@ -148,13 +232,20 @@ const Users = () => {
 
     const addUser = (
         <AddUserDiv>
-            <input type='text' name='firstName' placeholder='first name' onChange={updateNewUser} />
-            <input type='text' name='lastName' placeholder='last name' onChange={updateNewUser} />
+            <div className={isMobile? 'mobile' : ''}>
+                <input type='text' name='firstName' placeholder='first name' onChange={updateNewUser} />
+                <input type='text' name='lastName' placeholder='last name' onChange={updateNewUser} />
+            </div>
             <input type='text' name='email' placeholder='email' onChange={updateNewUser} />
             <input type='text' name='phone' placeholder='phone' onChange={updateNewUser} />
-            <input type='text' name='password' placeholder='password' onChange={updateNewUser} />
-            <input type='text' name='confirmPassword' placeholder='confirm password' onChange={updateNewUser} />
+            <div className={isMobile? 'mobile' : ''}>
+                <input type='text' name='password' placeholder='password' onChange={updateNewUser} />
+                <input type='text' name='confirmPassword' placeholder='confirm password' onChange={updateNewUser} />
+            </div>
+            <h3>Make user an admin role?</h3>
             <Dropdown name='isAdmin' id='isAdmin' className='add-user' selectOption={updateNewUser} options={booleanOptions} />
+            <Button id='submit-btn' bg='#1BA098' c='#FFFFFF' w='13em' h='3em' onClick={handleSubmit}>Submit</Button>
+            {submitError && <p id='submit-error'>Something went wrong. Please check your inputs and try again.</p>}
         </AddUserDiv>
     )
 
@@ -172,7 +263,8 @@ const Users = () => {
         return <Navigate replace to="/" />
     } else {
         return (
-            <div><NavBar />
+            <div>
+                <NavBar />
                 <UserRegistryWrapper>
                     <h1>User Registry</h1>
                     <p>A general view of all your members in your organization</p>
@@ -190,7 +282,7 @@ const Users = () => {
                             {mappedUserData}
                         </tbody>
                     </RegistryTable>
-                    <Button bg='#1BA098' c='#FFFFFF' w='13em' h='3em' onClick={togglePopup}>ADD USER</Button>
+                    <Button id='popup-btn' bg='#1BA098' c='#FFFFFF' w='13em' h='3em' onClick={togglePopup}>ADD USER</Button>
                     {popup.isToggled && <Popup handleClose={togglePopup} content={addUser} />}
                 </UserRegistryWrapper>
             </div>
