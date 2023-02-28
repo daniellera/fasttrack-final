@@ -12,6 +12,7 @@ import java.util.Set;
 @RestController
 @RequestMapping("/projects")
 @RequiredArgsConstructor
+@CrossOrigin
 public class ProjectController {
 	
 	private final ProjectService projectService;

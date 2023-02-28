@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/announcements")
 @RequiredArgsConstructor
+@CrossOrigin
 public class AnnouncementController {
 	
 	private final AnnouncementService announcementService;

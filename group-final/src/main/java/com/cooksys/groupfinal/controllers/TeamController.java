@@ -11,6 +11,7 @@ import java.util.Set;
 @RestController
 @RequestMapping("/team")
 @RequiredArgsConstructor
+@CrossOrigin
 public class TeamController {
 
 	private final TeamService teamService;

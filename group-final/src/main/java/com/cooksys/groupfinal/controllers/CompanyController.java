@@ -1,21 +1,20 @@
 package com.cooksys.groupfinal.controllers;
 
-import java.util.Set;
-
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
-
 import com.cooksys.groupfinal.dtos.AnnouncementDto;
 import com.cooksys.groupfinal.dtos.FullUserDto;
 import com.cooksys.groupfinal.dtos.ProjectDto;
 import com.cooksys.groupfinal.dtos.TeamDto;
 import com.cooksys.groupfinal.services.CompanyService;
-
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Set;
 
 @RestController
 @RequestMapping("/company")
 @RequiredArgsConstructor
+@CrossOrigin
 public class CompanyController {
 	
 	private final CompanyService companyService;
