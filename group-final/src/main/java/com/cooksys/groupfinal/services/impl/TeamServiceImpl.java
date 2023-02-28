@@ -56,6 +56,8 @@ public class TeamServiceImpl implements TeamService {
 
         if(teamRequestDto.getCompany() == null)
             throw new BadRequestException("Company not in request body");
+        if(teamRequestDto.getTeammates() == null)
+            throw new BadRequestException("Teammates is null");
 
         Team teamToAdd = teamMapper.requestDtoToEntity(teamRequestDto);
         Optional<Company> company = companyRepository.findById(teamRequestDto.getCompany().getId());
@@ -82,11 +84,14 @@ public class TeamServiceImpl implements TeamService {
         return teamMapper.entityToDto(teamRepository.saveAndFlush(teamToAdd));
     }
 
-//    @Override
-//    public Set<TeamDto> getTeamsByCompany(CompanyDto companyDto) {
-//        Set<Team> teams = new HashSet<Team>(teamRepository.findAllByCompany(companyDto.getId()));
-//        return teamMapper.entitiesToDtos(teams);
-//    }
+    @Override
+    public Set<TeamDto> getTeamsByUserId(Long userId) {
+        Optional<User> user = userRepository.findById(userId);
+        if(user.isEmpty())
+            throw new BadRequestException("User with id " + userId + " does not exist");
+
+        return teamMapper.entitiesToDtos(user.get().getTeams());
+    }
 
 
 }

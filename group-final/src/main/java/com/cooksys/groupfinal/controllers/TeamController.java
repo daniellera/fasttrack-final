@@ -23,10 +23,11 @@ public class TeamController {
 	public Set<TeamDto> getTeams(){return teamService.getTeams();}
 
 	@GetMapping("/{id}")
-	public TeamDto getTeamById(@RequestBody Long id){return teamService.getTeamById(id);}
+	public TeamDto getTeamById(@PathVariable Long id){return teamService.getTeamById(id);}
 
-//	@GetMapping("/{company}")
-//	public Set<TeamDto> getTeamsByCompany(@RequestBody CompanyDto companyDto){return teamService.getTeamsByCompany(companyDto);}
+	@GetMapping("/user/{userId}")
+	public Set<TeamDto> getTeamsByUserId(@PathVariable Long userId){return teamService.getTeamsByUserId(userId);}
+
 
 	@PostMapping
 	public TeamDto createTeam(@RequestBody TeamRequestDto teamRequestDto){return teamService.createTeam(teamRequestDto);}
