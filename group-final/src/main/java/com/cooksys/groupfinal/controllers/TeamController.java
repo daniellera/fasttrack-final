@@ -1,6 +1,8 @@
 package com.cooksys.groupfinal.controllers;
 
+import com.cooksys.groupfinal.dtos.CompanyDto;
 import com.cooksys.groupfinal.dtos.TeamDto;
+import com.cooksys.groupfinal.dtos.TeamRequestDto;
 import org.springframework.web.bind.annotation.*;
 
 import com.cooksys.groupfinal.services.TeamService;
@@ -23,7 +25,10 @@ public class TeamController {
 	@GetMapping("/{id}")
 	public TeamDto getTeamById(@RequestBody long id){return teamService.getTeamById(id);}
 
+//	@GetMapping("/{company}")
+//	public Set<TeamDto> getTeamsByCompany(@RequestBody CompanyDto companyDto){return teamService.getTeamsByCompany(companyDto);}
+
 	@PostMapping
-	public TeamDto createTeam(TeamDto teamDto){return teamService.createTeam(teamDto);}
+	public TeamDto createTeam(@RequestBody TeamRequestDto teamRequestDto){return teamService.createTeam(teamRequestDto);}
 
 }
