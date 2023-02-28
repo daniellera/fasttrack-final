@@ -7,6 +7,7 @@ import com.cooksys.groupfinal.dtos.TeamRequestDto;
 import com.cooksys.groupfinal.entities.Company;
 import com.cooksys.groupfinal.entities.Team;
 import com.cooksys.groupfinal.entities.User;
+import com.cooksys.groupfinal.exceptions.BadRequestException;
 import com.cooksys.groupfinal.mappers.CompanyMapper;
 import com.cooksys.groupfinal.mappers.TeamMapper;
 import com.cooksys.groupfinal.repositories.CompanyRepository;
@@ -42,7 +43,7 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public TeamDto getTeamById(long id) {
+    public TeamDto getTeamById(Long id) {
         Optional<Team> team = teamRepository.findById(id);
         if(team.isEmpty()){
 
@@ -53,8 +54,14 @@ public class TeamServiceImpl implements TeamService {
     @Override
     public TeamDto createTeam(TeamRequestDto teamRequestDto) {
 
+        if(teamRequestDto.getCompany() == null)
+            throw new BadRequestException("Company not in request body");
+
         Team teamToAdd = teamMapper.requestDtoToEntity(teamRequestDto);
         Optional<Company> company = companyRepository.findById(teamRequestDto.getCompany().getId());
+
+        if(company.isEmpty())
+            throw new BadRequestException("Company does not exist");
 //        Optional<Company> company = companyRepository.findById(teamRequestDto.getCompanyId());
         teamToAdd.setName(teamRequestDto.getName());
         teamToAdd.setDescription(teamRequestDto.getDescription());
