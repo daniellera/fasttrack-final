@@ -24,7 +24,8 @@ public class TeamController {
 	@GetMapping("/user/{userId}")
 	public Set<TeamDto> getTeamsByUserId(@PathVariable Long userId){return teamService.getTeamsByUserId(userId);}
 
-
+	@GetMapping("/{id}/project/num")
+	public int getNumberOfProjectsByTeamId(@PathVariable Long id){return teamService.getNumberOfProjectsByTeamId(id);}
 	@PostMapping
 	public TeamDto createTeam(@RequestBody TeamRequestDto teamRequestDto){return teamService.createTeam(teamRequestDto);}
 
