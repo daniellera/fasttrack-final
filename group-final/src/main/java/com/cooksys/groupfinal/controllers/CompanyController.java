@@ -26,7 +26,8 @@ public class CompanyController {
     public Set<FullUserDto> getAllUsers(@PathVariable Long id) {
         return companyService.getAllUsers(id);
     }
-	
+
+    //TODO: Error handling
 	@GetMapping("/{id}/announcements")
     public Set<AnnouncementDto> getAllAnnouncements(@PathVariable Long id) {
         return companyService.getAllAnnouncements(id);
