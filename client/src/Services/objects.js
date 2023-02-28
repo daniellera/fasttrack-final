@@ -1,4 +1,5 @@
-export const createUserObject = (id, isLoggedIn, isAdmin, firstName, lastName, companies) => {
+
+export const createUserObject = (id, isLoggedIn, isAdmin, firstName, lastName, email, phone, active, status, companies) => {
     return(
     {
         id: id,
@@ -6,7 +7,13 @@ export const createUserObject = (id, isLoggedIn, isAdmin, firstName, lastName, c
         isAdmin: isAdmin,
         firstName: firstName,
         lastName: lastName,
-        companies: companies
+        email: email,
+        phone: phone,
+        active: active,
+        status: status,
+        companies: companies,
+        selectedCompany: null,
+        selectedTeam: null
     })
 }
 

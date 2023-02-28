@@ -12,6 +12,10 @@ export const userState = atom({
         isAdmin: true,
         firstName: "[FIRSTNAME]",
         lastName: "[LASTNAME]",
+        email: "[EMAIL]",
+        phone: "[PHONE]",
+        active: "[ACTIVE STATUS]",
+        status: "[STATUS]",
         companies: [
             {
                 id: "[COMPANY 1 ID",

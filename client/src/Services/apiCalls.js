@@ -52,6 +52,27 @@ export const createUser = async (username, password, firstName, lastName, email,
     });
 }
 
+export const createAnnouncement = async (announcementObject, userState) => {
+    const response = await api.post("/announcements", {
+        title: announcementObject.title,
+        message: announcementObject.message,
+        author:
+        {
+            id: userState.id,
+            profile: {
+                firstname: userState.firstName,
+                lastName: userState.lastName,
+                email: userState.email,
+                phone: userState.phone
+            },
+            isAdmin: userState.isAdmin,
+            active: userState.active,
+            status: userState.status
+        }
+
+    });
+}
+
 //----------Patch Requests----------\\
 
 // export const updateProject = async () => {
