@@ -15,6 +15,7 @@ const CompanyWrapper = styled.div`
         font-family: 'Inter', sans-serif;
         color: #1BA098;
         font-size: 4em;
+        text-align: center;
     }
 
     & select {
