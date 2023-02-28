@@ -1,15 +1,23 @@
-// import React from "react";
+import React from "react";
+import styled from 'styled-components';
 
-// const Dropdown = props => {
+const StyledSelect = styled.select`
+    font-family: 'Fira sans', sans-serif;
+    color: #5533FF;
+    font-weight: bold;
+    font-size: 1.5em;
+    border-radius: 0.5em;
+    padding: 0.3em 0.7em;
+`
 
-//     const options = props.options.map(element => <option key={element.id} value={element}>{element.name}</option>);
+const Dropdown = props => {
 
-//     return (
-//         <select name={props.name} id={props.id} className={props.className} onChange={props.selectOption}>
-//             <option>Pick an option</option>
-//             {options}
-//         </select>
-//     )
-// }
+    return (
+        <StyledSelect name={props.name} id={props.id} className={props.className} onChange={e => props.selectOption(e)}>
+            <option disabled selected hidden value=''>Pick an option</option>
+            {props.options}
+        </StyledSelect>
+    )
+}
 
-// export default Dropdown
+export default Dropdown
