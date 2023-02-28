@@ -13,7 +13,12 @@ const StyledSelect = styled.select`
 const Dropdown = props => {
 
     return (
-        <StyledSelect name={props.name} id={props.id} className={props.className} onChange={e => props.selectOption(e)}>
+        <StyledSelect 
+            name={props.name} 
+            id={props.id} 
+            className={`dropdown ${props.className}`} 
+            onChange={e => props.selectOption(e)}
+        >
             <option disabled selected hidden value=''>Pick an option</option>
             {props.options}
         </StyledSelect>
