@@ -36,7 +36,35 @@ const Input = styled.input`
   }
 `;
 
-const Project = ({ project, idx }) => {
+const StyledLabel = styled.label`
+  font-family: "Mulish";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 150%;
+  display: flex;
+  align-items: center;
+  text-align: center;
+`;
+
+const StyledSelect = styled.select`
+  width: 163px;
+  height: 36px;
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  box-sizing: border-box;
+  gap: 8px;
+  text-align: center;
+  color: #5533ff;
+  font-family: "Fira Sans";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 20px;
+`;
+
+const ProjectItem = ({ project, idx }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const togglePopup = () => {
@@ -93,18 +121,30 @@ const Project = ({ project, idx }) => {
           content={
             <div style={{ textAlign: "center" }}>
               <h3 style={{ textAlign: "left" }}>Project Name</h3>
-              <Input id="updateProjectName" />
+              <Input id="updateProjectName" type="text" required />
               <h3 style={{ textAlign: "left" }}>Description</h3>
-              <Input id="updateDescription" />
+              <Input id="updateDescription" type="text" required />
+              <div>
+                <label for="status">Active?</label>
+                <br />
+                <br />
+                <StyledSelect name="status" id="status" required>
+                  <option value="" disabled selected hidden>
+                    Pick an option
+                  </option>
+                  <option value="yes">Yes</option>
+                  <option value="no">No</option>
+                </StyledSelect>
+              </div>
               <Button
                 //   onClick={handleSubmit}
                 w="199px"
                 h="45px"
                 bg="#1BA098"
                 c="#FFFFFF"
-                mg="3%"
+                mg="5%"
               >
-                Submit
+                Save
               </Button>
             </div>
           }
@@ -115,4 +155,4 @@ const Project = ({ project, idx }) => {
   );
 };
 
-export default Project;
+export default ProjectItem;
