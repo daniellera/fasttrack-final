@@ -15,4 +15,6 @@ public interface TeamService {
     TeamDto createTeam(TeamRequestDto teamRequestDto);
 
     Set<TeamDto> getTeamsByUserId(Long userId);
+
+    int getNumberOfProjectsByTeamId(Long id);
 }
