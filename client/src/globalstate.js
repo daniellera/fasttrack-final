@@ -18,7 +18,8 @@ export const userState = atom({
                 name: "[COMPANY 1 NAME]"
             } 
         ],
-        selectedCompany: {}
+        selectedCompany: {},
+        selectedTeam: "[SELECTED TEAM]"
     },
     effects_UNSTABLE: [persistAtom]
 });
