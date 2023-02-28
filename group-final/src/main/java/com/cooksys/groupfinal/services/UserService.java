@@ -10,5 +10,4 @@ public interface UserService {
 
 	FullUserDto createUser(UserRequestDto userRequestDto);
 
-   
 }
