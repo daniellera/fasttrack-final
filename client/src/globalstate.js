@@ -17,7 +17,8 @@ export const userState = atom({
                 id: "[COMPANY 1 ID",
                 name: "[COMPANY 1 NAME]"
             } 
-        ]
+        ],
+        selectedCompany: {}
     },
     effects_UNSTABLE: [persistAtom]
 });
@@ -86,15 +87,15 @@ export const companyState = atom({
     key: 'companyState',
     default: [ //login, takes username and password
         {
-            id: "[COMPANY 1 ID",
+            id: 1,
             name: "[COMPANY 1 NAME]"
         },
         {
-            id: "[COMPANY 2 ID",
+            id: 2,
             name: "[COMPANY 2 NAME]"
         },
         {
-            id: "[COMPANY 3 ID",
+            id: 3,
             name: "[COMPANY 3 NAME]"
         }
     ]
