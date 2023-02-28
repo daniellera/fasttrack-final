@@ -53,9 +53,9 @@ const Announcement = ({ announcement, idx, isMobile }) => {
         <StyledAnnouncements w="422.02px">
           <StyledUser key={idx} jf="center">
             <StyledSpan style={{ marginRight: "5%" }}>
-              {announcement.user}
+              {announcement.author}
             </StyledSpan>
-            <StyledSpan>{announcement.date}</StyledSpan>
+            <StyledSpan>{announcement.dateCreated}</StyledSpan>
           </StyledUser>
           <StyledP>{announcement.title}</StyledP>
           <StyledP>{announcement.message}</StyledP>
