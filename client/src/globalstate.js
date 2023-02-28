@@ -29,39 +29,40 @@ export const userState = atom({
 });
 
 export const errorState = atom({
-    key: 'errorState',
-    default: {
-        isError: false,
-        message: ''
-    }
+  key: "errorState",
+  default: {
+    isError: false,
+    message: "",
+  },
 });
 
 //Page Specific States
 export const announcementsState = atom({
-    key: 'announcementsState',
-    default: [ //getCompanyAnnouncements, takes company id
-        {
-            id: "[ANNOUNCEMENT 1 ID]",
-            author: "[AUTHOR 1]",
-            dateCreated: "[DATE 1]",
-            title: "[TITLE 1]",
-            message: "[MESSAGE 1]"
-        },
-        {
-            id: "[ANNOUNCEMENT 2 ID]",
-            author: "[AUTHOR 2]",
-            dateCreated: "[DATE 2]",
-            title: "[TITLE 2]",
-            message: "[MESSAGE 2]"
-        },
-        {
-            id: "[ANNOUNCEMENT 3 ID]",
-            author: "[AUTHOR 3]",
-            dateCreated: "[DATE 3]",
-            title: "[TITLE 3]",
-            message: "[MESSAGE 3]"
-        }
-    ]
+  key: "announcementsState",
+  default: [
+    //getCompanyAnnouncements, takes company id
+    {
+      id: "[ANNOUNCEMENT 1 ID]",
+      author: "[AUTHOR 1]",
+      dateCreated: "[DATE 1]",
+      title: "[TITLE 1]",
+      message: "[MESSAGE 1]",
+    },
+    {
+      id: "[ANNOUNCEMENT 2 ID]",
+      author: "[AUTHOR 2]",
+      dateCreated: "[DATE 2]",
+      title: "[TITLE 2]",
+      message: "[MESSAGE 2]",
+    },
+    {
+      id: "[ANNOUNCEMENT 3 ID]",
+      author: "[AUTHOR 3]",
+      dateCreated: "[DATE 3]",
+      title: "[TITLE 3]",
+      message: "[MESSAGE 3]",
+    },
+  ],
 });
 
 export const teamsState = atom({
@@ -107,30 +108,31 @@ export const companyState = atom({
 });
 
 export const projectsState = atom({
-    key: 'projectsState',
-    default: [//GET company/{id}/teams/{id}/projects, takes company id and team id
-        {
-            id: "[PROJECT 1 ID]",
-            projectName: "[PROJECT 1 NAME]",
-            isActive: "[TRUE]",
-            projectDecription: "[PROJECT 1 DESCRIPTION]",
-            team: "[TEAM ID ASSIGNED TO PROJECT]"
-        },
-        {
-            id: "[PROJECT 2 ID]",
-            projectName: "[PROJECT 2 NAME]",
-            isActive: "[TRUE]",
-            projectDecription: "[PROJECT 2 DESCRIPTION]",
-            teamId: "[TEAM ID ASSIGNED TO PROJECT]"
-        },
-        {
-            id: "[PROJECT 3 ID]",
-            projectName: "[PROJECT 3 NAME]",
-            isActive: "[TRUE]",
-            projectDecription: "[PROJECT 3 DESCRIPTION]",
-            teamId: "[TEAM ID ASSIGNED TO PROJECT]"
-        }
-    ]
+  key: "projectsState",
+  default: [
+    //GET company/{id}/teams/{id}/projects, takes company id and team id
+    {
+      id: "[PROJECT 1 ID]",
+      projectName: "[PROJECT 1 NAME]",
+      isActive: true,
+      projectDecription: "[PROJECT 1 DESCRIPTION]",
+      team: "[TEAM ID ASSIGNED TO PROJECT]",
+    },
+    {
+      id: "[PROJECT 2 ID]",
+      projectName: "[PROJECT 2 NAME]",
+      isActive: true,
+      projectDecription: "[PROJECT 2 DESCRIPTION]",
+      teamId: "[TEAM ID ASSIGNED TO PROJECT]",
+    },
+    {
+      id: "[PROJECT 3 ID]",
+      projectName: "[PROJECT 3 NAME]",
+      isActive: false,
+      projectDecription: "[PROJECT 3 DESCRIPTION]",
+      teamId: "[TEAM ID ASSIGNED TO PROJECT]",
+    },
+  ],
 });
 
 export const userRegistryState = atom({
