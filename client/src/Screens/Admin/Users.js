@@ -237,18 +237,23 @@ const Users = () => {
 
     const addUser = (
         <AddUserDiv>
-            <div className={isMobile? 'mobile' : ''}>
+            <div className={isMobile ? 'mobile' : ''}>
                 <input type='text' name='firstName' placeholder='first name' onChange={updateNewUser} />
                 <input type='text' name='lastName' placeholder='last name' onChange={updateNewUser} />
             </div>
             <input type='text' name='email' placeholder='email' onChange={updateNewUser} />
             <input type='text' name='phone' placeholder='phone' onChange={updateNewUser} />
-            <div className={isMobile? 'mobile' : ''}>
+            <div className={isMobile ? 'mobile' : ''}>
                 <input type='text' name='password' placeholder='password' onChange={updateNewUser} />
                 <input type='text' name='confirmPassword' placeholder='confirm password' onChange={updateNewUser} />
             </div>
             <h3>Make user an admin role?</h3>
-            <Dropdown name='isAdmin' id='isAdmin' className={isMobile ? 'mobile-dropdown add-user' : 'add-user'} selectOption={updateNewUser} options={booleanOptions} />
+            <Dropdown 
+                name='isAdmin' 
+                id='isAdmin' 
+                className={isMobile ? 'mobile-dropdown add-user' : 'add-user'} 
+                selectOption={updateNewUser} options={booleanOptions} 
+            />
             <Button id='submit-btn' bg='#1BA098' c='#FFFFFF' w='13em' h='3em' onClick={handleSubmit}>Submit</Button>
             {submitError && <p id='submit-error'>Something went wrong. Please check your inputs and try again.</p>}
         </AddUserDiv>
