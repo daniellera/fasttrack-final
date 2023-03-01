@@ -41,7 +41,7 @@ const CompanyScreen = () => {
     const selectCompany = event => {
         setUser(prev => ({
             ...prev,
-            selectedCompany: user.companies[event.target.value]
+            selectedCompany: user.companies[event.target.value].id
         }))
         window.location.replace('/announcements')
     }
