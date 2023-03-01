@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Navigate } from "react-router-dom"
 import { useRecoilState } from "recoil"
 import NavBar from "../../Components/NavBar"
@@ -8,6 +8,8 @@ import Button from '../../Components/Button'
 import Popup from "../../Components/Popup"
 import Dropdown from '../../Components/Dropdown'
 import { useMediaQuery } from "react-responsive";
+import { getCompanyUsers } from '../../Services/apiCalls'
+import { parseCompanyUsersDto } from '../../Services/helpers'
 
 const UserRegistryWrapper = styled.div`
     & a {
@@ -92,7 +94,7 @@ const RegistryTable = styled.table`
     }
 
     & td {
-        padding: 1.5em 0;
+        padding: 1.5em 0.5em;
         border-top: 1px solid #DEB992;
     }
 
@@ -234,6 +236,19 @@ const Users = () => {
         isAdmin: false
     })
 
+    useEffect(() => {
+        getUsers()
+    }, [])
+
+    const getUsers = async () => {
+        await getCompanyUsers(user.selectedCompany)
+            .then((serverResponse) => {
+                setUserRegistry(parseCompanyUsersDto(serverResponse.data))
+                console.log("user registry state was set")
+            })
+            .catch((error) => console.log(error))
+    }
+
     const togglePopup = () => {
         setPopup(prev => ({
             ...prev,
@@ -312,29 +327,31 @@ const Users = () => {
     const mappedUserData = userRegistry.map((element, index) => {
         if (isMobile) {
             return (
-                <tr>
+                <tr key={index}>
                     <td className='mobile user-td'>
                         <table className='user-table'>
-                            <tr>
-                                <td className='mobile title'>Name</td>
-                                <td>{element.firstName} {element.lastName}</td>
-                            </tr>
-                            <tr>
-                                <td className='mobile title'>Email</td>
-                                <td><a href={`mailto:${element.email}`}>{element.email}</a></td>
-                            </tr>
-                            <tr>
-                                <td className='mobile title'>Active</td>
-                                {element.active ? <Yes>YES</Yes> : <No>NO</No>}
-                            </tr>
-                            <tr>
-                                <td className='mobile title'>Admin</td>
-                                {element.isAdmin ? <Yes>YES</Yes> : <No>NO</No>}
-                            </tr>
-                            <tr>
-                                <td className='mobile title'>Status</td>
-                                <td>{element.status.toUpperCase()}</td>
-                            </tr>
+                            <tbody>
+                                <tr>
+                                    <td className='mobile title'>Name</td>
+                                    <td>{element.firstName} {element.lastName}</td>
+                                </tr>
+                                <tr>
+                                    <td className='mobile title'>Email</td>
+                                    <td><a href={`mailto:${element.email}`}>{element.email}</a></td>
+                                </tr>
+                                <tr>
+                                    <td className='mobile title'>Active</td>
+                                    {element.active ? <Yes>YES</Yes> : <No>NO</No>}
+                                </tr>
+                                <tr>
+                                    <td className='mobile title'>Admin</td>
+                                    {element.isAdmin ? <Yes>YES</Yes> : <No>NO</No>}
+                                </tr>
+                                <tr>
+                                    <td className='mobile title'>Status</td>
+                                    <td>{element.status.toUpperCase()}</td>
+                                </tr>
+                            </tbody>
                         </table>
                     </td>
                 </tr>
