@@ -10,6 +10,7 @@ import Button from "../../Components/Button";
 import Announcement from "../../Components/Announcement";
 import Popup from "../../Components/Popup";
 import { createAnnouncementObject } from "../../Services/objects";
+import { createAnnouncement, getCompanyTeams } from "../../Services/apiCalls";
 import { getDateToday } from "../../Services/helpers";
 
 const StyledAnnouncements = styled.div`
@@ -68,7 +69,7 @@ const Announcements = () => {
   const [user] = useRecoilState(userState);
   const [announcements, setAnnouncements] = useRecoilState(announcementsState);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     let newTitle = document.getElementById("newMessageTitle").value;
     let newMessage = document.getElementById("newMessageBody").value;
     let newAnnouncement = createAnnouncementObject(

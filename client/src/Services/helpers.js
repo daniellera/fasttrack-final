@@ -62,5 +62,5 @@ export const parseCompanyUsersDto = (companyUsersDto) => {
 }
 
 export const parseUserDto = (userDto) => {
-    return createUserObject(userDto.id, true, userDto.isAdmin, userDto.profile.firstname, userDto.profile.lastname, userDto.profile.email, userDto.profile.phone, userDto.profile.active, userDto.profile.status, userDto.profile.companies)
+    return createUserObject(userDto.id, true, userDto.admin, userDto.profile.firstName, userDto.profile.lastName, userDto.profile.email, userDto.profile.phone, userDto.active, userDto.status, userDto.companies)
 }

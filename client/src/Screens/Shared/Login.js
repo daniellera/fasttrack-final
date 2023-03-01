@@ -5,6 +5,8 @@ import logo from "../../Assets/logo.png";
 import { Navigate } from "react-router-dom";
 import { errorState, userState } from "../../globalstate";
 import { login } from "../../Services/apiCalls";
+import { createUserObject } from "../../Services/objects";
+import { parseUserDto } from "../../Services/helpers"
 const Login = () => {
     const [user, setUser] = useRecoilState(userState);
     const [username, setUsername] = React.useState("");
@@ -35,19 +37,13 @@ const Login = () => {
 
             if (response) {
                 setError({ isError: false, message: "" })
-                setUser({
-                    isLoggedIn: true,
-                    id: response.id,
-                    profile: response.profile,
-                    isAdmin: response.admin,
-                    active: response.active,
-                    status: response.status,
-                    companies: response.companies,
-                    teams: response.teams,
-                })
+                console.log("User state is being set to this:")
+                console.log(setUser(parseUserDto(response.data)))
+                setUser(parseUserDto(response.data))
             }
     }
-
+    // console.log(response)
+    // setUser(createUserObject(parseUserDto(response)))
 
     if (user.isLoggedIn) {
         return <Navigate replace to="/company" />
