@@ -17,7 +17,7 @@ const Teams = () => {
         {
             name: "Team #2",
             projects: ["4"],
-            members: ["Member 1", "Member 2", "Member 3", "Member 6"],
+            members: ["Member 1", "Member 2", "Member 3", "Member 4"],
         },
     ]);
 
@@ -73,13 +73,11 @@ const Teams = () => {
                             members={team.members} />
                     ))}
                     <div className="team-card" style={{ width: "100px" }}>
-                        <button
-                            className="team-member"
-                            style={{ fontSize: "32px" }}
-                            onClick={() => setIsPopupOpen(true)}
-                        >
-                            +
-                        </button>
+                    <button className="team-add" onClick={() => setIsPopupOpen(true)}>
+  <span>+</span>
+  <span>Add team</span>
+</button>
+
                         {isPopupOpen && (
                             <div className="popup">
                                 <div className="popup-content">
