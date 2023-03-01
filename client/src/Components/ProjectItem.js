@@ -111,7 +111,14 @@ const ProjectItem = ({ project, idx }) => {
           bg="#DEB992"
           c="rgba(0, 0, 0, 0.75)"
           style={{ ":hover": { backgroundColor: "#eedcc9" } }}
-          onClick={togglePopup}
+          // onClick={() => {
+          //   greeting();
+          //   waveHello();
+          // }}>
+          onClick={() => {
+            togglePopup();
+            // handleEditProject()
+          }}
         >
           Edit
         </Button>

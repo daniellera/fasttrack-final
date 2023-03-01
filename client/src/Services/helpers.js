@@ -33,10 +33,24 @@ export const parseDate = (date) => {
 // }
 
 
+// var _ = require('lodash');
+// var users = [
+//    { 'user': 'Joe', 'age': 48 },
+//    { 'user': 'Robert', 'age': 34 },
+//    { 'user': 'Julie', 'age': 40 },
+//    { 'user': 'Stafey', 'age': 36 }
+// ];
+// var result = _.orderBy(users, ['user', 'age'], ['asc', 'desc']);
+// console.log(result);
+
+
 //----------Parsing Data From Backend----------\\
 export const parseCompanyAnouncementsDto = (announcementsDto) => {
+    let _ = require('lodash');
+    let sortedAccouncementsDto = _.orderBy(announcementsDto, ['date'], ['desc'])
     let result = [];
-    for (let announcement of announcementsDto) {
+
+    for (let announcement of sortedAccouncementsDto) {
         // result.push(createAnnouncementObject(announcement.id, announcement.author.profile.firstName + " " + announcement.author.profile.lastName, parseDate(new Date(announcement.date.replace(' ', 'T'))), announcement.title, announcement.message));
         result.push(createAnnouncementObject(announcement.id, announcement.author.profile.firstName + " " + announcement.author.profile.lastName, parseDate(new Date(announcement.date.replace(' ', 'T'))), announcement.title, announcement.message));
     }

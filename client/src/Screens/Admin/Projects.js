@@ -107,6 +107,17 @@ const Projects = () => {
     togglePopup();
   }
 
+  const handleEditProject = async () => {
+    console.log("Editing project")
+    // let newProjectName = document.getElementById("newProjectName").value;
+    // let newProjectDescription = document.getElementById("newDescription").value;
+    // // await(createProject(newProjectName, newProjectDescription, true, user.selectedTeam.id))
+    // await(createProject(newProjectName, newProjectDescription, true, 17))//work around until selected team is working
+    // .then(() => getProjects())
+    // .catch((error) => console.log(error))
+    // togglePopup();
+  }
+
   useEffect(() => {
     getProjects()
   },[])
@@ -163,7 +174,7 @@ const Projects = () => {
         </div>
         <div>
           {projects.map((project, idx) => (
-            <ProjectItem project={project} key={idx} />
+            <ProjectItem handleEditProject = {handleEditProject} project={project} key={idx} />
           ))}
         </div>
         {isOpen && (
