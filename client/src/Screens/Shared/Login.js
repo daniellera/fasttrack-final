@@ -1,17 +1,17 @@
 import { Avatar, Button, Grid, Paper, TextField } from "@mui/material";
 import React from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import logo from "../../Assets/logo.png";
 import { Navigate } from "react-router-dom";
-import { errorState, userState } from "../../globalstate";
+import { errorState, userState, companyState } from "../../globalstate";
 import { login } from "../../Services/apiCalls";
-import { createUserObject } from "../../Services/objects";
-import { parseUserDto } from "../../Services/helpers"
+import { parseUserDto, parseUserDtoToCompanies } from "../../Services/helpers"
 const Login = () => {
     const [user, setUser] = useRecoilState(userState);
     const [username, setUsername] = React.useState("");
     const [password, setPassword] = React.useState("");
     const [error, setError] = useRecoilState(errorState);
+    const setCompany = useSetRecoilState(companyState)
 
     const paperStyle = { justifyContent: "center", alignItems: "center", padding: 20, height: '40vh', width: "30vw", color: "#1ba098", background: "#051622", border: "1px solid #deb992", borderRadius: "5px", display: "flex", flexDirection: "column" }
     const avatarStyle = { backgroundColor: '#1bbd7e', height: "80px", width: "80px" }
@@ -37,9 +37,12 @@ const Login = () => {
 
             if (response) {
                 setError({ isError: false, message: "" })
-                console.log("User state is being set to this:")
-                console.log(setUser(parseUserDto(response.data)))
-                setUser(parseUserDto(response.data))
+                const companies = parseUserDtoToCompanies(response.data)
+                // console.log(response.data)
+                console.log(companies)
+                // console.log("User state is being set to this:")
+                // console.log(parseUserDto(response.data, companies))
+                setUser(parseUserDto(response.data, companies))
             }
     }
     // console.log(response)

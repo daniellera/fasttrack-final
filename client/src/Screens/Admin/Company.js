@@ -30,16 +30,16 @@ const CompanyWrapper = styled.div`
 
 const CompanyScreen = () => {
     const [user, setUser] = useRecoilState(userState)
-    const [companies, setCompanies] = useRecoilState(companyState)
+    // const [companies, setCompanies] = useRecoilState(companyState)
 
-    const companyOptions = companies.map(
+    const companyOptions = user.companies.map(
         (company, index) => <option key={index} value={index}>{company.name}</option>
     )
 
     const selectCompany = event => {
         setUser(prev => ({
             ...prev,
-            selectedCompany: companies[event.target.value]
+            selectedCompany: user.companies[event.target.value]
         }))
         window.location.replace('/announcements')
     }
