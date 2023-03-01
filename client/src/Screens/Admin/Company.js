@@ -16,6 +16,7 @@ const CompanyWrapper = styled.div`
         color: #1BA098;
         font-size: 4em;
         text-align: center;
+        margin-bottom: 0.5em;
     }
 
     & select {
