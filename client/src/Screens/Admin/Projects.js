@@ -80,8 +80,7 @@ const StyledH3 = styled.h3`
 
 const Projects = () => {
   const [isOpen, setIsOpen] = useState(false);
-  // const [user] = useRecoilState(userState);
-  const [user, setUser] = useRecoilState(userState);
+  const [user] = useRecoilState(userState);
   const [projects, setProjects] = useRecoilState(projectsState);
 
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
@@ -98,6 +97,7 @@ const Projects = () => {
   }
 
   const handleCreateProject = async () => {
+    console.log("I am creating a project");
     let newProjectName = document.getElementById("newProjectName").value;
     let newProjectDescription = document.getElementById("newDescription").value;
     // await(createProject(newProjectName, newProjectDescription, true, user.selectedTeam.id))
@@ -105,17 +105,6 @@ const Projects = () => {
     .then(() => getProjects())
     .catch((error) => console.log(error))
     togglePopup();
-  }
-
-  const handleEditProject = async () => {
-    console.log("Editing project")
-    // let newProjectName = document.getElementById("newProjectName").value;
-    // let newProjectDescription = document.getElementById("newDescription").value;
-    // // await(createProject(newProjectName, newProjectDescription, true, user.selectedTeam.id))
-    // await(createProject(newProjectName, newProjectDescription, true, 17))//work around until selected team is working
-    // .then(() => getProjects())
-    // .catch((error) => console.log(error))
-    // togglePopup();
   }
 
   useEffect(() => {
@@ -174,7 +163,7 @@ const Projects = () => {
         </div>
         <div>
           {projects.map((project, idx) => (
-            <ProjectItem handleEditProject = {handleEditProject} project={project} key={idx} />
+            <ProjectItem project={project} key={idx} />
           ))}
         </div>
         {isOpen && (
