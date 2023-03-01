@@ -47,6 +47,7 @@ const Login = () => {
     }
     // console.log(response)
     // setUser(createUserObject(parseUserDto(response)))
+    
 
     if (user.isLoggedIn) {
         return <Navigate replace to="/company" />
