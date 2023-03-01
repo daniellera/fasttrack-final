@@ -17,7 +17,8 @@ const Button = styled.button`
   padding: 0;
   &:hover {
     cursor: pointer;
-    background-color: #20ccc0;
+    background-color: white;
+    color: black;
   }
 `;
 
