@@ -25,6 +25,7 @@ const CompanyWrapper = styled.div`
         font-size: 1.5em;
         border-radius: 0.5em;
         padding: 0.3em 0.7em;
+        width: auto;
     }
 `
 
