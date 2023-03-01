@@ -70,19 +70,21 @@ const Announcements = () => {
   const [announcements, setAnnouncements] = useRecoilState(announcementsState);
 
   //On initial load and whenever the announcement state is changed, make a call to the backend to update anouncements.
-  
+  useEffect(() => {
+    getAnnouncements()
+  },[])
+
+
   const getAnnouncements = async () =>{
     await getCompanyAnnouncements(user.selectedCompany.id)
     .then((serverResponse) => {
       setAnnouncements(parseCompanyAnouncementsDto(serverResponse.data))
-      console.log("This is running")
+      console.log("announcements state was set")
     })
     .catch((error) => console.log(error))
   }
 
-  useEffect(() => {
-    getAnnouncements()
-  },[])
+  
 
 
   const handleSubmit = async () => {
@@ -97,9 +99,8 @@ const Announcements = () => {
       newMessage
     );
     // console.log(newAnnouncement)
-    // setAnnouncements([...announcements, newAnnouncement]);
     createAnnouncement(newAnnouncement, user)
-    .then(getAnnouncements())
+    .then(() => getAnnouncements())
     .catch((error) => console.log(error))
     togglePopup();
   };
