@@ -1,6 +1,6 @@
 import { Navigate, Link } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import NavBar from "../../Components/NavBar";
 import { userState, projectsState } from "../../globalstate";
 import styled from "styled-components";
@@ -9,6 +9,8 @@ import { useMediaQuery } from "react-responsive";
 import Button from "../../Components/Button";
 import ProjectItem from "../../Components/ProjectItem";
 import Popup from "../../Components/Popup";
+import { createProject, getTeamProjects } from "../../Services/apiCalls";
+import { parseTeamProjectsDto } from "../../Services/helpers";
 
 const StyledProjects = styled.div`
   width: 100%;
@@ -83,6 +85,32 @@ const Projects = () => {
 
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
 
+  const getProjects = async () =>{
+    // await getTeamProjects(user.selectedCompany.id, user.selectedTeam.Id)
+    await getTeamProjects(user.selectedCompany.id, 17) //work around until selected team is working
+    .then((serverResponse) => {
+      console.log(serverResponse.data)
+      console.log(parseTeamProjectsDto(serverResponse.data))
+      setProjects(parseTeamProjectsDto(serverResponse.data))
+    })
+    .catch((error) => console.log(error))
+  }
+
+  const handleCreateProject = async () => {
+    console.log("I am creating a project");
+    let newProjectName = document.getElementById("newProjectName").value;
+    let newProjectDescription = document.getElementById("newDescription").value;
+    // await(createProject(newProjectName, newProjectDescription, true, user.selectedTeam.id))
+    await(createProject(newProjectName, newProjectDescription, true, 17))//work around until selected team is working
+    .then(() => getProjects())
+    .catch((error) => console.log(error))
+    togglePopup();
+  }
+
+  useEffect(() => {
+    getProjects()
+  },[])
+
   const togglePopup = () => {
     setIsOpen(!isOpen);
   };
@@ -91,13 +119,15 @@ const Projects = () => {
     return <Navigate replace to="/" />;
   } else if (!user.isAdmin) {
     return <Navigate replace to="/project" />;
+  } else if (!user.selectedTeam) {
+    return <Navigate replace to="/teams" />;
   } else {
     return (
       <div>
         <NavBar />
         <StyledHr w="100%" bd="2px solid #deb992" />
         <StyledProjects>
-          <Link to="/">
+          <Link to="/teams">
             {!isMobile ? (
               <span>&#62;Back</span>
             ) : (
@@ -105,7 +135,7 @@ const Projects = () => {
             )}
           </Link>
           {!isMobile ? (
-            <h1>Projects for {user.selectedTeam}</h1>
+            <h1>Projects for Team {user.selectedTeam}</h1>
           ) : (
             <h1 style={{ fontSize: "25px" }}>
               Projects for {user.selectedTeam}
@@ -146,7 +176,7 @@ const Projects = () => {
                 <StyledH3>Description</StyledH3>
                 <Input id="newDescription" />
                 <Button
-                  //   onClick={handleSubmit}
+                    onClick={handleCreateProject}
                   w="199px"
                   h="45px"
                   bg="#1BA098"

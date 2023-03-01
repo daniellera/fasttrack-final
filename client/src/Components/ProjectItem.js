@@ -2,7 +2,12 @@ import styled from "styled-components";
 
 import Button from "./Button";
 import { useState } from "react";
+import { useRecoilState } from "recoil";
 import Popup from "./Popup";
+import { updateProject, getTeamProjects } from "../Services/apiCalls";
+import { userState, projectsState } from "../globalstate";
+import { parseTeamProjectsDto } from "../Services/helpers";
+
 
 const StyledHr = styled.hr`
   width: ${({ w }) => w};
@@ -66,10 +71,43 @@ const StyledSelect = styled.select`
 
 const ProjectItem = ({ project, idx }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [user] = useRecoilState(userState);
+  const [projects, setProjects] = useRecoilState(projectsState);
 
   const togglePopup = () => {
     setIsOpen(!isOpen);
   };
+
+  const handleEditProject = async () => {
+    console.log("Editing project")
+    let newProjectName = document.getElementById("updateProjectName").value;
+    let newProjectDescription = document.getElementById("updateDescription").value;
+    let newProjectStatus = document.getElementById("status").value;
+    newProjectStatus = newProjectStatus === "yes" ? true : false
+
+    console.log(newProjectName)
+    console.log(newProjectDescription)
+    console.log(project.id)
+    console.log(newProjectStatus)
+
+    const getProjects = async () =>{
+      // await getTeamProjects(user.selectedCompany.id, user.selectedTeam.Id)
+      await getTeamProjects(user.selectedCompany.id, 17) //work around until selected team is working
+      .then((serverResponse) => {
+        console.log("The server is returning these values:")
+        console.log(serverResponse.data)
+        console.log(parseTeamProjectsDto(serverResponse.data))
+        setProjects(parseTeamProjectsDto(serverResponse.data))
+      })
+      .catch((error) => console.log(error))
+    }
+
+    // await(updateProject(project.id, newProjectName, newProjectDescription, newProjectStatus, user.selectedTeam))//work around until selected team is working
+    await(updateProject(project.id, newProjectName, newProjectDescription, newProjectStatus, 17))//work around until selected team is working
+    .then(() => getProjects())
+    .catch((error) => console.log(error))
+    togglePopup();
+  }
 
   return (
     <div key={idx}>
@@ -137,7 +175,7 @@ const ProjectItem = ({ project, idx }) => {
                 </StyledSelect>
               </div>
               <Button
-                //   onClick={handleSubmit}
+                  onClick={handleEditProject}
                 w="199px"
                 h="45px"
                 bg="#1BA098"
