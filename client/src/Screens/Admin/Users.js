@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Navigate } from "react-router-dom"
 import { useRecoilState } from "recoil"
 import NavBar from "../../Components/NavBar"
@@ -8,6 +8,8 @@ import Button from '../../Components/Button'
 import Popup from "../../Components/Popup"
 import Dropdown from '../../Components/Dropdown'
 import { useMediaQuery } from "react-responsive";
+import { getCompanyUsers } from '../../Services/apiCalls'
+import { parseCompanyUsersDto } from '../../Services/helpers'
 
 const UserRegistryWrapper = styled.div`
     & a {
@@ -43,7 +45,7 @@ const UserRegistryWrapper = styled.div`
         font-style: normal;
         font-weight: 400;
         margin: 0 auto;
-        padding-bottom: 2em;
+        padding-bottom: 4em;
     }
 
     & #popup-btn {
@@ -54,15 +56,16 @@ const UserRegistryWrapper = styled.div`
         border: 1px #323F4B;
         border-radius: 15px;
         align-self: flex-start;
-        margin-top: 1em;
+        margin-top: 2em;
     }
 `
 
 const RegistryTable = styled.table`
     width: 100%;
+    border-collapse: separate !important;
+    border-spacing: 0;
     border-radius: 6px;
     border: 1px solid #DEB992;
-    padding: 1em 3em;
     text-align: center;
     font-family: 'Roboto', sans-serif;
     font-size: 18px;
@@ -73,12 +76,16 @@ const RegistryTable = styled.table`
         font-style: normal;
         font-weight: 500;
         font-size: 1.3em;
-
+        padding: 27px;
     }
 
     & th:first-child, td:first-child {
         text-align: left;
-        padding-left: 0;
+        padding-left: 3em;
+    }
+
+    & th:last-child, td:last-child {
+        padding-right: 3em;
     }
 
     & tr {
@@ -87,18 +94,61 @@ const RegistryTable = styled.table`
     }
 
     & td {
-        padding: 1em 0;
+        padding: 1.5em 0.5em;
+        border-top: 1px solid #DEB992;
+    }
+
+    & .yes {
+        color: #00B11C;
+        text-transform: uppercase;
+        margin: 0;
+        padding: 0;
+        display: inline;
+    }
+
+    & .no {
+        color: #FF0000;
+        text-transform: uppercase;
+        margin: 0;
+        padding: 0;
+        display: inline;
+    }
+
+    & h4 {
+        margin: 0;
+        padding-top: 1em;
+        color: #FFF;
+        display: inline;
+    }
+
+    & .mobile td:first-child {
+        padding: 0.5em;
+        border: 0;
+    }
+
+    & .mobile td:last-child {
+        padding: 0.5em;
+        border: 0;
+    }
+
+    & td.mobile.user-td {
+        padding: 0.5em;
+    }
+
+    & td.mobile.title {
+        color: #FFF;
+        text-align: right;
     }
 `
 
 const Yes = styled.td`
     color: #00B11C;
-    text-transform: uppercase
+    text-transform: uppercase;
 `
 
 const No = styled.td`
     color: #FF0000;
-    text-transform: uppercase
+    text-transform: uppercase;
 `
 
 const AddUserDiv = styled.div`
@@ -119,6 +169,7 @@ const AddUserDiv = styled.div`
         border-bottom: 1px solid #DEB992;
         color: #DEB992;
         background: #0B2D45;
+        border-radius: 0;
     }
 
     & * {
@@ -156,7 +207,7 @@ const AddUserDiv = styled.div`
         padding: 0;
     }
 
-    & .mobile {
+    & .mobile div {
         flex-direction: column;
         gap: inherit;
         width: 100%;
@@ -174,8 +225,8 @@ const Users = () => {
     const [user, setUser] = useRecoilState(userState)
     const [userRegistry, setUserRegistry] = useRecoilState(userRegistryState)
     const [popup, setPopup] = useState({ isToggled: false })
-    const [submitError, setSubmitError] = useState(false);
-    const isMobile = useMediaQuery({ query: "(max-width: 800px)" });
+    const [submitError, setSubmitError] = useState(false)
+    const isMobile = useMediaQuery({ query: "(max-width: 800px)" })
     const [newUser, setNewUser] = useState({
         firstName: '',
         lastName: '',
@@ -184,6 +235,19 @@ const Users = () => {
         password: '',
         isAdmin: false
     })
+
+    useEffect(() => {
+        getUsers()
+    }, [])
+
+    const getUsers = async () => {
+        await getCompanyUsers(user.selectedCompany)
+            .then((serverResponse) => {
+                setUserRegistry(parseCompanyUsersDto(serverResponse.data))
+                console.log("user registry state was set")
+            })
+            .catch((error) => console.log(error))
+    }
 
     const togglePopup = () => {
         setPopup(prev => ({
@@ -249,26 +313,61 @@ const Users = () => {
                 <input type='text' name='confirmPassword' placeholder='confirm password' onChange={updateNewUser} />
             </div>
             <h3>Make user an admin role?</h3>
-            <Dropdown 
-                name='isAdmin' 
-                id='isAdmin' 
-                className={isMobile ? 'mobile-dropdown add-user' : 'add-user'} 
-                selectOption={updateNewUser} options={booleanOptions} 
+            <Dropdown
+                name='isAdmin'
+                id='isAdmin'
+                className={isMobile ? 'mobile-dropdown add-user' : 'add-user'}
+                selectOption={updateNewUser} options={booleanOptions}
             />
             <Button id='submit-btn' bg='#1BA098' c='#FFFFFF' w='13em' h='3em' onClick={handleSubmit}>Submit</Button>
             {submitError && <p id='submit-error'>Something went wrong. Please check your inputs and try again.</p>}
         </AddUserDiv>
     )
 
-    const mappedUserData = userRegistry.map((element, index) => (
-        <tr key={index}>
-            <td>{element.firstName} {element.lastName}</td>
-            <td><a href={`mailto:${element.email}`}>{element.email}</a></td>
-            {element.isActive ? <Yes>YES</Yes> : <No>NO</No>}
-            {element.isAdmin ? <Yes>YES</Yes> : <No>NO</No>}
-            <td>{element.status.toUpperCase()}</td>
-        </tr>
-    ))
+    const mappedUserData = userRegistry.map((element, index) => {
+        if (isMobile) {
+            return (
+                <tr key={index}>
+                    <td className='mobile user-td'>
+                        <table className='user-table'>
+                            <tbody>
+                                <tr>
+                                    <td className='mobile title'>Name</td>
+                                    <td>{element.firstName} {element.lastName}</td>
+                                </tr>
+                                <tr>
+                                    <td className='mobile title'>Email</td>
+                                    <td><a href={`mailto:${element.email}`}>{element.email}</a></td>
+                                </tr>
+                                <tr>
+                                    <td className='mobile title'>Active</td>
+                                    {element.active ? <Yes>YES</Yes> : <No>NO</No>}
+                                </tr>
+                                <tr>
+                                    <td className='mobile title'>Admin</td>
+                                    {element.isAdmin ? <Yes>YES</Yes> : <No>NO</No>}
+                                </tr>
+                                <tr>
+                                    <td className='mobile title'>Status</td>
+                                    <td>{element.status.toUpperCase()}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            )
+        } else {
+            return (
+                <tr key={index}>
+                    <td>{element.firstName} {element.lastName}</td>
+                    <td><a href={`mailto:${element.email}`}>{element.email}</a></td>
+                    {element.active ? <Yes>YES</Yes> : <No>NO</No>}
+                    {element.isAdmin ? <Yes>YES</Yes> : <No>NO</No>}
+                    <td>{element.status.toUpperCase()}</td>
+                </tr>
+            )
+        }
+    })
 
     if (!user.isLoggedIn || !user.isAdmin) {
         return <Navigate replace to="/" />
@@ -279,20 +378,29 @@ const Users = () => {
                 <UserRegistryWrapper>
                     <h1>User Registry</h1>
                     <p>A general view of all your members in your organization</p>
-                    <RegistryTable>
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Active</th>
-                                <th>Admin</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {mappedUserData}
-                        </tbody>
-                    </RegistryTable>
+                    {isMobile ?
+                        <RegistryTable className='mobile'>
+                            <tbody>
+                                {mappedUserData}
+                            </tbody>
+                        </RegistryTable>
+                        :
+                        <RegistryTable>
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Active</th>
+                                    <th>Admin</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {mappedUserData}
+                            </tbody>
+                        </RegistryTable>
+                    }
+
                     <Button id='popup-btn' bg='#1BA098' c='#FFFFFF' w='13em' h='3em' onClick={togglePopup}>ADD USER</Button>
                     {popup.isToggled && <Popup handleClose={togglePopup} content={addUser} />}
                 </UserRegistryWrapper>

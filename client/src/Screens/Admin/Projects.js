@@ -111,7 +111,6 @@ const Projects = () => {
     getProjects()
   },[])
 
-
   const togglePopup = () => {
     setIsOpen(!isOpen);
   };
@@ -120,13 +119,15 @@ const Projects = () => {
     return <Navigate replace to="/" />;
   } else if (!user.isAdmin) {
     return <Navigate replace to="/project" />;
+  } else if (!user.selectedTeam) {
+    return <Navigate replace to="/teams" />;
   } else {
     return (
       <div>
         <NavBar />
         <StyledHr w="100%" bd="2px solid #deb992" />
         <StyledProjects>
-          <Link to="/">
+          <Link to="/teams">
             {!isMobile ? (
               <span>&#62;Back</span>
             ) : (
@@ -134,7 +135,7 @@ const Projects = () => {
             )}
           </Link>
           {!isMobile ? (
-            <h1>Projects for {user.selectedTeam}</h1>
+            <h1>Projects for Team {user.selectedTeam}</h1>
           ) : (
             <h1 style={{ fontSize: "25px" }}>
               Projects for {user.selectedTeam}
