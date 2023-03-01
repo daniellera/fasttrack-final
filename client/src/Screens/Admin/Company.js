@@ -30,7 +30,7 @@ const CompanyWrapper = styled.div`
 
 const CompanyScreen = () => {
     const [user, setUser] = useRecoilState(userState)
-    const [companies, setCompanies] = useRecoilState(companyState)
+    const [companies] = useRecoilState(companyState)
 
     const companyOptions = companies.map(
         (company, index) => <option key={index} value={index}>{company.name}</option>
