@@ -97,11 +97,13 @@ const Project = () => {
         <NavBar />
         <StyledHr w="100%" bd="2px solid #deb992" />
         <StyledProjects>
-          {!isMobile ? (
-            <span>&#62;Back</span>
-          ) : (
-            <span style={{ fontSize: "15px" }}>&#62;Back</span>
-          )}
+          <Link to="/teams">
+            {!isMobile ? (
+              <span>&#62;Back</span>
+            ) : (
+              <span style={{ fontSize: "15px" }}>&#62;Back</span>
+            )}
+          </Link>
           {!isMobile ? (
             <h1>Projects for {user.selectedTeam}</h1>
           ) : (
