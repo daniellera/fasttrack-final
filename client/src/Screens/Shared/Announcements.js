@@ -100,8 +100,7 @@ const Announcements = () => {
     // setAnnouncements([...announcements, newAnnouncement]);
     createAnnouncement(newAnnouncement, user)
     .then(getAnnouncements())
-    //send request to backend to create new announcement
-    //store response from backend in recoil
+    .catch((error) => console.log(error))
     togglePopup();
   };
 
