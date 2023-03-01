@@ -313,7 +313,6 @@ const Users = () => {
         if (isMobile) {
             return (
                 <tr>
-                    {/* Add nested table for this information */}
                     <td className='mobile user-td'>
                         <table className='user-table'>
                             <tr>
