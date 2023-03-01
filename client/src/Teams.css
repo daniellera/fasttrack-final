@@ -18,18 +18,13 @@
   
   
   .team-container {
+    flex-wrap: wrap;
     display: flex;
     justify-content: center;
     padding-top: 64px;
   }
   
-  .team-card {
-    background-color: #0b305d;
-    border-radius: 8px;
-    margin: 16px;
-    padding: 16px;
-    min-width: 300px;
-  }
+
   
   .team-name {
     display: flex;
@@ -131,4 +126,30 @@
     background-color: #499749;
     color: white;
   }
+  .team-add {
+    border: none;
+    background: transparent;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: #fff;
+    cursor: pointer;
+    margin: 16px;
+  }
   
+  .team-add span {
+    font-size: 48px;
+  }
+  
+  .team-add:hover {
+    text-decoration: underline;
+  }
+  .team-card {
+    background-color: #ffffff00;
+    border-radius: 8px;
+    margin: 16px;
+    padding: 16px; 
+    min-width: 300px;
+  }
