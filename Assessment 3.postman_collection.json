@@ -35,6 +35,34 @@
 			"response": []
 		},
 		{
+			"name": "POST /users/create",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"profile\":{\n    \"firstName\": \"Alex\",\n    \"lastName\": \"Miller\",\n    \"email\" : \"alex@mail.com\",\n    \"phone\" : \"9999999999\"\n    },\n    \"credentials\":{\n        \"username\" : \"alex@mail.com\",\n        \"password\" : \"password\"\n    }\n\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/users/create",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "GET /company/id/users",
 			"request": {
 				"method": "GET",
@@ -388,11 +416,13 @@
 					}
 				}
 			],
+			"name": "Get users companies",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
 					"raw": "localhost:8080/team/user/18",
+					"raw": "localhost:8080/users/29/companies",
 					"host": [
 						"localhost"
 					],
@@ -507,6 +537,9 @@
 					"port": "8080",
 					"path": [
 						"team"
+						"users",
+						"29",
+						"companies"
 					]
 				}
 			},
