@@ -1,6 +1,6 @@
 import { Navigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useMediaQuery } from "react-responsive";
 
@@ -10,7 +10,8 @@ import Button from "../../Components/Button";
 import Announcement from "../../Components/Announcement";
 import Popup from "../../Components/Popup";
 import { createAnnouncementObject } from "../../Services/objects";
-import { getDateToday } from "../../Services/helpers";
+import { getCompanyAnnouncements, createAnnouncement } from "../../Services/apiCalls";
+import { parseCompanyAnouncementsDto, parseDate } from "../../Services/helpers";
 
 const StyledAnnouncements = styled.div`
   width: 100%;
@@ -68,19 +69,38 @@ const Announcements = () => {
   const [user] = useRecoilState(userState);
   const [announcements, setAnnouncements] = useRecoilState(announcementsState);
 
-  const handleSubmit = () => {
+  //On initial load and whenever the announcement state is changed, make a call to the backend to update anouncements.
+  
+  const getAnnouncements = async () =>{
+    await getCompanyAnnouncements(user.selectedCompany.id)
+    .then((serverResponse) => {
+      setAnnouncements(parseCompanyAnouncementsDto(serverResponse.data))
+      console.log("This is running")
+    })
+    .catch((error) => console.log(error))
+  }
+
+  useEffect(() => {
+    getAnnouncements()
+  },[])
+
+
+  const handleSubmit = async () => {
     let newTitle = document.getElementById("newMessageTitle").value;
     let newMessage = document.getElementById("newMessageBody").value;
+    let dateNow = parseDate(new Date());
     let newAnnouncement = createAnnouncementObject(
       user.id,
       user.firstName + " " + user.lastName,
-      getDateToday(),
+      dateNow,
       newTitle,
       newMessage
     );
-    setAnnouncements([...announcements, newAnnouncement]);
-    //send request to backend to create new announcement
-    //store response from backend in recoil
+    // console.log(newAnnouncement)
+    // setAnnouncements([...announcements, newAnnouncement]);
+    createAnnouncement(newAnnouncement, user)
+    .then(getAnnouncements())
+    .catch((error) => console.log(error))
     togglePopup();
   };
 

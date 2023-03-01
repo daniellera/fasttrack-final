@@ -2,31 +2,31 @@ import api from "./api";
 
 //----------Get Requests----------\\
 export const getCompanyAnnouncements = async (companyId) => {
-    const response = await api.get("/company/" + companyId + "/announcements")
+    return await api.get("/company/" + companyId + "/announcements")
 }
 
 export const getCompanyTeams = async (companyId) => {
-    const response = await api.get("/company/" + companyId + "/teams")
+    return await api.get("/company/" + companyId + "/teams")
 }
 
 export const getTeamProjects = async (companyId, teamId) => {
-    const response = await api.get("/company/" + companyId + "/teams/" + teamId + "/projects")
+    return await api.get("/company/" + companyId + "/teams/" + teamId + "/projects")
 }
 
 export const getCompanyUsers = async (companyId) => {
-    const response = await api.get("/company/" + companyId + "/users")
+    return await api.get("/company/" + companyId + "/users")
 }
 
 //----------Post Requests----------\\
 export const login = async (username, password) => {
-    const response = await api.post("/users/login", {
+    return await api.post("/users/login", {
         username: username,
         password: password,
     });
 }
 
 export const createTeam = async (teamName, description, company, teamMembers) => {
-    const response = await api.post("/team", {
+    return await api.post("/team", {
         name: teamName,
         description: description,
         company: company,
@@ -35,7 +35,7 @@ export const createTeam = async (teamName, description, company, teamMembers) =>
 }
 
 export const createUser = async (username, password, firstName, lastName, email, phone, isAdmin) => {
-    const response = await api.post("/users/create", {
+    return await api.post("/users/create", {
         credentials:
         {
             username: username,
@@ -53,7 +53,7 @@ export const createUser = async (username, password, firstName, lastName, email,
 }
 
 export const createAnnouncement = async (announcementObject, userState) => {
-    const response = await api.post("/announcements", {
+    return await api.post("/announcements", {
         title: announcementObject.title,
         message: announcementObject.message,
         author:
@@ -69,12 +69,11 @@ export const createAnnouncement = async (announcementObject, userState) => {
             active: userState.active,
             status: userState.status
         }
-
     });
 }
 
 export const createProject = async (projectName, projectDescription, active, teamId) => {
-    const response = await api.post("/projects/create-project", {
+    return await api.post("/projects/create-project", {
         name: projectName,
         description: projectDescription,
         active: active,
@@ -84,7 +83,7 @@ export const createProject = async (projectName, projectDescription, active, tea
 
 //----------Patch Requests----------\\
 export const updateProject = async (projectId, projectName, projectDescription, active, teamId) => {
-    const response = await api.patch("/projects/update-project/" + projectId, {
+    return await api.patch("/projects/update-project/" + projectId, {
         name: projectName,
         description: projectDescription,
         active: active,
