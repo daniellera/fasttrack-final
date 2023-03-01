@@ -36,18 +36,6 @@ export const parseDate = (date) => {
   return month + " " + day + ", " + year;
 };
 
-// export const parseDateObject = () => {
-//     const intToMonth = {
-//         0: "January", 1: "February", 2: "March", 3: "April", 4: "May", 5: "June",
-//         6: "July", 7: "August", 8: "September", 9: "October", 10: "November", 11: "December"
-//     }
-//     const dateNow = new Date();
-//     let month = (String(intToMonth[dateNow.getMonth()]))
-//     let day = (String(dateNow.getDay()))
-//     let year = (String(dateNow.getFullYear()))
-//     return(month + " " + day + ", " + year)
-// }
-
 //----------Parsing Data From Backend----------\\
 export const parseCompanyAnouncementsDto = (announcementsDto) => {
   let result = [];

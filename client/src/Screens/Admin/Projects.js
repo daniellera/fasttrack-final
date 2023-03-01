@@ -9,7 +9,7 @@ import { useMediaQuery } from "react-responsive";
 import Button from "../../Components/Button";
 import ProjectItem from "../../Components/ProjectItem";
 import Popup from "../../Components/Popup";
-import { getTeamProjects } from "../../Services/apiCalls";
+import { createProject, getTeamProjects } from "../../Services/apiCalls";
 import { parseTeamProjectsDto } from "../../Services/helpers";
 
 const StyledProjects = styled.div`
@@ -85,19 +85,31 @@ const Projects = () => {
 
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
 
-  const getProjects = async () => {
-    await getTeamProjects(user.selectedCompany.id, user.selectedTeam)
-      .then((serverResponse) => {
-        setProjects(parseTeamProjectsDto(serverResponse.data));
-        console.log("projects state was set");
-      })
-      .catch((error) => console.log(error));
-  };
+  const getProjects = async () =>{
+    // await getTeamProjects(user.selectedCompany.id, user.selectedTeam.Id)
+    await getTeamProjects(user.selectedCompany.id, 17) //work around until selected team is working
+    .then((serverResponse) => {
+      console.log(serverResponse.data)
+      console.log(parseTeamProjectsDto(serverResponse.data))
+      setProjects(parseTeamProjectsDto(serverResponse.data))
+    })
+    .catch((error) => console.log(error))
+  }
+
+  const handleCreateProject = async () => {
+    console.log("I am creating a project");
+    let newProjectName = document.getElementById("newProjectName").value;
+    let newProjectDescription = document.getElementById("newDescription").value;
+    // await(createProject(newProjectName, newProjectDescription, true, user.selectedTeam.id))
+    await(createProject(newProjectName, newProjectDescription, true, 17))//work around until selected team is working
+    .then(() => getProjects())
+    .catch((error) => console.log(error))
+    togglePopup();
+  }
 
   useEffect(() => {
-    console.log(user);
-    getProjects();
-  }, []);
+    getProjects()
+  },[])
 
   const togglePopup = () => {
     setIsOpen(!isOpen);
@@ -164,7 +176,7 @@ const Projects = () => {
                 <StyledH3>Description</StyledH3>
                 <Input id="newDescription" />
                 <Button
-                  //   onClick={handleSubmit}
+                    onClick={handleCreateProject}
                   w="199px"
                   h="45px"
                   bg="#1BA098"
