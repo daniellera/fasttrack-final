@@ -16,6 +16,7 @@ const CompanyWrapper = styled.div`
         color: #1BA098;
         font-size: 4em;
         text-align: center;
+        margin-bottom: 0.5em;
     }
 
     & select {
@@ -25,6 +26,7 @@ const CompanyWrapper = styled.div`
         font-size: 1.5em;
         border-radius: 0.5em;
         padding: 0.3em 0.7em;
+        width: auto;
     }
 `
 
@@ -39,7 +41,7 @@ const CompanyScreen = () => {
     const selectCompany = event => {
         setUser(prev => ({
             ...prev,
-            selectedCompany: user.companies[event.target.value]
+            selectedCompany: user.companies[event.target.value].id
         }))
         window.location.replace('/announcements')
     }
