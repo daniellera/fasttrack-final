@@ -68,18 +68,16 @@ const Teams = () => {
                 <div className="team-container">
                     {teams.map((team, index) => (
                         <TeamBox key={index}
-                        name={team.name}
-                        projects={team.projects}
-                        members={team.members} />
+                            name={team.name}
+                            projects={team.projects}
+                            members={team.members} />
                     ))}
                     <div className="team-card" style={{ width: "100px" }}>
-                        <button
-                            className="team-member"
-                            style={{ fontSize: "32px" }}
-                            onClick={() => setIsPopupOpen(true)}
-                        >
-                            +
-                        </button>
+                    <button className="team-add" onClick={() => setIsPopupOpen(true)}>
+  <span>+</span>
+  <span>Add team</span>
+</button>
+
                         {isPopupOpen && (
                             <div className="popup">
                                 <div className="popup-content">
@@ -108,19 +106,25 @@ const Teams = () => {
                                             />
                                         </div>
                                         <div className="form-group">
-                                            <label htmlFor="teamMembers">Members (comma-separated):</label>
-                                            <input
-                                                type="text"
+                                            <label htmlFor="teamMembers">Members:</label>
+                                            <select
                                                 id="teamMembers"
                                                 name="members"
-                                                value={newTeam.members.join(",")}
+                                                multiple
+                                                value={newTeam.members}
                                                 onChange={(event) =>
                                                     setNewTeam({
                                                         ...newTeam,
-                                                        members: event.target.value.split(","),
+                                                        members: Array.from(event.target.selectedOptions, option => option.value),
                                                     })
                                                 }
-                                            />
+                                            >
+                                                {Array.from(new Set(teams.flatMap(team => team.members))).map(member => (
+                                                    <option key={member} value={member}>
+                                                        {member}
+                                                    </option>
+                                                ))}
+                                            </select>
                                         </div>
                                         <div className="form-group">
                                             <button className="btn-cancel" onClick={handleCancel}>
