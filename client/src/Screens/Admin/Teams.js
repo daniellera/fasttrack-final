@@ -46,7 +46,6 @@ const Input = styled.input`
 const Teams = () => {
   const [user, setUser] = useRecoilState(userState);
   const [teams, setTeams] = useRecoilState(teamsState);
-
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   const togglePopup = () => {
@@ -76,7 +75,7 @@ const Teams = () => {
     });
     togglePopup();
   };
-
+  
   const handleCancel = () => {
     setNewTeam({
       name: "",

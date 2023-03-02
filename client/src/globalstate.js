@@ -9,7 +9,7 @@ export const userState = atom({
   default: {
     //login, takes username and password
     id: "[USER 1 ID]",
-    isLoggedIn: true,
+    isLoggedIn: false,
     isAdmin: true,
     firstName: "[FIRSTNAME]",
     lastName: "[LASTNAME]",

@@ -56,26 +56,41 @@ export const parseCompanyAnouncementsDto = (announcementsDto) => {
   return result;
 };
 
-export const parseCompanyTeamsDto = (companyTeamsDto, projectsDto) => {
+//This is to count projects. I will figure out a better implementation.
+// export const parseCompanyTeamsDto = (companyTeamsDto, projectsDto) => {
+//   let result = [];
+//   for (let team of companyTeamsDto) {
+//     let usersToAdd = [];
+//     let qtyProjectsToAdd = countTeamProjects(projectsDto, team.id);
+//     for (let user of team.users) {
+//       usersToAdd.push(
+//         createUserRegistryObject(
+//           user.id,
+//           user.profile.firstName,
+//           user.profile.lastName,
+//           user.profile.email,
+//           user.profile.phone,
+//           user.active,
+//           user.status
+//         )
+//       );
+//     }
+//     result.push(
+//       createTeamObject(team.id, team.name, qtyProjectsToAdd, usersToAdd)
+//     );
+//   }
+//   return result;
+// };
+
+export const parseCompanyTeamsDto = (companyTeamsDto) => {
   let result = [];
   for (let team of companyTeamsDto) {
     let usersToAdd = [];
-    let qtyProjectsToAdd = countTeamProjects(projectsDto, team.id);
-    for (let user of team.users) {
-      usersToAdd.push(
-        createUserRegistryObject(
-          user.id,
-          user.profile.firstName,
-          user.profile.lastName,
-          user.profile.email,
-          user.profile.phone,
-          user.active,
-          user.status
-        )
-      );
+    for (let user of team.teammates) {
+      usersToAdd.push(user.profile.firstName + " " + user.profile.lastName[0] + ".")
     }
     result.push(
-      createTeamObject(team.id, team.name, qtyProjectsToAdd, usersToAdd)
+      createTeamObject(team.id, team.name, "[#]", usersToAdd)
     );
   }
   return result;
@@ -103,12 +118,13 @@ export const parseCompanyUsersDto = (companyUsersDto) => {
     result.push(
       createUserRegistryObject(
         user.id,
-        user.profile.firstname,
-        user.profile.lastname,
+        user.profile.firstName,
+        user.profile.lastName,
         user.profile.email,
         user.profile.phone,
         user.active,
-        user.status
+        user.status,
+        user.admin
       )
     );
   }

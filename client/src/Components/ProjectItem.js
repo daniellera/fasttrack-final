@@ -92,7 +92,7 @@ const ProjectItem = ({ project, idx }) => {
 
     const getProjects = async () =>{
       // await getTeamProjects(user.selectedCompany.id, user.selectedTeam.Id)
-      await getTeamProjects(user.selectedCompany.id, 17) //work around until selected team is working
+      await getTeamProjects(user.selectedCompany, 17) //work around until selected team is working
       .then((serverResponse) => {
         console.log("The server is returning these values:")
         console.log(serverResponse.data)
