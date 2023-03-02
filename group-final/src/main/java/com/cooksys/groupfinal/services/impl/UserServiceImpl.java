@@ -20,6 +20,7 @@ import com.cooksys.groupfinal.exceptions.NotFoundException;
 import com.cooksys.groupfinal.mappers.CompanyMapper;
 import com.cooksys.groupfinal.mappers.CredentialsMapper;
 import com.cooksys.groupfinal.mappers.FullUserMapper;
+import com.cooksys.groupfinal.repositories.CompanyRepository;
 import com.cooksys.groupfinal.repositories.UserRepository;
 import com.cooksys.groupfinal.services.UserService;
 
@@ -33,6 +34,7 @@ public class UserServiceImpl implements UserService {
 	private final FullUserMapper fullUserMapper;
 	private final CredentialsMapper credentialsMapper;
 	private final CompanyMapper companyMapper;
+	private final CompanyRepository companyRepository;
 	
 	private User findUser(String username) {
         Optional<User> user = userRepository.findByCredentialsUsernameAndActiveTrue(username);
@@ -90,6 +92,7 @@ public class UserServiceImpl implements UserService {
 		if(userToCreate.getCredentials().getPassword() == null) {
 			throw new BadRequestException("You must provide a password");
 		}
+		
 		if(userRequestDto.isAdmin() == true) {
 			User adminUser = fullUserMapper.requestDtoToEntity(userRequestDto);
 			Set<Team> teams = new HashSet<>();
@@ -99,6 +102,20 @@ public class UserServiceImpl implements UserService {
 			companies.addAll(userToCreate.getCompanies());
 			adminUser.setCompanies(companies);
 			userRepository.saveAndFlush(adminUser);
+		}
+		
+		if(userRequestDto.getCompany() != null) {
+			
+			Optional<Company> company = companyRepository.findById(userRequestDto.getCompany().getId());
+			
+			if(company.isPresent()) {
+				Set<Company> companies = new HashSet<>();
+				companies.add(company.get());
+				userToCreate.setCompanies(companies);
+				userRepository.saveAndFlush(userToCreate);
+			} else {
+				throw new BadRequestException("Company with id" + userRequestDto.getCompany().getId() + "not found");
+			}
 		}
 
 		userToCreate.getCredentials().setUsername(userRequestDto.getCredentials().getUsername());
