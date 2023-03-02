@@ -93,14 +93,14 @@ const Projects = () => {
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
 
   const getProjects = async () =>{
-    console.log("This is the user selected team:")
-    console.log(user.selectedTeam)
+    // console.log("This is the user selected team:")
+    // console.log(user.selectedTeam)
     await getTeamProjects(user.selectedCompany, user.selectedTeam)
     // await getTeamProjects(user.selectedCompany, 17) //work around until selected team is working
     .then((serverResponse) => {
-      console.log("this is the server response:")
-      console.log(serverResponse.data)
-      console.log(parseTeamProjectsDto(serverResponse.data))
+      // console.log("this is the server response:")
+      // console.log(serverResponse.data)
+      // console.log(parseTeamProjectsDto(serverResponse.data))
       setProjects(parseTeamProjectsDto(serverResponse.data))
     })
     .catch((error) => console.log(error))

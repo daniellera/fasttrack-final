@@ -92,8 +92,13 @@ const Teams = () => {
     getTeams();
   }, []);
 
-  const handleClick = (teamClicked) => {
+  const handleClick = (teamClicked, event) => {
+    console.log("I clicked this")
+    console.log(teamClicked)
+    console.log("This was the event:")
+    console.log(event)
     setUser({ ...user, selectedTeam: teamClicked });
+    // window.location.replace('/projects')
   };
 
   //make request to backend to get teams
@@ -111,7 +116,7 @@ const Teams = () => {
     let newTeamName = document.getElementById("newTeamName").value;
     let newDescription = document.getElementById("newDescription").value;
     let member = document.getElementById("member").value;
-    createTeam(newTeamName, newDescription, user.selectedCompany, member);
+    // createTeam(newTeamName, newDescription, user.selectedCompany, member);
     // createAnnouncement(newAnnouncement, user)
     //   .then(() => getAnnouncements())
     //   .catch((error) => console.log(error));
@@ -131,9 +136,8 @@ const Teams = () => {
         </div>
         <div className="team-container">
           {teams.map((team, index) => (
-            <NavLink key={index} id = {team.id} onClick = {event => {handleClick(event.target.parentElement.id)}}to = "/projects" style={{ textDecoration: 'none' }}>
+            <NavLink key={index} id = {team.id} onClick = {event => {handleClick(event.target.parentElement.id, event)}} to = "/projects" style={{ textDecoration: 'none' }}>
               <TeamBox
-              
               name={team.teamName}
               projects={team.qtyProjects}
               members={team.members}
