@@ -98,8 +98,8 @@ const Announcements = () => {
       newTitle,
       newMessage
     );
-    console.log("This is what i'm sending the backend")
-    console.log(newAnnouncement)
+    // console.log("This is what i'm sending the backend")
+    // console.log(newAnnouncement)
     createAnnouncement(newAnnouncement, user)
       .then(() => getAnnouncements())
       .catch((error) => console.log(error));

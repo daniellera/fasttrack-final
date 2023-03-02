@@ -87,7 +87,7 @@ const Projects = () => {
 
   const getProjects = async () =>{
     // await getTeamProjects(user.selectedCompany.id, user.selectedTeam.Id)
-    await getTeamProjects(user.selectedCompany.id, 17) //work around until selected team is working
+    await getTeamProjects(user.selectedCompany, 17) //work around until selected team is working
     .then((serverResponse) => {
       console.log(serverResponse.data)
       console.log(parseTeamProjectsDto(serverResponse.data))

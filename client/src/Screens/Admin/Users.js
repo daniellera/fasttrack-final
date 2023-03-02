@@ -227,14 +227,15 @@ const Users = () => {
     const [popup, setPopup] = useState({ isToggled: false })
     const [submitError, setSubmitError] = useState(false)
     const isMobile = useMediaQuery({ query: "(max-width: 800px)" })
-    const [newUser, setNewUser] = useState({
-        firstName: '',
-        lastName: '',
-        email: '',
-        phone: '',
-        password: '',
-        isAdmin: false
-    })
+    
+    // const [newUser, setNewUser] = useState({
+    //     firstName: '',
+    //     lastName: '',
+    //     email: '',
+    //     phone: '',
+    //     password: '',
+    //     isAdmin: false
+    // })
 
     useEffect(() => {
         getUsers()
@@ -243,11 +244,33 @@ const Users = () => {
     const getUsers = async () => {
         await getCompanyUsers(user.selectedCompany)
             .then((serverResponse) => {
+                console.log(serverResponse.data)
                 setUserRegistry(parseCompanyUsersDto(serverResponse.data))
                 console.log("user registry state was set")
+                
             })
             .catch((error) => console.log(error))
     }
+
+    const handleSubmit = async () => {
+        console.log("I tried to submit")
+        // let newTitle = document.getElementById("newMessageTitle").value;
+        // let newMessage = document.getElementById("newMessageBody").value;
+        // let dateNow = parseDate(new Date());
+        // let newAnnouncement = createAnnouncementObject(
+        //   user.id,
+        //   user.firstName + " " + user.lastName,
+        //   dateNow,
+        //   newTitle,
+        //   newMessage
+        // );
+        // // console.log("This is what i'm sending the backend")
+        // // console.log(newAnnouncement)
+        // createAnnouncement(newAnnouncement, user)
+        //   .then(() => getAnnouncements())
+        //   .catch((error) => console.log(error));
+        // togglePopup();
+      };
 
     const togglePopup = () => {
         setPopup(prev => ({
@@ -255,69 +278,69 @@ const Users = () => {
             isToggled: !prev.isToggled
         }))
 
-        setNewUser({
-            firstName: '',
-            lastName: '',
-            email: '',
-            phone: '',
-            password: '',
-            confirmPassword: '',
-            isAdmin: ''
-        })
+        // setNewUser({
+        //     firstName: '',
+        //     lastName: '',
+        //     email: '',
+        //     phone: '',
+        //     password: '',
+        //     confirmPassword: '',
+        //     isAdmin: ''
+        // })
 
         setSubmitError(false);
     }
 
-    const handleSubmit = () => {
-        if (
-            newUser.firstName &&
-            newUser.lastName &&
-            newUser.email &&
-            newUser.phone &&
-            newUser.password &&
-            newUser.password === newUser.confirmPassword &&
-            newUser.isAdmin !== ''
-        ) {
-            setSubmitError(false)
-            console.log('successful submit')
-            // Post new user
-            togglePopup()
-            alert('User added successfully!')
-        } else {
-            setSubmitError(true)
-        }
-    }
+    // const handleSubmit = () => {
+    //     if (
+    //         newUser.firstName &&
+    //         newUser.lastName &&
+    //         newUser.email &&
+    //         newUser.phone &&
+    //         newUser.password &&
+    //         newUser.password === newUser.confirmPassword &&
+    //         newUser.isAdmin !== ''
+    //     ) {
+    //         setSubmitError(false)
+    //         console.log('successful submit')
+    //         // Post new user
+    //         togglePopup()
+    //         alert('User added successfully!')
+    //     } else {
+    //         setSubmitError(true)
+    //     }
+    // }
 
     const booleanOptions = ['true', 'false'].map(
         (element, index) => <option key={index} value={`${element}`}>{`${element}`}</option>
     )
 
-    const updateNewUser = event => {
-        console.log(newUser)
-        setNewUser(prev => ({
-            ...prev,
-            [event.target.name]: event.target.value
-        }))
-    }
+    // const updateNewUser = event => {
+    //     console.log(newUser)
+    //     setNewUser(prev => ({
+    //         ...prev,
+    //         [event.target.name]: event.target.value
+    //     }))
+    // }
 
     const addUser = (
         <AddUserDiv>
             <div className={isMobile ? 'mobile' : ''}>
-                <input type='text' name='firstName' placeholder='first name' onChange={updateNewUser} />
-                <input type='text' name='lastName' placeholder='last name' onChange={updateNewUser} />
+                <input type='text' name='firstName' placeholder='first name' />
+                <input type='text' name='lastName' placeholder='last name' />
             </div>
-            <input type='text' name='email' placeholder='email' onChange={updateNewUser} />
-            <input type='text' name='phone' placeholder='phone' onChange={updateNewUser} />
+            <input type='text' name='email' placeholder='email' />
+            <input type='text' name='phone' placeholder='phone' />
             <div className={isMobile ? 'mobile' : ''}>
-                <input type='text' name='password' placeholder='password' onChange={updateNewUser} />
-                <input type='text' name='confirmPassword' placeholder='confirm password' onChange={updateNewUser} />
+                <input type='text' name='password' placeholder='password' />
+                <input type='text' name='confirmPassword' placeholder='confirm password' />
             </div>
             <h3>Make user an admin role?</h3>
             <Dropdown
                 name='isAdmin'
                 id='isAdmin'
                 className={isMobile ? 'mobile-dropdown add-user' : 'add-user'}
-                selectOption={updateNewUser} options={booleanOptions}
+                // selectOption={updateNewUser} options={booleanOptions}
             />
             <Button id='submit-btn' bg='#1BA098' c='#FFFFFF' w='13em' h='3em' onClick={handleSubmit}>Submit</Button>
             {submitError && <p id='submit-error'>Something went wrong. Please check your inputs and try again.</p>}
