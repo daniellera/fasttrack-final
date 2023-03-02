@@ -19,6 +19,8 @@ public class FullUserDto {
     
     private String status;
     
+    private CompanyDto company;
+    
     private Set<CompanyDto> companies;
     
     private Set<TeamDto> teams;

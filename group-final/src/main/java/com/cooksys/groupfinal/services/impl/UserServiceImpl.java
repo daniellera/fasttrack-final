@@ -85,7 +85,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public FullUserDto createUser(UserRequestDto userRequestDto) {
-		User userToCreate = basicUserMapper.requestDtoToEntity(userRequestDto);
+		User userToCreate = fullUserMapper.requestDtoToEntity(userRequestDto);
 		
 		if(usernameExists(userToCreate.getCredentials().getUsername()) != false) {
 			throw new BadRequestException("Username is already taken. Please choose another and try again.");
@@ -97,17 +97,17 @@ public class UserServiceImpl implements UserService {
 			throw new BadRequestException("You must provide a password");
 		}
 		
-		if(userRequestDto.isAdmin() == true) {
-			User adminUser = fullUserMapper.requestDtoToEntity(userRequestDto);
-			Set<Team> teams = new HashSet<>();
-			Set<Company> companies = new HashSet<>();
-			teams.addAll(userToCreate.getTeams());
-			adminUser.setTeams(teams);
-			companies.addAll(userToCreate.getCompanies());
-			adminUser.setCompanies(companies);
-			userRepository.saveAndFlush(adminUser);
-		}
-		
+//		if(userRequestDto.isAdmin() == true) {
+//			User adminUser = fullUserMapper.requestDtoToEntity(userRequestDto);
+//			Set<Team> teams = new HashSet<>();
+//			Set<Company> companies = new HashSet<>();
+//			teams.addAll(userToCreate.getTeams());
+//			adminUser.setTeams(teams);
+//			companies.addAll(userToCreate.getCompanies());
+//			adminUser.setCompanies(companies);
+//			userRepository.saveAndFlush(adminUser);
+//		}
+		System.out.println("JUST BEFORE ID REQUEST");
 		if(userRequestDto.getCompany() != null) {
 			
 			Optional<Company> company = companyRepository.findById(userRequestDto.getCompany().getId());
@@ -129,19 +129,19 @@ public class UserServiceImpl implements UserService {
 			} else {
 				throw new BadRequestException("Company with id" + userRequestDto.getCompany().getId() + "not found");
 			}
-			if(userRequestDto.getTeam() != null) {
-				Optional<Team> team = teamRepository.findById(userRequestDto.getTeam().getId());
-				if(team.isPresent()) {
-					Set<Team> teams = new HashSet<>();
-					teams.add(team.get());
-					Set<User> users = team.get().getTeammates();
-					users.add(userToCreate);
-					team.get().setTeammates(users);
-					userToCreate.setTeams(teams);
-					userRepository.saveAndFlush(userToCreate);
-					teamRepository.saveAllAndFlush(teams);
-				}
-			}
+//			if(userRequestDto.getTeam() != null) {
+//				Optional<Team> team = teamRepository.findById(userRequestDto.getTeam().getId());
+//				if(team.isPresent()) {
+//					Set<Team> teams = new HashSet<>();
+//					teams.add(team.get());
+//					Set<User> users = team.get().getTeammates();
+//					users.add(userToCreate);
+//					team.get().setTeammates(users);
+//					userToCreate.setTeams(teams);
+//					userRepository.saveAndFlush(userToCreate);
+//					teamRepository.saveAllAndFlush(teams);
+//				}
+//			}
 		}
 		
 
