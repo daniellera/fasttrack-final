@@ -1,27 +1,36 @@
 import { Navigate } from "react-router-dom"
 import { useRecoilState } from "recoil"
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import NavBar from "../../Components/NavBar"
-import { userState } from "../../globalstate"
+import { teamsState, userState } from "../../globalstate"
 import "../../Teams.css";
 import TeamBox from "../../Components/TeamBox";
+import { getCompanyTeams } from "../../Services/apiCalls";
+import { parseCompanyTeamsDto } from "../../Services/helpers";
 
 const Teams = () => {
     const [user, setUser] = useRecoilState(userState);
-    const [teams, setTeams] = useState([
-        {
-            name: "Team #1",
-            projects: ["1"],
-            members: ["Member 1", "Member 2", "Member 3", "Member 4"],
-        },
-        {
-            name: "Team #2",
-            projects: ["4"],
-            members: ["Member 1", "Member 2", "Member 3", "Member 4"],
-        },
-    ]);
+    const [teams, setTeams] = useRecoilState(teamsState)
 
     const [isPopupOpen, setIsPopupOpen] = useState(false);
+
+    //Get Teams from backend on page load
+    useEffect(() => {
+        getTeams();
+      }, []);
+    
+      //Make call to retrieve teams from the backend
+      const getTeams = async () => {
+        console.log(user.selectedCompany);
+        await getCompanyTeams(user.selectedCompany)
+          .then((serverResponse) => {
+            // console.log(serverResponse.data)
+            console.log(parseCompanyTeamsDto(serverResponse.data))
+            setTeams(parseCompanyTeamsDto(serverResponse.data));
+            // console.log("announcements state was set");
+          })
+          .catch((error) => console.log(error));
+      };
 
     const [newTeam, setNewTeam] = useState({
         name: "",
@@ -67,9 +76,10 @@ const Teams = () => {
                 </div>
                 <div className="team-container">
                     {teams.map((team, index) => (
-                        <TeamBox key={index}
-                            name={team.name}
-                            projects={team.projects}
+                        <TeamBox
+                            key={index}
+                            name={team.teamName}
+                            projects={team.qtyProjects}
                             members={team.members} />
                     ))}
                     <div className="team-card" style={{ width: "100px" }}>
