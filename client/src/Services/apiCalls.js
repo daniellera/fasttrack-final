@@ -57,8 +57,8 @@ export const createUser = async (
       password: password,
     },
     profile: {
-      firstname: firstName,
-      lastname: lastName,
+      firstName: firstName,
+      lastName: lastName,
       email: email,
       phone: phone,
     },
