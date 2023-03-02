@@ -22,6 +22,8 @@ export const getCompanyUsers = async (companyId) => {
 
 //----------Post Requests----------\\
 export const login = async (username, password) => {
+  console.log(username)
+  console.log(password)
   return await api.post("/users/login", {
     username: username,
     password: password,

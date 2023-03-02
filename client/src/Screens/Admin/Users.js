@@ -8,7 +8,7 @@ import Button from '../../Components/Button'
 import Popup from "../../Components/Popup"
 import Dropdown from '../../Components/Dropdown'
 import { useMediaQuery } from "react-responsive";
-import { getCompanyUsers, createUser } from '../../Services/apiCalls'
+import { createUser, getCompanyUsers } from '../../Services/apiCalls'
 import { parseCompanyUsersDto } from '../../Services/helpers'
 
 const UserRegistryWrapper = styled.div`
@@ -262,12 +262,30 @@ const Users = () => {
     const getUsers = async () => {
         await getCompanyUsers(user.selectedCompany)
             .then((serverResponse) => {
+                console.log(serverResponse.data)
                 setUserRegistry(parseCompanyUsersDto(serverResponse.data))
-                console.log("user registry state was set")
+                // console.log("user registry state was set")
+                
             })
             .catch((error) => console.log(error))
     }
-    
+
+    // const handleSubmit = async () => {
+    //     console.log("I tried to submit")
+    //     let firstName = document.getElementById("firstNameInput").value;
+    //     let lastName = document.getElementById("lastNameInput").value;
+    //     let email = document.getElementById("emailInput").value;
+    //     let phone = document.getElementById("phoneInput").value;
+    //     let password = document.getElementById("passwordInput").value;
+    //     let isAdmin = document.getElementById("isAdmin").value;
+    //     // console.log(firstName, lastName, email, phone, password, isAdmin)
+    //     // let dateNow = parseDate(new Date());
+    //     createUser(firstName + lastName, password, firstName, lastName, email, phone, isAdmin)
+    //       .then(() => getUsers())
+    //       .catch((error) => console.log(error));
+    //     togglePopup();
+    //   };
+
     const togglePopup = () => {
         setPopup(prev => ({
             ...prev,

@@ -78,11 +78,11 @@ const Announcements = () => {
   }, []);
 
   const getAnnouncements = async () => {
-    console.log(user);
+    // console.log(user);
     await getCompanyAnnouncements(user.selectedCompany)
       .then((serverResponse) => {
         setAnnouncements(parseCompanyAnouncementsDto(serverResponse.data));
-        console.log("announcements state was set");
+        // console.log("announcements state was set");
       })
       .catch((error) => console.log(error));
   };
@@ -98,6 +98,7 @@ const Announcements = () => {
       newTitle,
       newMessage
     );
+    // console.log("This is what i'm sending the backend")
     // console.log(newAnnouncement)
     createAnnouncement(newAnnouncement, user)
       .then(() => getAnnouncements())
