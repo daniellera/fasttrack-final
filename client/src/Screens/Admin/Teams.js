@@ -1,6 +1,6 @@
-import { Navigate } from "react-router-dom";
+import { Navigate, NavLink } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import NavBar from "../../Components/NavBar";
 import { userState, teamsState } from "../../globalstate";
@@ -8,6 +8,8 @@ import "../../Teams.css";
 import TeamBox from "../../Components/TeamBox";
 import Popup from "../../Components/Popup";
 import Button from "../../Components/Button";
+import { createTeam, getCompanyTeams } from "../../Services/apiCalls";
+import { parseCompanyTeamsDto } from "../../Services/helpers";
 
 const StyledSelect = styled.select`
   width: 163px;
@@ -43,6 +45,10 @@ const Input = styled.input`
   }
 `;
 
+
+
+
+
 const Teams = () => {
   const [user, setUser] = useRecoilState(userState);
   const [teams, setTeams] = useRecoilState(teamsState);
@@ -75,7 +81,7 @@ const Teams = () => {
     });
     togglePopup();
   };
-  
+
   const handleCancel = () => {
     setNewTeam({
       name: "",
@@ -83,6 +89,37 @@ const Teams = () => {
       members: [],
     });
     togglePopup();
+  };
+
+  //get teams from backend on initial load
+  useEffect(() => {
+    getTeams();
+  }, []);
+  
+  const handleClick = (teamClicked) => {
+    setUser({...user, selectedTeam: teamClicked})
+  }
+
+  //make request to backend to get teams
+  const getTeams = async () => {
+    await getCompanyTeams(user.selectedCompany)
+      .then((serverResponse) => {
+        console.log(serverResponse.data)
+        setTeams(parseCompanyTeamsDto(serverResponse.data));
+        // console.log("announcements state was set");
+      })
+      .catch((error) => console.log(error));
+  };
+
+  const handleCreateTeam = async () => {
+    let newTeamName = document.getElementById("newTeamName").value;
+    let newDescription = document.getElementById("newDescription").value;
+    let member = document.getElementById("member").value;
+    createTeam(newTeamName, newDescription, user.selectedCompany, member)
+    // createAnnouncement(newAnnouncement, user)
+    //   .then(() => getAnnouncements())
+    //   .catch((error) => console.log(error));
+    // togglePopup();
   };
 
   if (!user.isLoggedIn) {
@@ -98,21 +135,23 @@ const Teams = () => {
         </div>
         <div className="team-container">
           {teams.map((team, index) => (
-            <TeamBox
+            <NavLink id = {team.id} onClick = {event => {handleClick(event.target.parentElement.id)}}to = "/projects" style={{ textDecoration: 'none' }}>
+              <TeamBox
               key={index}
               name={team.teamName}
               projects={team.qtyProjects}
               members={team.members}
             />
+            </NavLink>
           ))}
-          <div className="team-card" style={{ width: "100px" }}>
-            <button
+          <button
               className="team-member"
-              style={{ fontSize: "32px" }}
+              style={{ fontSize: "32px", backgroundColor: "transparent", borderColor: "#DEB992", width: "325px", height: "325px"}}
               onClick={togglePopup}
             >
               +
             </button>
+          <div className="team-card" style={{ width: "100px" }}>
             {isPopupOpen && (
               <Popup
                 content={
@@ -139,7 +178,7 @@ const Teams = () => {
                       </StyledSelect>
                     </div>
                     <Button
-                      //   onClick={}
+                        onClick={handleCreateTeam}
                       w="199px"
                       h="45px"
                       bg="#1BA098"

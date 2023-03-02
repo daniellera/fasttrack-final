@@ -75,9 +75,16 @@ export const parseCompanyAnouncementsDto = (announcementsDto) => {
 //   return result;
 // };
 
+// export const parseCompanyAnouncementsDto = (announcementsDto) => {
+//   let _ = require('lodash');
+//   let sortedAccouncementsDto = _.orderBy(announcementsDto, ['date'], ['desc'])
+//   let result = [];
+
 export const parseCompanyTeamsDto = (companyTeamsDto) => {
+  let _ = require('lodash');
+  let sortedCompanyTeamsDto = _.orderBy(companyTeamsDto, ['name'], ['asc'])
   let result = [];
-  for (let team of companyTeamsDto) {
+  for (let team of sortedCompanyTeamsDto) {
     let usersToAdd = [];
     for (let user of team.teammates) {
       usersToAdd.push(user.profile.firstName + " " + user.profile.lastName[0] + ".")
