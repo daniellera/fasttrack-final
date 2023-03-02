@@ -92,11 +92,11 @@ export const createUser = async (
       email: email,
       phone: phone,
     },
-    company:
+    companies:
     {
       id: companyId
     },
-    isAdmin: isAdmin
+    admin: isAdmin
   });
 };
 
