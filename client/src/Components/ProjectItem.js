@@ -79,11 +79,22 @@ const ProjectItem = ({ project, idx }) => {
 
   const handleEditProject = async () => {
     console.log("Editing project");
-    let newProjectName = document.getElementById("updateProjectName").value;
+    let newProjectName =
+      document.getElementById("updateProjectName").value.length === 0
+        ? project.name
+        : document.getElementById("updateProjectName").value;
     let newProjectDescription =
-      document.getElementById("updateDescription").value;
-    let newProjectStatus = document.getElementById("status").value;
-    newProjectStatus = newProjectStatus === "yes" ? true : false;
+      document.getElementById("updateDescription").value.length === 0
+        ? project.projectDecription
+        : document.getElementById("updateDescription").value;
+    console.log("Dropdown value" + document.getElementById("status").value);
+    let newProjectStatus =
+      document.getElementById("status").value.length === 0
+        ? project.isActive
+        : document.getElementById("status").value === "yes"
+        ? true
+        : false;
+    // newProjectStatus = newProjectStatus === "yes" ? true : false;
 
     console.log(newProjectName);
     console.log(newProjectDescription);
@@ -147,7 +158,7 @@ const ProjectItem = ({ project, idx }) => {
             color: "rgba(255, 255, 255, 0.75)",
           }}
         >
-          {project.projectDecription}
+          {project.projectDescription}
         </p>
         <Button
           w="103px"

@@ -131,20 +131,13 @@ const Teams = () => {
         </div>
         <div className="team-container">
           {teams.map((team, index) => (
-            <NavLink
-              id={team.id}
-              onClick={(event) => {
-                handleClick(event.target.parentElement.id);
-              }}
-              to="/projects"
-              style={{ textDecoration: "none" }}
-            >
+            <NavLink key={index} id = {team.id} onClick = {event => {handleClick(event.target.parentElement.id)}}to = "/projects" style={{ textDecoration: 'none' }}>
               <TeamBox
-                key={index}
-                name={team.teamName}
-                projects={team.qtyProjects}
-                members={team.members}
-              />
+              
+              name={team.teamName}
+              projects={team.qtyProjects}
+              members={team.members}
+            />
             </NavLink>
           ))}
           <button
