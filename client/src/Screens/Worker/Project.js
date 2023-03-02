@@ -105,10 +105,10 @@ const Project = () => {
             )}
           </Link>
           {!isMobile ? (
-            <h1>Projects for {user.selectedTeam}</h1>
+            <h1>Projects for Team {user.selectedTeam}</h1>
           ) : (
             <h1 style={{ fontSize: "25px" }}>
-              Projects for {user.selectedTeam}
+              Projects for Team {user.selectedTeam}
             </h1>
           )}
         </StyledProjects>
