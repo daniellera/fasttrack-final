@@ -8,7 +8,6 @@ import { updateProject, getTeamProjects } from "../Services/apiCalls";
 import { userState, projectsState } from "../globalstate";
 import { parseTeamProjectsDto } from "../Services/helpers";
 
-
 const StyledHr = styled.hr`
   width: ${({ w }) => w};
   border: ${({ bd }) => bd};
@@ -79,35 +78,42 @@ const ProjectItem = ({ project, idx }) => {
   };
 
   const handleEditProject = async () => {
-    console.log("Editing project")
+    console.log("Editing project");
     let newProjectName = document.getElementById("updateProjectName").value;
-    let newProjectDescription = document.getElementById("updateDescription").value;
+    let newProjectDescription =
+      document.getElementById("updateDescription").value;
     let newProjectStatus = document.getElementById("status").value;
-    newProjectStatus = newProjectStatus === "yes" ? true : false
+    newProjectStatus = newProjectStatus === "yes" ? true : false;
 
-    console.log(newProjectName)
-    console.log(newProjectDescription)
-    console.log(project.id)
-    console.log(newProjectStatus)
+    console.log(newProjectName);
+    console.log(newProjectDescription);
+    console.log(project.id);
+    console.log(newProjectStatus);
 
-    const getProjects = async () =>{
+    const getProjects = async () => {
       await getTeamProjects(user.selectedCompany, user.selectedTeam)
-      // await getTeamProjects(user.selectedCompany, 17) //work around until selected team is working
-      .then((serverResponse) => {
-        console.log("The server is returning these values:")
-        console.log(serverResponse.data)
-        console.log(parseTeamProjectsDto(serverResponse.data))
-        setProjects(parseTeamProjectsDto(serverResponse.data))
-      })
-      .catch((error) => console.log(error))
-    }
+        // await getTeamProjects(user.selectedCompany, 17) //work around until selected team is working
+        .then((serverResponse) => {
+          console.log("The server is returning these values:");
+          console.log(serverResponse.data);
+          console.log(parseTeamProjectsDto(serverResponse.data));
+          setProjects(parseTeamProjectsDto(serverResponse.data));
+        })
+        .catch((error) => console.log(error));
+    };
 
     // await(updateProject(project.id, newProjectName, newProjectDescription, newProjectStatus, user.selectedTeam))//work around until selected team is working
-    await(updateProject(project.id, newProjectName, newProjectDescription, newProjectStatus, 17))//work around until selected team is working
-    .then(() => getProjects())
-    .catch((error) => console.log(error))
+    await updateProject(
+      project.id,
+      newProjectName,
+      newProjectDescription,
+      newProjectStatus,
+      17
+    ) //work around until selected team is working
+      .then(() => getProjects())
+      .catch((error) => console.log(error));
     togglePopup();
-  }
+  };
 
   return (
     <div key={idx}>
@@ -158,9 +164,13 @@ const ProjectItem = ({ project, idx }) => {
         <Popup
           content={
             <div style={{ textAlign: "center" }}>
-              <h3 style={{ textAlign: "left" }}>Project Name</h3>
+              <h3 style={{ textAlign: "left", marginLeft: "8%" }}>
+                Project Name
+              </h3>
               <Input id="updateProjectName" type="text" required />
-              <h3 style={{ textAlign: "left" }}>Description</h3>
+              <h3 style={{ textAlign: "left", marginLeft: "8%" }}>
+                Description
+              </h3>
               <Input id="updateDescription" type="text" required />
               <div>
                 <label for="status">Active?</label>
@@ -175,7 +185,7 @@ const ProjectItem = ({ project, idx }) => {
                 </StyledSelect>
               </div>
               <Button
-                  onClick={handleEditProject}
+                onClick={handleEditProject}
                 w="199px"
                 h="45px"
                 bg="#1BA098"
