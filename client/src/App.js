@@ -3,7 +3,7 @@ import "./App.css";
 import Announcements from "./Screens/Shared/Announcements";
 import Login from "./Screens/Shared/Login";
 import CompanyScreen from "./Screens/Admin/Company";
-import Projects from "./Screens/Shared/Projects";
+import Projects from "./Screens/Admin/Projects";
 import Users from "./Screens/Admin/Users";
 import Teams from "./Screens/Admin/Teams";
 // import Project from "./Screens/Worker/Project";
