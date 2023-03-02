@@ -8,7 +8,7 @@ import Button from '../../Components/Button'
 import Popup from "../../Components/Popup"
 import Dropdown from '../../Components/Dropdown'
 import { useMediaQuery } from "react-responsive";
-import { getCompanyUsers } from '../../Services/apiCalls'
+import { getCompanyUsers, createUser } from '../../Services/apiCalls'
 import { parseCompanyUsersDto } from '../../Services/helpers'
 
 const UserRegistryWrapper = styled.div`
@@ -269,7 +269,16 @@ const Users = () => {
     }
 
     // const createUser = async () => {
-    //     await createUser(username, password, firstName, lastName, email, phone, isAdmin)
+    //     await createUser(
+    //         newUser.username,
+    //         newUser.password,
+    //         newUser.firstName,
+    //         newUser.lastName,
+    //         newUser.email,
+    //         newUser.phone,
+    //         newUser.isAdmin,
+    //         newUser.companies,
+    //     )
     //         .catch((error) => console.log(error))
     // }
 
@@ -287,7 +296,8 @@ const Users = () => {
             username: '',
             password: '',
             confirmPassword: '',
-            isAdmin: ''
+            isAdmin: '',
+            companies: [user.selectedCompany]
         })
 
         setSubmitError(false);
@@ -306,7 +316,18 @@ const Users = () => {
         ) {
             setSubmitError(false)
             console.log('successful submit')
-            // createUser()
+
+            createUser(
+                newUser.username,
+                newUser.password,
+                newUser.firstName,
+                newUser.lastName,
+                newUser.email,
+                newUser.phone,
+                newUser.isAdmin
+            )
+                .catch((error) => console.log(error))
+
             togglePopup()
             alert('User added successfully!')
         } else {
@@ -319,7 +340,7 @@ const Users = () => {
     )
 
     const updateNewUser = event => {
-        console.log(newUser)
+        event.target.name === 'isAdmin' && console.log(newUser)
         setNewUser(prev => ({
             ...prev,
             [event.target.name]: event.target.value
@@ -336,8 +357,8 @@ const Users = () => {
             <input type='text' name='phone' placeholder='phone' onChange={updateNewUser} />
             <input type='text' name='username' placeholder='username' onChange={updateNewUser} />
             <div className={isMobile && 'mobile'} id='password'>
-                <input type='text' name='password' placeholder='password' onChange={updateNewUser} />
-                <input type='text' name='confirmPassword' placeholder='confirm password' onChange={updateNewUser} />
+                <input type='password' name='password' placeholder='password' onChange={updateNewUser} />
+                <input type='password' name='confirmPassword' placeholder='confirm password' onChange={updateNewUser} />
             </div>
             <h3>Make user an admin role?</h3>
             <Dropdown
@@ -347,7 +368,7 @@ const Users = () => {
                 selectOption={updateNewUser} options={booleanOptions}
             />
             <Button id='submit-btn' bg='#1BA098' c='#FFFFFF' w='13em' h='3em' onClick={handleSubmit}>Submit</Button>
-            {submitError && <p id='submit-error'>Something went wrong. Please check your inputs and try again.</p>}
+            {submitError && <p id='submit-error'>Something went wrong.<br />Please check your inputs and try again.</p>}
         </AddUserDiv>
     )
 
