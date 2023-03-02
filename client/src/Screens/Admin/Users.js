@@ -282,7 +282,7 @@ const Users = () => {
         // console.log("This is my form input")
         // console.log(firstName, lastName, email, phone, password, isAdmin)
         let userRequestObject = createUserRequestDto(email, password, firstName, lastName, email, phone, isAdmin, user.selectedCompany)
-        console.log(userRequestObject)
+        // console.log(userRequestObject)
         console.log("This is my userRequestObject")
         console.log(userRequestObject)
         createUser(email, password, firstName, lastName, email, phone, isAdmin, user.selectedCompany)

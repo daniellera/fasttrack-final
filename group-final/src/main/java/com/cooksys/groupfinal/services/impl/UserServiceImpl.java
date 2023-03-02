@@ -17,10 +17,12 @@ import com.cooksys.groupfinal.entities.User;
 import com.cooksys.groupfinal.exceptions.BadRequestException;
 import com.cooksys.groupfinal.exceptions.NotAuthorizedException;
 import com.cooksys.groupfinal.exceptions.NotFoundException;
+import com.cooksys.groupfinal.mappers.BasicUserMapper;
 import com.cooksys.groupfinal.mappers.CompanyMapper;
 import com.cooksys.groupfinal.mappers.CredentialsMapper;
 import com.cooksys.groupfinal.mappers.FullUserMapper;
 import com.cooksys.groupfinal.repositories.CompanyRepository;
+import com.cooksys.groupfinal.repositories.TeamRepository;
 import com.cooksys.groupfinal.repositories.UserRepository;
 import com.cooksys.groupfinal.services.UserService;
 
@@ -32,9 +34,11 @@ public class UserServiceImpl implements UserService {
 	
 	private final UserRepository userRepository;
 	private final FullUserMapper fullUserMapper;
+	private final BasicUserMapper basicUserMapper;
 	private final CredentialsMapper credentialsMapper;
 	private final CompanyMapper companyMapper;
 	private final CompanyRepository companyRepository;
+	private final TeamRepository teamRepository;
 	
 	private User findUser(String username) {
         Optional<User> user = userRepository.findByCredentialsUsernameAndActiveTrue(username);
@@ -93,30 +97,53 @@ public class UserServiceImpl implements UserService {
 			throw new BadRequestException("You must provide a password");
 		}
 		
-		if(userRequestDto.isAdmin() == true) {
-			User adminUser = fullUserMapper.requestDtoToEntity(userRequestDto);
-			Set<Team> teams = new HashSet<>();
-			Set<Company> companies = new HashSet<>();
-			teams.addAll(userToCreate.getTeams());
-			adminUser.setTeams(teams);
-			companies.addAll(userToCreate.getCompanies());
-			adminUser.setCompanies(companies);
-			userRepository.saveAndFlush(adminUser);
-		}
-		
+//		if(userRequestDto.isAdmin() == true) {
+//			User adminUser = fullUserMapper.requestDtoToEntity(userRequestDto);
+//			Set<Team> teams = new HashSet<>();
+//			Set<Company> companies = new HashSet<>();
+//			teams.addAll(userToCreate.getTeams());
+//			adminUser.setTeams(teams);
+//			companies.addAll(userToCreate.getCompanies());
+//			adminUser.setCompanies(companies);
+//			userRepository.saveAndFlush(adminUser);
+//		}
+		System.out.println("JUST BEFORE ID REQUEST");
 		if(userRequestDto.getCompany() != null) {
 			
 			Optional<Company> company = companyRepository.findById(userRequestDto.getCompany().getId());
 			
 			if(company.isPresent()) {
+				System.out.println("Test");
 				Set<Company> companies = new HashSet<>();
 				companies.add(company.get());
+				for(Company c : companies) {
+					System.out.println(c.getName());
+				}
 				userToCreate.setCompanies(companies);
+				Set<User> users = company.get().getEmployees();
+				users.add(userToCreate);
+				company.get().setEmployees(users);
 				userRepository.saveAndFlush(userToCreate);
+				companyRepository.saveAndFlush(company.get());
+				
 			} else {
 				throw new BadRequestException("Company with id" + userRequestDto.getCompany().getId() + "not found");
 			}
+//			if(userRequestDto.getTeam() != null) {
+//				Optional<Team> team = teamRepository.findById(userRequestDto.getTeam().getId());
+//				if(team.isPresent()) {
+//					Set<Team> teams = new HashSet<>();
+//					teams.add(team.get());
+//					Set<User> users = team.get().getTeammates();
+//					users.add(userToCreate);
+//					team.get().setTeammates(users);
+//					userToCreate.setTeams(teams);
+//					userRepository.saveAndFlush(userToCreate);
+//					teamRepository.saveAllAndFlush(teams);
+//				}
+//			}
 		}
+		
 
 		userToCreate.getCredentials().setUsername(userRequestDto.getCredentials().getUsername());
 		userToCreate.getCredentials().setPassword(userRequestDto.getCredentials().getPassword());
