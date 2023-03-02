@@ -54,50 +54,50 @@ const Teams = () => {
     setIsPopupOpen(!isPopupOpen);
   };
 
-  const [newTeam, setNewTeam] = useState({
-    name: "",
-    projects: [""],
-    members: [""],
-  });
+  // const [newTeam, setNewTeam] = useState({
+  //   name: "",
+  //   projects: [""],
+  //   members: [""],
+  // });
 
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setNewTeam((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
+  // const handleInputChange = (event) => {
+  //   const { name, value } = event.target;
+  //   setNewTeam((prevState) => ({
+  //     ...prevState,
+  //     [name]: value,
+  //   }));
+  // };
 
-  const handleAddTeam = () => {
-    setTeams((prevState) => [...prevState, newTeam]);
-    setNewTeam({
-      name: "",
-      projects: [],
-      members: [],
-    });
-    togglePopup();
-  };
+  // const handleAddTeam = () => {
+  //   setTeams((prevState) => [...prevState, newTeam]);
+  //   setNewTeam({
+  //     name: "",
+  //     projects: [],
+  //     members: [],
+  //   });
+  //   togglePopup();
+  // };
 
-  const handleCancel = () => {
-    setNewTeam({
-      name: "",
-      projects: [],
-      members: [],
-    });
-    togglePopup();
-  };
+  // const handleCancel = () => {
+  //   setNewTeam({
+  //     name: "",
+  //     projects: [],
+  //     members: [],
+  //   });
+  //   togglePopup();
+  // };
 
   //get teams from backend on initial load
   useEffect(() => {
     getTeams();
   }, []);
 
-  const handleClick = (teamClicked, event) => {
-    console.log("I clicked this")
-    console.log(teamClicked)
+  const handleClick = (teamClicked) => {
+    // console.log("I clicked this")
+    // console.log(teamClicked)
     console.log("This was the event:")
-    console.log(event)
-    setUser({ ...user, selectedTeam: teamClicked });
+    console.log(teamClicked)
+    setUser({ ...user, selectedTeam: teamClicked.currentTarget.id});
     // window.location.replace('/projects')
   };
 
@@ -134,7 +134,7 @@ const Teams = () => {
         </div>
         <div className="team-container">
           {teams.map((team, index) => (
-            <NavLink key={index} id = {team.id} onClick = {event => {handleClick(event.target.parentElement.id, event)}} to = "/projects" style={{ textDecoration: 'none' }}>
+            <NavLink key={index} id = {team.id} onClick = {handleClick} to = "/projects" style={{ textDecoration: 'none' }}>
               <TeamBox
               name={team.teamName}
               projects={team.qtyProjects}
