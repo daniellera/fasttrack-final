@@ -1,4 +1,5 @@
 import React from "react";
+import Button from "./Button";
 //Needs to be implemented so the user can add teams
 const TeamBox = (props) => {
   return (
@@ -7,9 +8,10 @@ const TeamBox = (props) => {
       style={{
         backgroundColor: "#0b305d",
         borderRadius: "8px",
-        margin: "16px",
+        // margin: "16px",
         padding: "16px",
         minWidth: "300px",
+        minHeight: "300px"
       }}
     >
       <div
@@ -24,24 +26,21 @@ const TeamBox = (props) => {
         <h2 style={{ margin: 0, color: "#fff" }}>{props.name}</h2>
         <span style={{ color: "#fff" }}># of projects: {props.projects}</span>
       </div>
+      <h2 style={{ margin: "20px", color: "#fff", textAlign: "center" }}>Members</h2>
       <div
-        style={{ direction: "flex", flexDirection: "row", margin: "5% 10%" }}
+        style={{ display: "grid", gridTemplateColumns: "1fr 1fr", justifyItems: "center", alignItems: "center"}}
       >
         {props.members.map((member, idx) => (
-          <span
+          <Button
             key={idx}
-            style={{
-              backgroundColor: "#1ba098",
-              width: "103px",
-              height: "32px",
-              margin: "7% 2%",
-              borderRadius: "8px",
-              color: "#fff",
-              border: "1px solid #1ba098",
-            }}
+            w="103px"
+            h="50px"
+            bg="#1ba098"
+            c="#fff"
+            style = {{margin: "10px"}}
           >
             {member}
-          </span>
+        </Button>
         ))}
       </div>
     </div>

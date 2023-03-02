@@ -18,10 +18,17 @@
   
   
   .team-container {
-    flex-wrap: wrap;
-    display: flex;
+    /* flex-wrap: wrap; */
+    /* display: flex; */
     justify-content: center;
-    padding-top: 64px;
+    /* padding-top: 64px; */
+    margin-left: 250px;
+    margin-right: 250px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    /* grid-auto-rows: 350px; */
+    column-gap: 80px;
+    row-gap: 80px;
   }
   
 
