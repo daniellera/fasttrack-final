@@ -38,44 +38,59 @@ export const parseDate = (date) => {
 
 //----------Parsing Data From Backend----------\\
 export const parseCompanyAnouncementsDto = (announcementsDto) => {
+  let _ = require('lodash');
+  let sortedAccouncementsDto = _.orderBy(announcementsDto, ['date'], ['desc'])
   let result = [];
-  for (let announcement of announcementsDto) {
-    // result.push(createAnnouncementObject(announcement.id, announcement.author.profile.firstName + " " + announcement.author.profile.lastName, parseDate(new Date(announcement.date.replace(' ', 'T'))), announcement.title, announcement.message));
-    result.push(
-      createAnnouncementObject(
-        announcement.id,
-        announcement.author.profile.firstName +
-          " " +
-          announcement.author.profile.lastName,
-        parseDate(new Date(announcement.date.replace(" ", "T"))),
-        announcement.title,
-        announcement.message
-      )
-    );
+
+  for (let announcement of sortedAccouncementsDto) {
+      // result.push(createAnnouncementObject(announcement.id, announcement.author.profile.firstName + " " + announcement.author.profile.lastName, parseDate(new Date(announcement.date.replace(' ', 'T'))), announcement.title, announcement.message));
+      result.push(createAnnouncementObject(announcement.id, announcement.author.profile.firstName + " " + announcement.author.profile.lastName, parseDate(new Date(announcement.date.replace(' ', 'T'))), announcement.title, announcement.message));
   }
   return result;
-};
+}
 
-export const parseCompanyTeamsDto = (companyTeamsDto, projectsDto) => {
+//This is to count projects. I will figure out a better implementation.
+// export const parseCompanyTeamsDto = (companyTeamsDto, projectsDto) => {
+//   let result = [];
+//   for (let team of companyTeamsDto) {
+//     let usersToAdd = [];
+//     let qtyProjectsToAdd = countTeamProjects(projectsDto, team.id);
+//     for (let user of team.users) {
+//       usersToAdd.push(
+//         createUserRegistryObject(
+//           user.id,
+//           user.profile.firstName,
+//           user.profile.lastName,
+//           user.profile.email,
+//           user.profile.phone,
+//           user.active,
+//           user.status
+//         )
+//       );
+//     }
+//     result.push(
+//       createTeamObject(team.id, team.name, qtyProjectsToAdd, usersToAdd)
+//     );
+//   }
+//   return result;
+// };
+
+// export const parseCompanyAnouncementsDto = (announcementsDto) => {
+//   let _ = require('lodash');
+//   let sortedAccouncementsDto = _.orderBy(announcementsDto, ['date'], ['desc'])
+//   let result = [];
+
+export const parseCompanyTeamsDto = (companyTeamsDto) => {
+  let _ = require('lodash');
+  let sortedCompanyTeamsDto = _.orderBy(companyTeamsDto, ['name'], ['asc'])
   let result = [];
-  for (let team of companyTeamsDto) {
+  for (let team of sortedCompanyTeamsDto) {
     let usersToAdd = [];
-    let qtyProjectsToAdd = countTeamProjects(projectsDto, team.id);
-    for (let user of team.users) {
-      usersToAdd.push(
-        createUserRegistryObject(
-          user.id,
-          user.profile.firstName,
-          user.profile.lastName,
-          user.profile.email,
-          user.profile.phone,
-          user.active,
-          user.status
-        )
-      );
+    for (let user of team.teammates) {
+      usersToAdd.push(user.profile.firstName + " " + user.profile.lastName[0] + ".")
     }
     result.push(
-      createTeamObject(team.id, team.name, qtyProjectsToAdd, usersToAdd)
+      createTeamObject(team.id, team.name, "[#]", usersToAdd)
     );
   }
   return result;
@@ -103,12 +118,13 @@ export const parseCompanyUsersDto = (companyUsersDto) => {
     result.push(
       createUserRegistryObject(
         user.id,
-        user.profile.firstname,
-        user.profile.lastname,
+        user.profile.firstName,
+        user.profile.lastName,
         user.profile.email,
         user.profile.phone,
         user.active,
-        user.status
+        user.status,
+        user.admin
       )
     );
   }

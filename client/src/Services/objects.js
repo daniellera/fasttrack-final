@@ -74,7 +74,8 @@ export const createUserRegistryObject = (
   email,
   phone,
   active,
-  status
+  status,
+  isAdmin
 ) => {
   return {
     id: id,
@@ -84,5 +85,6 @@ export const createUserRegistryObject = (
     phone: phone,
     active: active,
     status: status,
+    isAdmin: isAdmin
   };
 };

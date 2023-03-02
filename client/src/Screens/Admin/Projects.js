@@ -86,8 +86,8 @@ const Projects = () => {
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
 
   const getProjects = async () =>{
-    // await getTeamProjects(user.selectedCompany.id, user.selectedTeam.Id)
-    await getTeamProjects(user.selectedCompany.id, 17) //work around until selected team is working
+    await getTeamProjects(user.selectedCompany, user.selectedTeam)
+    // await getTeamProjects(user.selectedCompany, 17) //work around until selected team is working
     .then((serverResponse) => {
       console.log(serverResponse.data)
       console.log(parseTeamProjectsDto(serverResponse.data))
@@ -100,8 +100,8 @@ const Projects = () => {
     console.log("I am creating a project");
     let newProjectName = document.getElementById("newProjectName").value;
     let newProjectDescription = document.getElementById("newDescription").value;
-    // await(createProject(newProjectName, newProjectDescription, true, user.selectedTeam.id))
-    await(createProject(newProjectName, newProjectDescription, true, 17))//work around until selected team is working
+    await(createProject(newProjectName, newProjectDescription, true, user.selectedTeam))
+    // await(createProject(newProjectName, newProjectDescription, true, 17))//work around until selected team is working
     .then(() => getProjects())
     .catch((error) => console.log(error))
     togglePopup();
@@ -109,6 +109,8 @@ const Projects = () => {
 
   useEffect(() => {
     getProjects()
+    console.log("My user state is this:")
+    console.log(user)
   },[])
 
   const togglePopup = () => {
@@ -119,9 +121,11 @@ const Projects = () => {
     return <Navigate replace to="/" />;
   } else if (!user.isAdmin) {
     return <Navigate replace to="/project" />;
-  } else if (!user.selectedTeam) {
-    return <Navigate replace to="/teams" />;
-  } else {
+  } 
+  // else if (!user.selectedTeam) {
+  //   return <Navigate replace to="/teams" />;
+  // } 
+  else {
     return (
       <div>
         <NavBar />
