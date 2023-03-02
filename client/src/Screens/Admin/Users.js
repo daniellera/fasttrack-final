@@ -279,12 +279,12 @@ const Users = () => {
         let phone = document.getElementById("phoneInput").value;
         let password = document.getElementById("passwordInput").value;
         let isAdmin = document.getElementById("isAdmin").value;
+        // console.log("This is my form input")
         // console.log(firstName, lastName, email, phone, password, isAdmin)
-        // let dateNow = parseDate(new Date());
         let userRequestObject = createUserRequestDto(email, password, firstName, lastName, email, phone, isAdmin, user.selectedCompany)
-        console.log(userRequestObject)
-        // console.log("This is my userRequestObject")
         // console.log(userRequestObject)
+        console.log("This is my userRequestObject")
+        console.log(userRequestObject)
         createUser(email, password, firstName, lastName, email, phone, isAdmin, user.selectedCompany)
           .then(() => getUsers())
           .catch((error) => console.log(error));
@@ -360,22 +360,22 @@ const Users = () => {
     const addUser = (
         <AddUserDiv>
             <div className={isMobile ? 'mobile' : ''} id='name'>
-                <input type='text' name='firstName' placeholder='first name' onChange={updateNewUser} />
-                <input type='text' name='lastName' placeholder='last name' onChange={updateNewUser} />
+                <input id = "firstNameInput" type='text' name='firstName' placeholder='first name' />
+                <input id = "lastNameInput" type='text' name='lastName' placeholder='last name' />
             </div>
-            <input type='text' name='email' placeholder='email' onChange={updateNewUser} />
-            <input type='text' name='phone' placeholder='phone' onChange={updateNewUser} />
-            <input type='text' name='username' placeholder='username' onChange={updateNewUser} />
+            <input id = "emailInput" type='text' name='email' placeholder='email' />
+            <input id = "phoneInput" type='text' name='phone' placeholder='phone' />
+            <input id = "usernameInput" type='text' name='username' placeholder='username' />
             <div className={isMobile ? 'mobile' : ''} id='password'>
-                <input type='password' name='password' placeholder='password' onChange={updateNewUser} />
-                <input type='password' name='confirmPassword' placeholder='confirm password' onChange={updateNewUser} />
+                <input id = "passwordInput" type='password' name='password' placeholder='password' />
+                <input type='password' name='confirmPassword' placeholder='confirm password' />
             </div>
             <h3>Make user an admin role?</h3>
             <Dropdown
                 name='isAdmin'
                 id='isAdmin'
                 className={`add-user ${isMobile ? 'mobile-dropdown' : ''}`}
-                selectOption={updateNewUser} options={booleanOptions}
+                selectOption={null} options={booleanOptions}
             />
             <Button id='submit-btn' bg='#1BA098' c='#FFFFFF' w='13em' h='3em' onClick={handleSubmit}>Submit</Button>
             {submitError && <p id='submit-error'>Something went wrong.<br />Please check your inputs and try again.</p>}

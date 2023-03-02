@@ -79,8 +79,14 @@ const StyledH3 = styled.h3`
   margin-left: 8%;
 `;
 
+const initialProjectError = {
+  isError: false,
+  message: "",
+};
+
 const Projects = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isProject, setIsProject] = useState(initialProjectError);
   const [user] = useRecoilState(userState);
   const [projects, setProjects] = useRecoilState(projectsState);
 
@@ -104,16 +110,25 @@ const Projects = () => {
     console.log("I am creating a project");
     let newProjectName = document.getElementById("newProjectName").value;
     let newProjectDescription = document.getElementById("newDescription").value;
-    await createProject(
-      newProjectName,
-      newProjectDescription,
-      true,
-      user.selectedTeam
-    )
-      // await(createProject(newProjectName, newProjectDescription, true, 17))//work around until selected team is working
-      .then(() => getProjects())
-      .catch((error) => console.log(error));
-    togglePopup();
+    if (newProjectName.length === 0 || newProjectDescription.length === 0) {
+      setIsProject({
+        ...isProject,
+        isError: true,
+        message: "Project name and project description are required",
+      });
+    } else {
+      await createProject(
+        newProjectName,
+        newProjectDescription,
+        true,
+        user.selectedTeam
+      )
+        // await(createProject(newProjectName, newProjectDescription, true, 17))//work around until selected team is working
+        .then(() => getProjects())
+        .catch((error) => console.log(error));
+      setIsProject(initialProjectError);
+      togglePopup();
+    }
   };
 
   useEffect(() => {
@@ -123,6 +138,9 @@ const Projects = () => {
   }, []);
 
   const togglePopup = () => {
+    if (isOpen) {
+      setIsProject(initialProjectError);
+    }
     setIsOpen(!isOpen);
   };
 
@@ -190,6 +208,11 @@ const Projects = () => {
                 <Input id="newProjectName" />
                 <StyledH3>Description</StyledH3>
                 <Input id="newDescription" />
+                {isProject ? (
+                  <p style={{ color: "red" }}>{isProject.message}</p>
+                ) : (
+                  ""
+                )}
                 <Button
                   onClick={handleCreateProject}
                   w="199px"

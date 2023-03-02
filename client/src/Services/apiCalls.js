@@ -96,7 +96,7 @@ export const createUser = async (
     {
       id: companyId
     },
-    isAdmin: isAdmin
+    admin: isAdmin
   });
 };
 

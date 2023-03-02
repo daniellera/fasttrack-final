@@ -127,31 +127,38 @@ const Announcements = () => {
             ) : (
               <StyledButtonDiv>
                 <h1 style={{ fontSize: "32px" }}>Announcements</h1>
-
-                <Button
-                  w="110.19px"
-                  h="30.48px"
-                  bg="#1BA098"
-                  c="#FFFFFF"
-                  mg="10% 0% 0% 10%"
-                  onClick={togglePopup}
-                >
-                  New
-                </Button>
+                {user.isAdmin ? (
+                  <Button
+                    w="110.19px"
+                    h="30.48px"
+                    bg="#1BA098"
+                    c="#FFFFFF"
+                    mg="10% 0% 0% 10%"
+                    onClick={togglePopup}
+                  >
+                    New
+                  </Button>
+                ) : (
+                  ""
+                )}
               </StyledButtonDiv>
             )}
           </div>
           {!isMobile ? (
             <StyledButtonDiv mg="0% 0% 5% 60%">
-              <Button
-                w="103px"
-                h="32px"
-                bg="#1BA098"
-                c="#FFFFFF"
-                onClick={togglePopup}
-              >
-                New
-              </Button>
+              {user.isAdmin ? (
+                <Button
+                  w="103px"
+                  h="32px"
+                  bg="#1BA098"
+                  c="#FFFFFF"
+                  onClick={togglePopup}
+                >
+                  New
+                </Button>
+              ) : (
+                ""
+              )}
             </StyledButtonDiv>
           ) : (
             ""
