@@ -10,7 +10,10 @@ import Button from "../../Components/Button";
 import Announcement from "../../Components/Announcement";
 import Popup from "../../Components/Popup";
 import { createAnnouncementObject } from "../../Services/objects";
-import { getCompanyAnnouncements, createAnnouncement } from "../../Services/apiCalls";
+import {
+  getCompanyAnnouncements,
+  createAnnouncement,
+} from "../../Services/apiCalls";
 import { parseCompanyAnouncementsDto, parseDate } from "../../Services/helpers";
 
 const StyledAnnouncements = styled.div`
@@ -71,21 +74,18 @@ const Announcements = () => {
 
   //On initial load and whenever the announcement state is changed, make a call to the backend to update anouncements.
   useEffect(() => {
-    getAnnouncements()
-  },[])
+    getAnnouncements();
+  }, []);
 
-
-  const getAnnouncements = async () =>{
-    await getCompanyAnnouncements(user.selectedCompany.id)
-    .then((serverResponse) => {
-      setAnnouncements(parseCompanyAnouncementsDto(serverResponse.data))
-      console.log("announcements state was set")
-    })
-    .catch((error) => console.log(error))
-  }
-
-  
-
+  const getAnnouncements = async () => {
+    // console.log(user);
+    await getCompanyAnnouncements(user.selectedCompany)
+      .then((serverResponse) => {
+        setAnnouncements(parseCompanyAnouncementsDto(serverResponse.data));
+        // console.log("announcements state was set");
+      })
+      .catch((error) => console.log(error));
+  };
 
   const handleSubmit = async () => {
     let newTitle = document.getElementById("newMessageTitle").value;
@@ -98,10 +98,11 @@ const Announcements = () => {
       newTitle,
       newMessage
     );
+    // console.log("This is what i'm sending the backend")
     // console.log(newAnnouncement)
     createAnnouncement(newAnnouncement, user)
-    .then(() => getAnnouncements())
-    .catch((error) => console.log(error))
+      .then(() => getAnnouncements())
+      .catch((error) => console.log(error));
     togglePopup();
   };
 
@@ -169,9 +170,22 @@ const Announcements = () => {
             <Popup
               content={
                 <div style={{ textAlign: "center" }}>
-                  <h3 style={{ textAlign: "left" }}>Title</h3>
+                  <p
+                    style={{
+                      textAlign: "center",
+                      fontFamily: "Mulish",
+                      fontWeight: "400",
+                      fontSize: "16.2439px",
+                      lineHeight: "150%",
+                    }}
+                  >
+                    **name should be generated from posting user**
+                  </p>
+                  <h3 style={{ textAlign: "left", marginLeft: "8%" }}>Title</h3>
                   <Input id="newMessageTitle" />
-                  <h3 style={{ textAlign: "left" }}>Message</h3>
+                  <h3 style={{ textAlign: "left", marginLeft: "8%" }}>
+                    Message
+                  </h3>
                   <Input id="newMessageBody" />
                   <Button
                     onClick={handleSubmit}

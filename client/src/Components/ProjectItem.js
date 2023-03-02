@@ -2,7 +2,11 @@ import styled from "styled-components";
 
 import Button from "./Button";
 import { useState } from "react";
+import { useRecoilState } from "recoil";
 import Popup from "./Popup";
+import { updateProject, getTeamProjects } from "../Services/apiCalls";
+import { userState, projectsState } from "../globalstate";
+import { parseTeamProjectsDto } from "../Services/helpers";
 
 const StyledHr = styled.hr`
   width: ${({ w }) => w};
@@ -66,9 +70,60 @@ const StyledSelect = styled.select`
 
 const ProjectItem = ({ project, idx }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [user] = useRecoilState(userState);
+  const [projects, setProjects] = useRecoilState(projectsState);
 
   const togglePopup = () => {
     setIsOpen(!isOpen);
+  };
+
+  const handleEditProject = async () => {
+    console.log("Editing project");
+    let newProjectName =
+      document.getElementById("updateProjectName").value.length === 0
+        ? project.name
+        : document.getElementById("updateProjectName").value;
+    let newProjectDescription =
+      document.getElementById("updateDescription").value.length === 0
+        ? project.projectDecription
+        : document.getElementById("updateDescription").value;
+    console.log("Dropdown value" + document.getElementById("status").value);
+    let newProjectStatus =
+      document.getElementById("status").value.length === 0
+        ? project.isActive
+        : document.getElementById("status").value === "yes"
+        ? true
+        : false;
+    // newProjectStatus = newProjectStatus === "yes" ? true : false;
+
+    console.log(newProjectName);
+    console.log(newProjectDescription);
+    console.log(project.id);
+    console.log(newProjectStatus);
+
+    const getProjects = async () => {
+      await getTeamProjects(user.selectedCompany, user.selectedTeam)
+        // await getTeamProjects(user.selectedCompany, 17) //work around until selected team is working
+        .then((serverResponse) => {
+          console.log("The server is returning these values:");
+          console.log(serverResponse.data);
+          console.log(parseTeamProjectsDto(serverResponse.data));
+          setProjects(parseTeamProjectsDto(serverResponse.data));
+        })
+        .catch((error) => console.log(error));
+    };
+
+    // await(updateProject(project.id, newProjectName, newProjectDescription, newProjectStatus, user.selectedTeam))//work around until selected team is working
+    await updateProject(
+      project.id,
+      newProjectName,
+      newProjectDescription,
+      newProjectStatus,
+      17
+    ) //work around until selected team is working
+      .then(() => getProjects())
+      .catch((error) => console.log(error));
+    togglePopup();
   };
 
   return (
@@ -103,7 +158,7 @@ const ProjectItem = ({ project, idx }) => {
             color: "rgba(255, 255, 255, 0.75)",
           }}
         >
-          {project.projectDecription}
+          {project.projectDescription}
         </p>
         <Button
           w="103px"
@@ -120,9 +175,13 @@ const ProjectItem = ({ project, idx }) => {
         <Popup
           content={
             <div style={{ textAlign: "center" }}>
-              <h3 style={{ textAlign: "left" }}>Project Name</h3>
+              <h3 style={{ textAlign: "left", marginLeft: "8%" }}>
+                Project Name
+              </h3>
               <Input id="updateProjectName" type="text" required />
-              <h3 style={{ textAlign: "left" }}>Description</h3>
+              <h3 style={{ textAlign: "left", marginLeft: "8%" }}>
+                Description
+              </h3>
               <Input id="updateDescription" type="text" required />
               <div>
                 <label for="status">Active?</label>
@@ -137,7 +196,7 @@ const ProjectItem = ({ project, idx }) => {
                 </StyledSelect>
               </div>
               <Button
-                //   onClick={handleSubmit}
+                onClick={handleEditProject}
                 w="199px"
                 h="45px"
                 bg="#1BA098"

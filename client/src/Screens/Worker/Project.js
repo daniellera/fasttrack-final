@@ -74,6 +74,7 @@ const StyledH3 = styled.h3`
   font-size: 16.2439px;
   line-height: 150%;
   text-align: left;
+  margin-left: 8%;
 `;
 
 const Project = () => {
@@ -97,16 +98,18 @@ const Project = () => {
         <NavBar />
         <StyledHr w="100%" bd="2px solid #deb992" />
         <StyledProjects>
+          <Link to="/teams">
+            {!isMobile ? (
+              <span>&#62;Back</span>
+            ) : (
+              <span style={{ fontSize: "15px" }}>&#62;Back</span>
+            )}
+          </Link>
           {!isMobile ? (
-            <span>&#62;Back</span>
-          ) : (
-            <span style={{ fontSize: "15px" }}>&#62;Back</span>
-          )}
-          {!isMobile ? (
-            <h1>Projects for {user.selectedTeam}</h1>
+            <h1>Projects for Team {user.selectedTeam}</h1>
           ) : (
             <h1 style={{ fontSize: "25px" }}>
-              Projects for {user.selectedTeam}
+              Projects for Team {user.selectedTeam}
             </h1>
           )}
         </StyledProjects>
