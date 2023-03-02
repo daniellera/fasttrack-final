@@ -92,7 +92,7 @@ export const createUser = async (
       email: email,
       phone: phone,
     },
-    companies:
+    company:
     {
       id: companyId
     },
