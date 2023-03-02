@@ -8,7 +8,7 @@ import Button from '../../Components/Button'
 import Popup from "../../Components/Popup"
 import Dropdown from '../../Components/Dropdown'
 import { useMediaQuery } from "react-responsive";
-import { getCompanyUsers } from '../../Services/apiCalls'
+import { createUser, getCompanyUsers } from '../../Services/apiCalls'
 import { parseCompanyUsersDto } from '../../Services/helpers'
 
 const UserRegistryWrapper = styled.div`
@@ -244,9 +244,9 @@ const Users = () => {
     const getUsers = async () => {
         await getCompanyUsers(user.selectedCompany)
             .then((serverResponse) => {
-                console.log(serverResponse.data)
+                // console.log(serverResponse.data)
                 setUserRegistry(parseCompanyUsersDto(serverResponse.data))
-                console.log("user registry state was set")
+                // console.log("user registry state was set")
                 
             })
             .catch((error) => console.log(error))
@@ -254,22 +254,18 @@ const Users = () => {
 
     const handleSubmit = async () => {
         console.log("I tried to submit")
-        // let newTitle = document.getElementById("newMessageTitle").value;
-        // let newMessage = document.getElementById("newMessageBody").value;
+        let firstName = document.getElementById("firstNameInput").value;
+        let lastName = document.getElementById("lastNameInput").value;
+        let email = document.getElementById("emailInput").value;
+        let phone = document.getElementById("phoneInput").value;
+        let password = document.getElementById("passwordInput").value;
+        let isAdmin = document.getElementById("isAdmin").value;
+        // console.log(firstName, lastName, email, phone, password, isAdmin)
         // let dateNow = parseDate(new Date());
-        // let newAnnouncement = createAnnouncementObject(
-        //   user.id,
-        //   user.firstName + " " + user.lastName,
-        //   dateNow,
-        //   newTitle,
-        //   newMessage
-        // );
-        // // console.log("This is what i'm sending the backend")
-        // // console.log(newAnnouncement)
-        // createAnnouncement(newAnnouncement, user)
-        //   .then(() => getAnnouncements())
-        //   .catch((error) => console.log(error));
-        // togglePopup();
+        createUser(firstName + lastName, password, firstName, lastName, email, phone, isAdmin)
+          .then(() => getUsers())
+          .catch((error) => console.log(error));
+        togglePopup();
       };
 
     const togglePopup = () => {
@@ -326,13 +322,13 @@ const Users = () => {
     const addUser = (
         <AddUserDiv>
             <div className={isMobile ? 'mobile' : ''}>
-                <input type='text' name='firstName' placeholder='first name' />
-                <input type='text' name='lastName' placeholder='last name' />
+                <input id = "firstNameInput" type='text' name='firstName' placeholder='first name' />
+                <input id = "lastNameInput" type='text' name='lastName' placeholder='last name' />
             </div>
-            <input type='text' name='email' placeholder='email' />
-            <input type='text' name='phone' placeholder='phone' />
+            <input id = "emailInput" type='text' name='email' placeholder='email' />
+            <input id = "phoneInput" type='text' name='phone' placeholder='phone' />
             <div className={isMobile ? 'mobile' : ''}>
-                <input type='text' name='password' placeholder='password' />
+                <input id = "passwordInput" type='text' name='password' placeholder='password' />
                 <input type='text' name='confirmPassword' placeholder='confirm password' />
             </div>
             <h3>Make user an admin role?</h3>
@@ -340,7 +336,8 @@ const Users = () => {
                 name='isAdmin'
                 id='isAdmin'
                 className={isMobile ? 'mobile-dropdown add-user' : 'add-user'}
-                // selectOption={updateNewUser} options={booleanOptions}
+                selectOption={null} options={booleanOptions}
+                // options={booleanOptions}
             />
             <Button id='submit-btn' bg='#1BA098' c='#FFFFFF' w='13em' h='3em' onClick={handleSubmit}>Submit</Button>
             {submitError && <p id='submit-error'>Something went wrong. Please check your inputs and try again.</p>}
