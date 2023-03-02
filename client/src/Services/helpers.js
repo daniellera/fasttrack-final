@@ -118,12 +118,13 @@ export const parseCompanyUsersDto = (companyUsersDto) => {
     result.push(
       createUserRegistryObject(
         user.id,
-        user.profile.firstname,
-        user.profile.lastname,
+        user.profile.firstName,
+        user.profile.lastName,
         user.profile.email,
         user.profile.phone,
         user.active,
-        user.status
+        user.status,
+        user.admin
       )
     );
   }
