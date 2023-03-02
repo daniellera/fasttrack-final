@@ -45,10 +45,6 @@ const Input = styled.input`
   }
 `;
 
-
-
-
-
 const Teams = () => {
   const [user, setUser] = useRecoilState(userState);
   const [teams, setTeams] = useRecoilState(teamsState);
@@ -95,20 +91,16 @@ const Teams = () => {
   useEffect(() => {
     getTeams();
   }, []);
-  
+
   const handleClick = (teamClicked) => {
-    console.log("This is the team that was clicked")
-    console.log(teamClicked)
-    setUser({...user, selectedTeam: teamClicked})
-  }
+    setUser({ ...user, selectedTeam: teamClicked });
+  };
 
   //make request to backend to get teams
   const getTeams = async () => {
     await getCompanyTeams(user.selectedCompany)
       .then((serverResponse) => {
-        console.log("These are my teams:")
-        console.log(serverResponse.data)
-        console.log(serverResponse.data)
+        console.log(serverResponse.data);
         setTeams(parseCompanyTeamsDto(serverResponse.data));
         // console.log("announcements state was set");
       })
@@ -119,9 +111,7 @@ const Teams = () => {
     let newTeamName = document.getElementById("newTeamName").value;
     let newDescription = document.getElementById("newDescription").value;
     let member = document.getElementById("member").value;
-    console.log(teams)
-    console.log(newTeamName, newDescription, user.selectedCompany, member)
-    createTeam(newTeamName, newDescription, user.selectedCompany, member)
+    createTeam(newTeamName, newDescription, user.selectedCompany, member);
     // createAnnouncement(newAnnouncement, user)
     //   .then(() => getAnnouncements())
     //   .catch((error) => console.log(error));
@@ -151,20 +141,30 @@ const Teams = () => {
             </NavLink>
           ))}
           <button
-              className="team-member"
-              style={{ fontSize: "32px", backgroundColor: "transparent", borderColor: "#DEB992", width: "325px", height: "325px"}}
-              onClick={togglePopup}
-            >
-              +
-            </button>
+            className="team-member"
+            style={{
+              fontSize: "32px",
+              backgroundColor: "transparent",
+              borderColor: "#DEB992",
+              width: "325px",
+              height: "325px",
+            }}
+            onClick={togglePopup}
+          >
+            +
+          </button>
           <div className="team-card" style={{ width: "100px" }}>
             {isPopupOpen && (
               <Popup
                 content={
                   <div style={{ textAlign: "center" }}>
-                    <h3 style={{ textAlign: "left" }}>Team Name</h3>
+                    <h3 style={{ textAlign: "left", marginLeft: "8%" }}>
+                      Team Name
+                    </h3>
                     <Input id="newTeamName" type="text" required />
-                    <h3 style={{ textAlign: "left" }}>Description</h3>
+                    <h3 style={{ textAlign: "left", marginLeft: "8%" }}>
+                      Description
+                    </h3>
                     <Input id="newDescription" type="text" required />
                     <div>
                       <h2>Select Members</h2>
@@ -184,7 +184,7 @@ const Teams = () => {
                       </StyledSelect>
                     </div>
                     <Button
-                        onClick={handleCreateTeam}
+                      onClick={handleCreateTeam}
                       w="199px"
                       h="45px"
                       bg="#1BA098"

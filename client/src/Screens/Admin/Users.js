@@ -59,6 +59,10 @@ const UserRegistryWrapper = styled.div`
         align-self: flex-start;
         margin-top: 2em;
     }
+
+    & .mobile.popup-box .box {
+        width: 80%;
+    }
 `
 
 const RegistryTable = styled.table`
@@ -92,6 +96,10 @@ const RegistryTable = styled.table`
     & tr {
         border: 1px solid #DEB992;
         border-width: 1px 0 1px 0;
+    }
+
+    & tr:first-child td.mobile.user-td {
+        border: 0;
     }
 
     & td {
@@ -167,6 +175,7 @@ const AddUserDiv = styled.div`
         font-weight: 400;
         font-size: 16px;
         border: 0;
+        padding: 0;
         border-bottom: 1px solid #DEB992;
         color: #DEB992;
         background: #0B2D45;
@@ -185,7 +194,7 @@ const AddUserDiv = styled.div`
 
     & h3 {
         font-weight: normal;
-        margin: 0.3em 0 0.2em 0;
+        margin: 1.3em 0 0.2em 0;
     }
 
     & .dropdown {
@@ -200,6 +209,7 @@ const AddUserDiv = styled.div`
         padding: 0.5em 1em;
         border: 1px #323F4B;
         border-radius: 15px;
+        margin-top: 2em;
         width: 50%;
     }
 
@@ -220,23 +230,31 @@ const AddUserDiv = styled.div`
         // font-size: 10px;
         width: 75%;
     }
+
+    & .mobile#name, .mobile#password {
+        flex-direction: column;
+        align-items: center;
+        margin: 0 auto;
+        width: 100%;
+    }
 `
 
 const Users = () => {
-    const [user, setUser] = useRecoilState(userState)
+    const [user] = useRecoilState(userState)
     const [userRegistry, setUserRegistry] = useRecoilState(userRegistryState)
     const [popup, setPopup] = useState({ isToggled: false })
     const [submitError, setSubmitError] = useState(false)
     const isMobile = useMediaQuery({ query: "(max-width: 800px)" })
-    
-    // const [newUser, setNewUser] = useState({
-    //     firstName: '',
-    //     lastName: '',
-    //     email: '',
-    //     phone: '',
-    //     password: '',
-    //     isAdmin: false
-    // })
+    const [newUser, setNewUser] = useState({
+        firstName: '',
+        lastName: '',
+        email: '',
+        phone: '',
+        username: '',
+        password: '',
+        isAdmin: '',
+        companies: [user.selectedCompany]
+    })
 
     useEffect(() => {
         getUsers()
@@ -279,15 +297,17 @@ const Users = () => {
             isToggled: !prev.isToggled
         }))
 
-        // setNewUser({
-        //     firstName: '',
-        //     lastName: '',
-        //     email: '',
-        //     phone: '',
-        //     password: '',
-        //     confirmPassword: '',
-        //     isAdmin: ''
-        // })
+        setNewUser({
+            firstName: '',
+            lastName: '',
+            email: '',
+            phone: '',
+            username: '',
+            password: '',
+            confirmPassword: '',
+            isAdmin: '',
+            companies: [user.selectedCompany]
+        })
 
         setSubmitError(false);
     }
@@ -298,15 +318,28 @@ const Users = () => {
     //         newUser.lastName &&
     //         newUser.email &&
     //         newUser.phone &&
+    //         newUser.username &&
     //         newUser.password &&
     //         newUser.password === newUser.confirmPassword &&
     //         newUser.isAdmin !== ''
     //     ) {
     //         setSubmitError(false)
-    //         console.log('successful submit')
-    //         // Post new user
+
+    //         createUser(
+    //             newUser.username,
+    //             newUser.password,
+    //             newUser.firstName,
+    //             newUser.lastName,
+    //             newUser.email,
+    //             newUser.phone,
+    //             newUser.isAdmin
+    //         )
+    //             .catch((error) => {
+    //                 alert('Something went wrong. User creation unsuccessful.')
+    //                 console.log(error)
+    //             })
+
     //         togglePopup()
-    //         alert('User added successfully!')
     //     } else {
     //         setSubmitError(true)
     //     }
@@ -316,36 +349,36 @@ const Users = () => {
         (element, index) => <option key={index} value={`${element}`}>{`${element}`}</option>
     )
 
-    // const updateNewUser = event => {
-    //     console.log(newUser)
-    //     setNewUser(prev => ({
-    //         ...prev,
-    //         [event.target.name]: event.target.value
-    //     }))
-    // }
+    const updateNewUser = event => {
+        event.target.name === 'isAdmin' && console.log(newUser)
+        setNewUser(prev => ({
+            ...prev,
+            [event.target.name]: event.target.value
+        }))
+    }
 
     const addUser = (
         <AddUserDiv>
-            <div className={isMobile ? 'mobile' : ''}>
-                <input id = "firstNameInput" type='text' name='firstName' placeholder='first name' />
-                <input id = "lastNameInput" type='text' name='lastName' placeholder='last name' />
+            <div className={isMobile ? 'mobile' : ''} id='name'>
+                <input type='text' name='firstName' placeholder='first name' onChange={updateNewUser} />
+                <input type='text' name='lastName' placeholder='last name' onChange={updateNewUser} />
             </div>
-            <input id = "emailInput" type='text' name='email' placeholder='email' />
-            <input id = "phoneInput" type='text' name='phone' placeholder='phone' />
-            <div className={isMobile ? 'mobile' : ''}>
-                <input id = "passwordInput" type='text' name='password' placeholder='password' />
-                <input type='text' name='confirmPassword' placeholder='confirm password' />
+            <input type='text' name='email' placeholder='email' onChange={updateNewUser} />
+            <input type='text' name='phone' placeholder='phone' onChange={updateNewUser} />
+            <input type='text' name='username' placeholder='username' onChange={updateNewUser} />
+            <div className={isMobile ? 'mobile' : ''} id='password'>
+                <input type='password' name='password' placeholder='password' onChange={updateNewUser} />
+                <input type='password' name='confirmPassword' placeholder='confirm password' onChange={updateNewUser} />
             </div>
             <h3>Make user an admin role?</h3>
             <Dropdown
                 name='isAdmin'
                 id='isAdmin'
-                className={isMobile ? 'mobile-dropdown add-user' : 'add-user'}
-                selectOption={null} options={booleanOptions}
-                // options={booleanOptions}
+                className={`add-user ${isMobile ? 'mobile-dropdown' : ''}`}
+                selectOption={updateNewUser} options={booleanOptions}
             />
             <Button id='submit-btn' bg='#1BA098' c='#FFFFFF' w='13em' h='3em' onClick={handleSubmit}>Submit</Button>
-            {submitError && <p id='submit-error'>Something went wrong. Please check your inputs and try again.</p>}
+            {submitError && <p id='submit-error'>Something went wrong.<br />Please check your inputs and try again.</p>}
         </AddUserDiv>
     )
 
@@ -425,9 +458,8 @@ const Users = () => {
                             </tbody>
                         </RegistryTable>
                     }
-
                     <Button id='popup-btn' bg='#1BA098' c='#FFFFFF' w='13em' h='3em' onClick={togglePopup}>ADD USER</Button>
-                    {popup.isToggled && <Popup handleClose={togglePopup} content={addUser} />}
+                    {popup.isToggled && <Popup className={isMobile ? 'mobile' : ''} handleClose={togglePopup} content={addUser} />}
                 </UserRegistryWrapper>
             </div>
         )

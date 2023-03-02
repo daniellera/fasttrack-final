@@ -76,6 +76,7 @@ const StyledH3 = styled.h3`
   font-size: 16.2439px;
   line-height: 150%;
   text-align: left;
+  margin-left: 8%;
 `;
 
 const Projects = () => {
@@ -103,18 +104,23 @@ const Projects = () => {
     console.log("I am creating a project");
     let newProjectName = document.getElementById("newProjectName").value;
     let newProjectDescription = document.getElementById("newDescription").value;
-    await(createProject(newProjectName, newProjectDescription, true, user.selectedTeam))
-    // await(createProject(newProjectName, newProjectDescription, true, 17))//work around until selected team is working
-    .then(() => getProjects())
-    .catch((error) => console.log(error))
+    await createProject(
+      newProjectName,
+      newProjectDescription,
+      true,
+      user.selectedTeam
+    )
+      // await(createProject(newProjectName, newProjectDescription, true, 17))//work around until selected team is working
+      .then(() => getProjects())
+      .catch((error) => console.log(error));
     togglePopup();
-  }
+  };
 
   useEffect(() => {
-    getProjects()
-    console.log("My user state is this:")
-    console.log(user)
-  },[])
+    getProjects();
+    console.log("My user state is this:");
+    console.log(user);
+  }, []);
 
   const togglePopup = () => {
     setIsOpen(!isOpen);
@@ -122,12 +128,10 @@ const Projects = () => {
 
   if (!user.isLoggedIn) {
     return <Navigate replace to="/" />;
-  } else if (!user.isAdmin) {
-    return <Navigate replace to="/project" />;
-  } 
+  }
   // else if (!user.selectedTeam) {
   //   return <Navigate replace to="/teams" />;
-  // } 
+  // }
   else {
     return (
       <div>
@@ -157,17 +161,21 @@ const Projects = () => {
             paddingBottom: "10%",
           }}
         >
-          <Button
-            w="110.19px"
-            h="30.48px"
-            bg="#1BA098"
-            c="#FFFFFF"
-            mg="10% 0% 0% 10%"
-            style={{ ":hover": { backgroundColor: "#eedcc9" } }}
-            onClick={togglePopup}
-          >
-            New
-          </Button>
+          {user.isAdmin ? (
+            <Button
+              w="110.19px"
+              h="30.48px"
+              bg="#1BA098"
+              c="#FFFFFF"
+              mg="10% 0% 0% 10%"
+              style={{ ":hover": { backgroundColor: "#eedcc9" } }}
+              onClick={togglePopup}
+            >
+              New
+            </Button>
+          ) : (
+            ""
+          )}
         </div>
         <div>
           {projects.map((project, idx) => (
@@ -183,7 +191,7 @@ const Projects = () => {
                 <StyledH3>Description</StyledH3>
                 <Input id="newDescription" />
                 <Button
-                    onClick={handleCreateProject}
+                  onClick={handleCreateProject}
                   w="199px"
                   h="45px"
                   bg="#1BA098"
