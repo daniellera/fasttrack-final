@@ -88,3 +88,41 @@ export const createUserRegistryObject = (
     isAdmin: isAdmin
   };
 };
+
+// email, password, firstName, lastName, email, phone, isAdmin
+
+export const createUserRequestDto = (username, password, firstName, lastName, email, phone, isAdmin, companyId) => {
+  return {
+    credentials: {
+      username: username,
+      password: password,
+    },
+    profile: {
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      phone: phone,
+    },
+    company:
+    {
+      id: companyId
+    },
+    admin: isAdmin
+  };
+};
+
+// {
+//   "profile":{
+//   "firstName": "Alex",
+//   "lastName": "Miller",
+//   "email" : "alex@mail.com",
+//   "phone" : "9999999999"
+//   },
+//   "credentials":{
+//       "username" : "alex@mail.com",
+//       "password" : "password"
+//   },
+//   "company": {
+//           "id" : 6
+//   }
+// }
