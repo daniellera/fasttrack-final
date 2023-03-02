@@ -244,7 +244,7 @@ const Users = () => {
     const getUsers = async () => {
         await getCompanyUsers(user.selectedCompany)
             .then((serverResponse) => {
-                // console.log(serverResponse.data)
+                console.log(serverResponse.data)
                 setUserRegistry(parseCompanyUsersDto(serverResponse.data))
                 // console.log("user registry state was set")
                 
