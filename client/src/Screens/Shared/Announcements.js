@@ -170,9 +170,22 @@ const Announcements = () => {
             <Popup
               content={
                 <div style={{ textAlign: "center" }}>
-                  <h3 style={{ textAlign: "left" }}>Title</h3>
+                  <p
+                    style={{
+                      textAlign: "center",
+                      fontFamily: "Mulish",
+                      fontWeight: "400",
+                      fontSize: "16.2439px",
+                      lineHeight: "150%",
+                    }}
+                  >
+                    **name should be generated from posting user**
+                  </p>
+                  <h3 style={{ textAlign: "left", marginLeft: "8%" }}>Title</h3>
                   <Input id="newMessageTitle" />
-                  <h3 style={{ textAlign: "left" }}>Message</h3>
+                  <h3 style={{ textAlign: "left", marginLeft: "8%" }}>
+                    Message
+                  </h3>
                   <Input id="newMessageBody" />
                   <Button
                     onClick={handleSubmit}

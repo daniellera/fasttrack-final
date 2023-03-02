@@ -5,8 +5,7 @@
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "25427513"
 	},
-	"item": [
-		{
+	"item": [{
 			"name": "POST /users/login",
 			"request": {
 				"method": "POST",
@@ -84,23 +83,21 @@
 		},
 		{
 			"name": "GET /company/id/announcements",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test('Status OK', () => {\r",
-							"    pm.response.to.be.status(200)\r",
-							"})\r",
-							"\r",
-							"pm.test('Should contain two values', () => {\r",
-							"    pm.expect(pm.response.json().length).to.eql(3)\r",
-							"})"
-						],
-						"type": "text/javascript"
-					}
+			"event": [{
+				"listen": "test",
+				"script": {
+					"exec": [
+						"pm.test('Status OK', () => {\r",
+						"    pm.response.to.be.status(200)\r",
+						"})\r",
+						"\r",
+						"pm.test('Should contain two values', () => {\r",
+						"    pm.expect(pm.response.json().length).to.eql(3)\r",
+						"})"
+					],
+					"type": "text/javascript"
 				}
-			],
+			}],
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -163,19 +160,17 @@
 		},
 		{
 			"name": "POST /announcements",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test('Status Created', () => {\r",
-							"    pm.response.to.be.status(201)\r",
-							"})"
-						],
-						"type": "text/javascript"
-					}
+			"event": [{
+				"listen": "test",
+				"script": {
+					"exec": [
+						"pm.test('Status Created', () => {\r",
+						"    pm.response.to.be.status(201)\r",
+						"})"
+					],
+					"type": "text/javascript"
 				}
-			],
+			}],
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -203,19 +198,17 @@
 		},
 		{
 			"name": "POST /announcements Invalid User",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test('Status Created', () => {\r",
-							"    pm.response.to.be.status(404)\r",
-							"})"
-						],
-						"type": "text/javascript"
-					}
+			"event": [{
+				"listen": "test",
+				"script": {
+					"exec": [
+						"pm.test('Status Created', () => {\r",
+						"    pm.response.to.be.status(404)\r",
+						"})"
+					],
+					"type": "text/javascript"
 				}
-			],
+			}],
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -302,13 +295,11 @@
 			"name": "POST /projects/create-project",
 			"request": {
 				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "JSON"
-					}
-				],
+				"header": [{
+					"key": "Content-Type",
+					"value": "application/json",
+					"type": "JSON"
+				}],
 				"body": {
 					"mode": "raw",
 					"raw": "{\n\t\"name\": \"New Angular Content\",\n\t\"description\": \"New Angular video content and assignments are on the way!\",\n\t\"active\": true,\n\t\"teamId\": 11\n}"
@@ -331,13 +322,11 @@
 			"name": "PATCH /projects/update-project/projectId",
 			"request": {
 				"method": "PATCH",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "JSON"
-					}
-				],
+				"header": [{
+					"key": "Content-Type",
+					"value": "application/json",
+					"type": "JSON"
+				}],
 				"body": {
 					"mode": "raw",
 					"raw": "{\n\t\"name\": \"New Angular Content\",\n\t\"description\": \"New Angular video content and assignments are on the way!\",\n\t\"active\": true\n}"
@@ -359,19 +348,17 @@
 		},
 		{
 			"name": "Post Team",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test('Status OK', () => {\r",
-							"    pm.response.to.be.status(200)\r",
-							"})"
-						],
-						"type": "text/javascript"
-					}
+			"event": [{
+				"listen": "test",
+				"script": {
+					"exec": [
+						"pm.test('Status OK', () => {\r",
+						"    pm.response.to.be.status(200)\r",
+						"})"
+					],
+					"type": "text/javascript"
 				}
-			],
+			}],
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -398,31 +385,27 @@
 			"response": []
 		},
 		{
-			"name": "localhost:8080/team/user/18",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test('Status OK', () => {\r",
-							"    pm.response.to.be.status(200)\r",
-							"})\r",
-							"\r",
-							"pm.test('Should return a set with 3 items', () => {\r",
-							"    pm.expect(pm.response.json().length).to.eql(3)\r",
-							"})"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
 			"name": "Get users companies",
+			"event": [{
+				"listen": "test",
+				"script": {
+					"exec": [
+						"pm.test('Status OK', () => {\r",
+						"    pm.response.to.be.status(200)\r",
+						"})\r",
+						"\r",
+						"pm.test('Should return a set with 3 items', () => {\r",
+						"    pm.expect(pm.response.json().length).to.eql(3)\r",
+						"})"
+					],
+					"type": "text/javascript"
+				}
+			}],
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
 					"raw": "localhost:8080/team/user/18",
-					"raw": "localhost:8080/users/29/companies",
 					"host": [
 						"localhost"
 					],
@@ -438,23 +421,21 @@
 		},
 		{
 			"name": "localhost:8080/team/11/project/num",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test('Status OK', () => {\r",
-							"    pm.response.to.be.status(200)\r",
-							"})\r",
-							"\r",
-							"pm.test('Value should be 1', () => {\r",
-							"    pm.expect(pm.response.json()).to.eql(2)\r",
-							"})"
-						],
-						"type": "text/javascript"
-					}
+			"event": [{
+				"listen": "test",
+				"script": {
+					"exec": [
+						"pm.test('Status OK', () => {\r",
+						"    pm.response.to.be.status(200)\r",
+						"})\r",
+						"\r",
+						"pm.test('Value should be 1', () => {\r",
+						"    pm.expect(pm.response.json()).to.eql(2)\r",
+						"})"
+					],
+					"type": "text/javascript"
 				}
-			],
+			}],
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -476,20 +457,18 @@
 		},
 		{
 			"name": "localhost:8080/team/12",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test('Status OK', () => {\r",
-							"    pm.response.to.be.status(200)\r",
-							"})\r",
-							""
-						],
-						"type": "text/javascript"
-					}
+			"event": [{
+				"listen": "test",
+				"script": {
+					"exec": [
+						"pm.test('Status OK', () => {\r",
+						"    pm.response.to.be.status(200)\r",
+						"})\r",
+						""
+					],
+					"type": "text/javascript"
 				}
-			],
+			}],
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -509,23 +488,21 @@
 		},
 		{
 			"name": "localhost:8080/team",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test('Status OK', () => {\r",
-							"    pm.response.to.be.status(200)\r",
-							"})\r",
-							"\r",
-							"pm.test('Should return a set with 8 items', () => {\r",
-							"    pm.expect(pm.response.json().length).to.eql(8)\r",
-							"})"
-						],
-						"type": "text/javascript"
-					}
+			"event": [{
+				"listen": "test",
+				"script": {
+					"exec": [
+						"pm.test('Status OK', () => {\r",
+						"    pm.response.to.be.status(200)\r",
+						"})\r",
+						"\r",
+						"pm.test('Should return a set with 8 items', () => {\r",
+						"    pm.expect(pm.response.json().length).to.eql(8)\r",
+						"})"
+					],
+					"type": "text/javascript"
 				}
-			],
+			}],
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -536,7 +513,7 @@
 					],
 					"port": "8080",
 					"path": [
-						"team"
+						"team",
 						"users",
 						"29",
 						"companies"
