@@ -74,6 +74,7 @@ const StyledH3 = styled.h3`
   font-size: 16.2439px;
   line-height: 150%;
   text-align: left;
+  margin-left: 8%;
 `;
 
 const Project = () => {

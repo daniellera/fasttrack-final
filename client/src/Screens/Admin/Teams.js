@@ -45,10 +45,6 @@ const Input = styled.input`
   }
 `;
 
-
-
-
-
 const Teams = () => {
   const [user, setUser] = useRecoilState(userState);
   const [teams, setTeams] = useRecoilState(teamsState);
@@ -95,16 +91,16 @@ const Teams = () => {
   useEffect(() => {
     getTeams();
   }, []);
-  
+
   const handleClick = (teamClicked) => {
-    setUser({...user, selectedTeam: teamClicked})
-  }
+    setUser({ ...user, selectedTeam: teamClicked });
+  };
 
   //make request to backend to get teams
   const getTeams = async () => {
     await getCompanyTeams(user.selectedCompany)
       .then((serverResponse) => {
-        console.log(serverResponse.data)
+        console.log(serverResponse.data);
         setTeams(parseCompanyTeamsDto(serverResponse.data));
         // console.log("announcements state was set");
       })
@@ -115,7 +111,7 @@ const Teams = () => {
     let newTeamName = document.getElementById("newTeamName").value;
     let newDescription = document.getElementById("newDescription").value;
     let member = document.getElementById("member").value;
-    createTeam(newTeamName, newDescription, user.selectedCompany, member)
+    createTeam(newTeamName, newDescription, user.selectedCompany, member);
     // createAnnouncement(newAnnouncement, user)
     //   .then(() => getAnnouncements())
     //   .catch((error) => console.log(error));
@@ -135,30 +131,47 @@ const Teams = () => {
         </div>
         <div className="team-container">
           {teams.map((team, index) => (
-            <NavLink id = {team.id} onClick = {event => {handleClick(event.target.parentElement.id)}}to = "/projects" style={{ textDecoration: 'none' }}>
+            <NavLink
+              id={team.id}
+              onClick={(event) => {
+                handleClick(event.target.parentElement.id);
+              }}
+              to="/projects"
+              style={{ textDecoration: "none" }}
+            >
               <TeamBox
-              key={index}
-              name={team.teamName}
-              projects={team.qtyProjects}
-              members={team.members}
-            />
+                key={index}
+                name={team.teamName}
+                projects={team.qtyProjects}
+                members={team.members}
+              />
             </NavLink>
           ))}
           <button
-              className="team-member"
-              style={{ fontSize: "32px", backgroundColor: "transparent", borderColor: "#DEB992", width: "325px", height: "325px"}}
-              onClick={togglePopup}
-            >
-              +
-            </button>
+            className="team-member"
+            style={{
+              fontSize: "32px",
+              backgroundColor: "transparent",
+              borderColor: "#DEB992",
+              width: "325px",
+              height: "325px",
+            }}
+            onClick={togglePopup}
+          >
+            +
+          </button>
           <div className="team-card" style={{ width: "100px" }}>
             {isPopupOpen && (
               <Popup
                 content={
                   <div style={{ textAlign: "center" }}>
-                    <h3 style={{ textAlign: "left" }}>Team Name</h3>
+                    <h3 style={{ textAlign: "left", marginLeft: "8%" }}>
+                      Team Name
+                    </h3>
                     <Input id="newTeamName" type="text" required />
-                    <h3 style={{ textAlign: "left" }}>Description</h3>
+                    <h3 style={{ textAlign: "left", marginLeft: "8%" }}>
+                      Description
+                    </h3>
                     <Input id="newDescription" type="text" required />
                     <div>
                       <h2>Select Members</h2>
@@ -178,7 +191,7 @@ const Teams = () => {
                       </StyledSelect>
                     </div>
                     <Button
-                        onClick={handleCreateTeam}
+                      onClick={handleCreateTeam}
                       w="199px"
                       h="45px"
                       bg="#1BA098"
