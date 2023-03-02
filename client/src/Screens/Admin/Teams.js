@@ -120,8 +120,6 @@ const Teams = () => {
 
   if (!user.isLoggedIn) {
     return <Navigate replace to="/" />;
-  } else if (!user.isAdmin) {
-    return <Navigate replace to="/announcements" />;
   } else {
     return (
       <div style={{ backgroundColor: "#051622", minHeight: "100vh" }}>
@@ -131,13 +129,20 @@ const Teams = () => {
         </div>
         <div className="team-container">
           {teams.map((team, index) => (
-            <NavLink key={index} id = {team.id} onClick = {event => {handleClick(event.target.parentElement.id)}}to = "/projects" style={{ textDecoration: 'none' }}>
+            <NavLink
+              key={index}
+              id={team.id}
+              onClick={(event) => {
+                handleClick(event.target.parentElement.id);
+              }}
+              to="/projects"
+              style={{ textDecoration: "none" }}
+            >
               <TeamBox
-              
-              name={team.teamName}
-              projects={team.qtyProjects}
-              members={team.members}
-            />
+                name={team.teamName}
+                projects={team.qtyProjects}
+                members={team.members}
+              />
             </NavLink>
           ))}
           <button
