@@ -349,14 +349,14 @@ const Users = () => {
 
     const addUser = (
         <AddUserDiv>
-            <div className={isMobile && 'mobile'} id='name'>
+            <div className={isMobile ? 'mobile' : ''} id='name'>
                 <input type='text' name='firstName' placeholder='first name' onChange={updateNewUser} />
                 <input type='text' name='lastName' placeholder='last name' onChange={updateNewUser} />
             </div>
             <input type='text' name='email' placeholder='email' onChange={updateNewUser} />
             <input type='text' name='phone' placeholder='phone' onChange={updateNewUser} />
             <input type='text' name='username' placeholder='username' onChange={updateNewUser} />
-            <div className={isMobile && 'mobile'} id='password'>
+            <div className={isMobile ? 'mobile' : ''} id='password'>
                 <input type='password' name='password' placeholder='password' onChange={updateNewUser} />
                 <input type='password' name='confirmPassword' placeholder='confirm password' onChange={updateNewUser} />
             </div>
@@ -364,7 +364,7 @@ const Users = () => {
             <Dropdown
                 name='isAdmin'
                 id='isAdmin'
-                className={`add-user ${isMobile && 'mobile-dropdown'}`}
+                className={`add-user ${isMobile ? 'mobile-dropdown' : ''}`}
                 selectOption={updateNewUser} options={booleanOptions}
             />
             <Button id='submit-btn' bg='#1BA098' c='#FFFFFF' w='13em' h='3em' onClick={handleSubmit}>Submit</Button>
@@ -449,7 +449,7 @@ const Users = () => {
                         </RegistryTable>
                     }
                     <Button id='popup-btn' bg='#1BA098' c='#FFFFFF' w='13em' h='3em' onClick={togglePopup}>ADD USER</Button>
-                    {popup.isToggled && <Popup className={isMobile && 'mobile'} handleClose={togglePopup} content={addUser} />}
+                    {popup.isToggled && <Popup className={isMobile ? 'mobile' : ''} handleClose={togglePopup} content={addUser} />}
                 </UserRegistryWrapper>
             </div>
         )
