@@ -249,6 +249,7 @@ const Users = () => {
         lastName: '',
         email: '',
         phone: '',
+        username: '',
         password: '',
         isAdmin: false,
         companies: [user.selectedCompany]
@@ -283,6 +284,7 @@ const Users = () => {
             lastName: '',
             email: '',
             phone: '',
+            username: '',
             password: '',
             confirmPassword: '',
             isAdmin: ''
@@ -297,6 +299,7 @@ const Users = () => {
             newUser.lastName &&
             newUser.email &&
             newUser.phone &&
+            newUser.username &&
             newUser.password &&
             newUser.password === newUser.confirmPassword &&
             newUser.isAdmin !== ''
@@ -331,6 +334,7 @@ const Users = () => {
             </div>
             <input type='text' name='email' placeholder='email' onChange={updateNewUser} />
             <input type='text' name='phone' placeholder='phone' onChange={updateNewUser} />
+            <input type='text' name='username' placeholder='username' onChange={updateNewUser} />
             <div className={isMobile && 'mobile'} id='password'>
                 <input type='text' name='password' placeholder='password' onChange={updateNewUser} />
                 <input type='text' name='confirmPassword' placeholder='confirm password' onChange={updateNewUser} />
