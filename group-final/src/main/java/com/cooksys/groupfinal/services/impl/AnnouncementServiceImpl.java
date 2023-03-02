@@ -3,6 +3,7 @@ package com.cooksys.groupfinal.services.impl;
 import com.cooksys.groupfinal.dtos.AnnouncementRequestDto;
 import com.cooksys.groupfinal.entities.Announcement;
 import com.cooksys.groupfinal.entities.User;
+import com.cooksys.groupfinal.exceptions.BadRequestException;
 import com.cooksys.groupfinal.exceptions.NotFoundException;
 import com.cooksys.groupfinal.mappers.AnnouncementMapper;
 import com.cooksys.groupfinal.repositories.AnnouncementRepository;
@@ -24,7 +25,14 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     @Override
     public void postAnnouncement(AnnouncementRequestDto announcementRequestDto)
     {
-        long id = announcementRequestDto.getAuthor().getId();
+        if(announcementRequestDto.getAuthor() == null)
+            throw new BadRequestException("Missing property! (author)");
+
+        Long id = announcementRequestDto.getAuthor().getId();
+
+        if(id == null)
+            throw new BadRequestException("Author id cannot be 0");
+
         Optional<User> user = userRepository.findById(id);
 
         if(user.isPresent())
