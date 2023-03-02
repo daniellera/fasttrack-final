@@ -67,8 +67,16 @@ const Input = styled.input`
   }
 `;
 
+const initialAnnouncementsError = {
+  isError: false,
+  message: "",
+};
+
 const Announcements = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isAnnouncements, setIsAnnouncements] = useState(
+    initialAnnouncementsError
+  );
   const [user] = useRecoilState(userState);
   const [announcements, setAnnouncements] = useRecoilState(announcementsState);
 
@@ -90,25 +98,36 @@ const Announcements = () => {
   const handleSubmit = async () => {
     let newTitle = document.getElementById("newMessageTitle").value;
     let newMessage = document.getElementById("newMessageBody").value;
-    let dateNow = parseDate(new Date());
-    let newAnnouncement = createAnnouncementObject(
-      user.id,
-      user.firstName + " " + user.lastName,
-      dateNow,
-      newTitle,
-      newMessage
-    );
-    // console.log("This is what i'm sending the backend")
-    // console.log(newAnnouncement)
-    createAnnouncement(newAnnouncement, user)
-      .then(() => getAnnouncements())
-      .catch((error) => console.log(error));
-    togglePopup();
+    if (newTitle.length === 0 || newMessage.length === 0) {
+      setIsAnnouncements({
+        ...isAnnouncements,
+        isError: true,
+        message: "Announcement title and message are required",
+      });
+    } else {
+      let dateNow = parseDate(new Date());
+      let newAnnouncement = createAnnouncementObject(
+        user.id,
+        user.firstName + " " + user.lastName,
+        dateNow,
+        newTitle,
+        newMessage
+      );
+      // console.log("This is what i'm sending the backend")
+      // console.log(newAnnouncement)
+      createAnnouncement(newAnnouncement, user)
+        .then(() => getAnnouncements())
+        .catch((error) => console.log(error));
+      togglePopup();
+    }
   };
 
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
 
   const togglePopup = () => {
+    if (isOpen) {
+      setIsAnnouncements(initialAnnouncementsError);
+    }
     setIsOpen(!isOpen);
   };
 
@@ -194,6 +213,11 @@ const Announcements = () => {
                     Message
                   </h3>
                   <Input id="newMessageBody" />
+                  {isAnnouncements ? (
+                    <p style={{ color: "red" }}>{isAnnouncements.message}</p>
+                  ) : (
+                    ""
+                  )}
                   <Button
                     onClick={handleSubmit}
                     w="199px"
