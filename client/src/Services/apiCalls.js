@@ -17,6 +17,8 @@ export const getTeamProjects = async (companyId, teamId) => {
 };
 
 export const getCompanyUsers = async (companyId) => {
+  console.log("I am getting users by this company id")
+  console.log(companyId)
   return await api.get("/company/" + companyId + "/users");
 };
 
@@ -30,17 +32,42 @@ export const login = async (username, password) => {
   });
 };
 
+// {
+//   "name": "test",
+//   "description": "Test description",
+//   "company": {
+//       "id": "7"
+//   },
+//   "teammates":[
+//       {
+//           "id": "18"
+//       },
+//       {
+//           "id": "19"
+//       },
+//       {
+//           "id": "20"
+//       }
+//   ]
+// }
+
 export const createTeam = async (
   teamName,
   description,
-  company,
+  companyId,
   teamMembers
 ) => {
   return await api.post("/team", {
     name: teamName,
     description: description,
-    company: company,
-    users: teamMembers,
+    company: {
+      id: companyId
+    },
+    teammates: [
+      {
+        id: teamMembers
+      }
+    ]
   });
 };
 
@@ -51,7 +78,8 @@ export const createUser = async (
   lastName,
   email,
   phone,
-  isAdmin
+  isAdmin,
+  companyId
 ) => {
   return await api.post("/users/create", {
     credentials: {
@@ -64,7 +92,11 @@ export const createUser = async (
       email: email,
       phone: phone,
     },
-    isAdmin: isAdmin,
+    company:
+    {
+      id: companyId
+    },
+    isAdmin: isAdmin
   });
 };
 
