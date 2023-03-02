@@ -239,7 +239,7 @@ const AddUserDiv = styled.div`
 `
 
 const Users = () => {
-    const [user, setUser] = useRecoilState(userState)
+    const [user] = useRecoilState(userState)
     const [userRegistry, setUserRegistry] = useRecoilState(userRegistryState)
     const [popup, setPopup] = useState({ isToggled: false })
     const [submitError, setSubmitError] = useState(false)
@@ -315,7 +315,6 @@ const Users = () => {
             newUser.isAdmin !== ''
         ) {
             setSubmitError(false)
-            console.log('successful submit')
 
             createUser(
                 newUser.username,
@@ -326,10 +325,12 @@ const Users = () => {
                 newUser.phone,
                 newUser.isAdmin
             )
-                .catch((error) => console.log(error))
+                .catch((error) => {
+                    alert('Something went wrong. User creation unsuccessful.')
+                    console.log(error)
+                })
 
             togglePopup()
-            alert('User added successfully!')
         } else {
             setSubmitError(true)
         }
