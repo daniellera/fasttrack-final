@@ -38,23 +38,16 @@ export const parseDate = (date) => {
 
 //----------Parsing Data From Backend----------\\
 export const parseCompanyAnouncementsDto = (announcementsDto) => {
+  let _ = require('lodash');
+  let sortedAccouncementsDto = _.orderBy(announcementsDto, ['date'], ['desc'])
   let result = [];
-  for (let announcement of announcementsDto) {
-    // result.push(createAnnouncementObject(announcement.id, announcement.author.profile.firstName + " " + announcement.author.profile.lastName, parseDate(new Date(announcement.date.replace(' ', 'T'))), announcement.title, announcement.message));
-    result.push(
-      createAnnouncementObject(
-        announcement.id,
-        announcement.author.profile.firstName +
-          " " +
-          announcement.author.profile.lastName,
-        parseDate(new Date(announcement.date.replace(" ", "T"))),
-        announcement.title,
-        announcement.message
-      )
-    );
+
+  for (let announcement of sortedAccouncementsDto) {
+      // result.push(createAnnouncementObject(announcement.id, announcement.author.profile.firstName + " " + announcement.author.profile.lastName, parseDate(new Date(announcement.date.replace(' ', 'T'))), announcement.title, announcement.message));
+      result.push(createAnnouncementObject(announcement.id, announcement.author.profile.firstName + " " + announcement.author.profile.lastName, parseDate(new Date(announcement.date.replace(' ', 'T'))), announcement.title, announcement.message));
   }
   return result;
-};
+}
 
 //This is to count projects. I will figure out a better implementation.
 // export const parseCompanyTeamsDto = (companyTeamsDto, projectsDto) => {
