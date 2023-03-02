@@ -47,6 +47,9 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public Set<ProjectDto> getAllTeamProjects(Long id) {
+        if(id == null)
+            throw new BadRequestException("Missing property! (id=number)");
+
         Optional<Team> team = teamRepository.findById(id);
         if(team.isEmpty()) throw new NotFoundException("Invalid ID");
         Set<Project> projects = team.get().getProjects();
@@ -56,8 +59,8 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public ProjectDto createProject(ProjectRequestDto projectRequestDto) {
         System.out.println(projectRequestDto);
-        if(projectRequestDto.getName() == null || projectRequestDto.getDescription() == null ){
-            throw new BadRequestException("Missing property!(name=string || description=string");
+        if(projectRequestDto.getName() == null || projectRequestDto.getDescription() == null || projectRequestDto.getTeamId() == null){
+            throw new BadRequestException("Missing property!(name=string || description=string || teamid=number");
         }
         Project project = new Project();
         project.setName(projectRequestDto.getName());
@@ -75,6 +78,9 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public ProjectDto updateProject(ProjectRequestDto projectRequestDto, Long projectId) {
+        if(projectId == null)
+            throw new BadRequestException("Missing property! (projectId=number)");
+
         Optional<Project> optionalProject = projectRepository.findById(projectId);
         if (!optionalProject.isPresent()) throw new NotFoundException("id " + projectId + " doesn't exist");
 

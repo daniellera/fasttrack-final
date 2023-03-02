@@ -38,6 +38,9 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     public TeamDto getTeamById(Long id) {
+        if(id == null)
+            throw new BadRequestException("Missing property! (teamID=number)");
+
         Optional<Team> team = teamRepository.findById(id);
         if(team.isEmpty()){
 
@@ -52,6 +55,8 @@ public class TeamServiceImpl implements TeamService {
             throw new BadRequestException("Company not in request body");
         if(teamRequestDto.getTeammates() == null)
             throw new BadRequestException("Teammates is null");
+        if(teamRequestDto.getCompany().getId() == null)
+            throw new BadRequestException("Company must have id");
 
         Team teamToAdd = teamMapper.requestDtoToEntity(teamRequestDto);
         Optional<Company> company = companyRepository.findById(teamRequestDto.getCompany().getId());
