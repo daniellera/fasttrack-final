@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import com.cooksys.groupfinal.exceptions.BadRequestException;
 import org.springframework.stereotype.Service;
 
 import com.cooksys.groupfinal.dtos.AnnouncementDto;
@@ -42,18 +43,24 @@ public class CompanyServiceImpl implements CompanyService {
 	private final ProjectMapper projectMapper;
 	
 	private Company findCompany(Long id) {
+		if(id == null)
+			throw new BadRequestException("Company id not provided");
+
         Optional<Company> company = companyRepository.findById(id);
-        if (company.isEmpty()) {
+        if (company.isEmpty())
             throw new NotFoundException("A company with the provided id does not exist.");
-        }
+
         return company.get();
     }
 	
 	private Team findTeam(Long id) {
+		if(id == null)
+			throw new BadRequestException("Team id not provided");
+
         Optional<Team> team = teamRepository.findById(id);
-        if (team.isEmpty()) {
+        if (team.isEmpty())
             throw new NotFoundException("A team with the provided id does not exist.");
-        }
+
         return team.get();
     }
 	
@@ -85,9 +92,9 @@ public class CompanyServiceImpl implements CompanyService {
 	public Set<ProjectDto> getAllProjects(Long companyId, Long teamId) {
 		Company company = findCompany(companyId);
 		Team team = findTeam(teamId);
-		if (!company.getTeams().contains(team)) {
+		if (!company.getTeams().contains(team))
 			throw new NotFoundException("A team with id " + teamId + " does not exist at company with id " + companyId + ".");
-		}
+
 		Set<Project> filteredProjects = new HashSet<>();
 		team.getProjects().forEach(filteredProjects::add);
 //		filteredProjects.removeIf(project -> !project.isActive());
