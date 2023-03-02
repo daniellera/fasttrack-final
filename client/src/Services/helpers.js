@@ -97,8 +97,10 @@ export const parseCompanyTeamsDto = (companyTeamsDto) => {
 };
 
 export const parseTeamProjectsDto = (projectsDto) => {
+  let _ = require('lodash');
+  let sortedProjectsDto = _.orderBy(projectsDto, ['id'], ['desc'])
   let result = [];
-  for (let project of projectsDto) {
+  for (let project of sortedProjectsDto) {
     result.push(
       createProjectObject(
         project.id,

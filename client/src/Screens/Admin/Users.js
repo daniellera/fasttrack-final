@@ -10,6 +10,7 @@ import Dropdown from '../../Components/Dropdown'
 import { useMediaQuery } from "react-responsive";
 import { createUser, getCompanyUsers } from '../../Services/apiCalls'
 import { parseCompanyUsersDto } from '../../Services/helpers'
+import { createUserRequestDto } from '../../Services/objects'
 
 const UserRegistryWrapper = styled.div`
     & a {
@@ -253,7 +254,7 @@ const Users = () => {
     }
 
     const handleSubmit = async () => {
-        console.log("I tried to submit")
+        // console.log("I tried to submit")
         let firstName = document.getElementById("firstNameInput").value;
         let lastName = document.getElementById("lastNameInput").value;
         let email = document.getElementById("emailInput").value;
@@ -262,7 +263,11 @@ const Users = () => {
         let isAdmin = document.getElementById("isAdmin").value;
         // console.log(firstName, lastName, email, phone, password, isAdmin)
         // let dateNow = parseDate(new Date());
-        createUser(firstName + lastName, password, firstName, lastName, email, phone, isAdmin)
+        let userRequestObject = createUserRequestDto(email, password, firstName, lastName, email, phone, isAdmin, user.selectedCompany)
+        console.log(userRequestObject)
+        // console.log("This is my userRequestObject")
+        // console.log(userRequestObject)
+        createUser(email, password, firstName, lastName, email, phone, isAdmin, user.selectedCompany)
           .then(() => getUsers())
           .catch((error) => console.log(error));
         togglePopup();

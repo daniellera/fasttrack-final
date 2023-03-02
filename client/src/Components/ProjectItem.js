@@ -95,7 +95,7 @@ const ProjectItem = ({ project, idx }) => {
       // await getTeamProjects(user.selectedCompany, 17) //work around until selected team is working
       .then((serverResponse) => {
         console.log("The server is returning these values:")
-        console.log(serverResponse.data)
+        console.log(parseTeamProjectsDto(serverResponse.data))
         console.log(parseTeamProjectsDto(serverResponse.data))
         setProjects(parseTeamProjectsDto(serverResponse.data))
       })

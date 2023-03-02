@@ -97,6 +97,8 @@ const Teams = () => {
   }, []);
   
   const handleClick = (teamClicked) => {
+    console.log("This is the team that was clicked")
+    console.log(teamClicked)
     setUser({...user, selectedTeam: teamClicked})
   }
 
@@ -104,6 +106,8 @@ const Teams = () => {
   const getTeams = async () => {
     await getCompanyTeams(user.selectedCompany)
       .then((serverResponse) => {
+        console.log("These are my teams:")
+        console.log(serverResponse.data)
         console.log(serverResponse.data)
         setTeams(parseCompanyTeamsDto(serverResponse.data));
         // console.log("announcements state was set");
@@ -115,6 +119,8 @@ const Teams = () => {
     let newTeamName = document.getElementById("newTeamName").value;
     let newDescription = document.getElementById("newDescription").value;
     let member = document.getElementById("member").value;
+    console.log(teams)
+    console.log(newTeamName, newDescription, user.selectedCompany, member)
     createTeam(newTeamName, newDescription, user.selectedCompany, member)
     // createAnnouncement(newAnnouncement, user)
     //   .then(() => getAnnouncements())
@@ -135,9 +141,9 @@ const Teams = () => {
         </div>
         <div className="team-container">
           {teams.map((team, index) => (
-            <NavLink id = {team.id} onClick = {event => {handleClick(event.target.parentElement.id)}}to = "/projects" style={{ textDecoration: 'none' }}>
+            <NavLink key={index} id = {team.id} onClick = {event => {handleClick(event.target.parentElement.id)}}to = "/projects" style={{ textDecoration: 'none' }}>
               <TeamBox
-              key={index}
+              
               name={team.teamName}
               projects={team.qtyProjects}
               members={team.members}
