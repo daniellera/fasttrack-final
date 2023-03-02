@@ -251,7 +251,7 @@ const Users = () => {
         phone: '',
         username: '',
         password: '',
-        isAdmin: false,
+        isAdmin: '',
         companies: [user.selectedCompany]
     })
 
@@ -267,21 +267,7 @@ const Users = () => {
             })
             .catch((error) => console.log(error))
     }
-
-    // const createUser = async () => {
-    //     await createUser(
-    //         newUser.username,
-    //         newUser.password,
-    //         newUser.firstName,
-    //         newUser.lastName,
-    //         newUser.email,
-    //         newUser.phone,
-    //         newUser.isAdmin,
-    //         newUser.companies,
-    //     )
-    //         .catch((error) => console.log(error))
-    // }
-
+    
     const togglePopup = () => {
         setPopup(prev => ({
             ...prev,
