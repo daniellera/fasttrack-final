@@ -3,13 +3,13 @@ import { useRecoilState } from "recoil";
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import NavBar from "../../Components/NavBar";
-import { userState, teamsState } from "../../globalstate";
+import { userState, teamsState, userRegistryState } from "../../globalstate";
 import "../../Teams.css";
 import TeamBox from "../../Components/TeamBox";
 import Popup from "../../Components/Popup";
 import Button from "../../Components/Button";
-import { createTeam, getCompanyTeams } from "../../Services/apiCalls";
-import { parseCompanyTeamsDto } from "../../Services/helpers";
+import { createTeam, getCompanyTeams, getCompanyUsers } from "../../Services/apiCalls";
+import { parseCompanyTeamsDto, parseCompanyUsersDto } from "../../Services/helpers";
 
 const StyledSelect = styled.select`
   width: 163px;
@@ -49,10 +49,28 @@ const Teams = () => {
   const [user, setUser] = useRecoilState(userState);
   const [teams, setTeams] = useRecoilState(teamsState);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [teamsSelected, setTeamsSelected] = useState([]);
+  const [userRegistry, setUserRegistry] = useRecoilState(userRegistryState)
 
   const togglePopup = () => {
     setIsPopupOpen(!isPopupOpen);
   };
+
+  useEffect(() => {
+    getUsers()
+  }, [])
+
+  const getUsers = async () => {
+    await getCompanyUsers(user.selectedCompany)
+      .then((serverResponse) => {
+        console.log(serverResponse.data)
+        setUserRegistry(parseCompanyUsersDto(serverResponse.data))
+        // console.log("user registry state was set")
+
+      })
+      .catch((error) => console.log(error))
+  }
+
 
   // const [newTeam, setNewTeam] = useState({
   //   name: "",
@@ -62,7 +80,7 @@ const Teams = () => {
 
   // const handleInputChange = (event) => {
   //   const { name, value } = event.target;
-  //   setNewTeam((prevState) => ({
+  //   setTeamsSelected((prevState) => ({
   //     ...prevState,
   //     [name]: value,
   //   }));
@@ -95,12 +113,12 @@ const Teams = () => {
   const handleClick = (teamClicked) => {
     let teamClickedId = teamClicked.currentTarget.id
     let teamObject;
-    for(let team of teams){
-      if(team.id == teamClickedId){
-        teamObject = {...team}
+    for (let team of teams) {
+      if (team.id == teamClickedId) {
+        teamObject = { ...team }
       }
     }
-    setUser({ ...user, selectedTeam: teamObject});
+    setUser({ ...user, selectedTeam: teamObject });
   };
 
   //make request to backend to get teams
@@ -113,14 +131,14 @@ const Teams = () => {
   };
 
   const handleCreateTeam = async () => {
+    console.log(user)
     let newTeamName = document.getElementById("newTeamName").value;
     let newDescription = document.getElementById("newDescription").value;
-    let member = document.getElementById("member").value;
-    // createTeam(newTeamName, newDescription, user.selectedCompany, member);
-    // createAnnouncement(newAnnouncement, user)
-    //   .then(() => getAnnouncements())
-    //   .catch((error) => console.log(error));
-    // togglePopup();
+
+    createTeam(newTeamName, newDescription, user.selectedCompany, teamsSelected)
+      .then(() => getTeams())
+      .catch((error) => console.log(error))
+    togglePopup();
   };
 
   if (!user.isLoggedIn) {
@@ -134,27 +152,33 @@ const Teams = () => {
         </div>
         <div className="team-container">
           {teams.map((team, index) => (
-            <NavLink key={index} id = {team.id} onClick = {handleClick} to = "/projects" style={{ textDecoration: 'none' }}>
+            <NavLink key={index} id={team.id} onClick={handleClick} to="/projects" style={{ textDecoration: 'none' }}>
               <TeamBox
-              name={team.teamName}
-              projects={team.qtyProjects}
-              members={team.members}
-            />
+                name={team.teamName}
+                projects={team.qtyProjects}
+                members={team.members}
+              />
             </NavLink>
           ))}
-          <button
-            className="team-member"
-            style={{
-              fontSize: "32px",
-              backgroundColor: "transparent",
-              borderColor: "#DEB992",
-              width: "325px",
-              height: "325px",
-            }}
-            onClick={togglePopup}
-          >
-            +
-          </button>
+
+          {user.isAdmin ? (
+            <button
+              className="team-member"
+              style={{
+                fontSize: "32px",
+                backgroundColor: "transparent",
+                borderColor: "#DEB992",
+                width: "325px",
+                height: "325px",
+              }}
+              onClick={togglePopup}
+            >
+              +
+            </button>
+          ) : (
+            ""
+          )}
+
           <div className="team-card" style={{ width: "100px" }}>
             {isPopupOpen && (
               <Popup
@@ -172,6 +196,31 @@ const Teams = () => {
                       <h2>Select Members</h2>
                       <br />
                       <br />
+
+
+                      <div className="form-group">
+                        <label htmlFor="teamMembers">Members:</label>
+                        <select
+                          id="teamMembers"
+                          name="members"
+                          multiple
+                          // value={newTeam.members}
+                          onChange={(event) =>
+                            setTeamsSelected({
+                              ...teamsSelected,
+                              members: Array.from(event.target.selectedOptions, option => option.value),
+                            })
+                          }
+                        >
+                          {Array.from(userRegistry).map(user => (
+                            <option key={user.id} value={user.id}>
+                              {user.firstName + " " + user.lastName[0] + "."}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+
+
                       <StyledSelect name="member" id="member" required>
                         <option value="" disabled selected hidden>
                           Pick an option

@@ -22,6 +22,12 @@ export const getCompanyUsers = async (companyId) => {
   return await api.get("/company/" + companyId + "/users");
 };
 
+export const getAllCompanyProjects = async () => {
+  return await api.get("/projects");
+};
+
+
+
 //----------Post Requests----------\\
 export const login = async (username, password) => {
   console.log(username)
@@ -32,42 +38,21 @@ export const login = async (username, password) => {
   });
 };
 
-// {
-//   "name": "test",
-//   "description": "Test description",
-//   "company": {
-//       "id": "7"
-//   },
-//   "teammates":[
-//       {
-//           "id": "18"
-//       },
-//       {
-//           "id": "19"
-//       },
-//       {
-//           "id": "20"
-//       }
-//   ]
-// }
-
-export const createTeam = async (
-  teamName,
-  description,
-  companyId,
-  teamMembers
-) => {
+export const createTeam = async (teamName, description, companyId, teamMembers) => {
+  console.log("This is team members")
+  console.log(teamMembers)
+  let memberObjects = []
+  for(let memberId of teamMembers.members){
+    memberObjects.push({id: memberId})
+  }
+  
   return await api.post("/team", {
     name: teamName,
     description: description,
     company: {
       id: companyId
     },
-    teammates: [
-      {
-        id: teamMembers
-      }
-    ]
+    teammates: memberObjects
   });
 };
 
