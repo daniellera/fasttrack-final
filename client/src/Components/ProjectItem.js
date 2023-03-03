@@ -102,7 +102,7 @@ const ProjectItem = ({ project, idx }) => {
     console.log(newProjectStatus);
 
     const getProjects = async () => {
-      await getTeamProjects(user.selectedCompany, user.selectedTeam)
+      await getTeamProjects(user.selectedCompany, user.selectedTeam.id)
         // await getTeamProjects(user.selectedCompany, 17) //work around until selected team is working
         .then((serverResponse) => {
           console.log("The server is returning these values:");
