@@ -243,7 +243,7 @@ const Users = () => {
     const [user] = useRecoilState(userState)
     const [userRegistry, setUserRegistry] = useRecoilState(userRegistryState)
     const [popup, setPopup] = useState({ isToggled: false })
-    const [submitError, setSubmitError] = useState(false)
+    const [submitError, setSubmitError] = useState({ message: '', isDisplayed: false })
     const isMobile = useMediaQuery({ query: "(max-width: 800px)" })
     const [newUser, setNewUser] = useState({
         firstName: '',
@@ -266,30 +266,51 @@ const Users = () => {
                 console.log(serverResponse.data)
                 setUserRegistry(parseCompanyUsersDto(serverResponse.data))
                 // console.log("user registry state was set")
-                
+
             })
             .catch((error) => console.log(error))
     }
 
-    const handleSubmit = async () => {
+    const handleSubmit = () => {
         // console.log("I tried to submit")
         let firstName = document.getElementById("firstNameInput").value;
         let lastName = document.getElementById("lastNameInput").value;
+        let username = document.getElementById("usernameInput").value;
         let email = document.getElementById("emailInput").value;
         let phone = document.getElementById("phoneInput").value;
         let password = document.getElementById("passwordInput").value;
+        let confirmPassword = document.getElementById("confirmPasswordInput").value;
         let isAdmin = document.getElementById("isAdmin").value;
-        // console.log("This is my form input")
-        // console.log(firstName, lastName, email, phone, password, isAdmin)
-        let userRequestObject = createUserRequestDto(email, password, firstName, lastName, email, phone, isAdmin, user.selectedCompany)
-        // console.log(userRequestObject)
-        console.log("This is my userRequestObject")
-        console.log(userRequestObject)
-        createUser(email, password, firstName, lastName, email, phone, isAdmin, user.selectedCompany)
-          .then(() => getUsers())
-          .catch((error) => console.log(error));
-        togglePopup();
-      };
+        if (firstName.length === 0 ||
+            lastName.length === 0 ||
+            phone.length === 0 ||
+            password.length === 0 ||
+            confirmPassword.length === 0 ||
+            username.length === 0
+        ) {
+            setSubmitError({ message: 'All fields are required', isDisplayed: true })
+        } else if (email.search('@') < 1 ||
+            email.search('@') === email.length - 1
+        ) {
+            setSubmitError({ message: 'Invalid email', isDisplayed: true })
+        } else if (isAdmin === '' || isAdmin === undefined || isAdmin === null) {
+            setSubmitError({ message: 'Select whether this is an Admin role', isDisplayed: true })
+        } else if (password !== confirmPassword) {
+            setSubmitError({message: 'Password and confirmation do not match', isDisplayed: true})
+        } else {
+            setSubmitError({ message: '', isDisplayed: false })
+            console.log("This is my form input")
+            console.log(firstName, lastName, email, phone, password, isAdmin)
+            let userRequestObject = createUserRequestDto(email, password, firstName, lastName, email, phone, isAdmin, user.selectedCompany)
+            // console.log(userRequestObject)
+            console.log("This is my userRequestObject")
+            console.log(userRequestObject)
+            createUser(username, password, firstName, lastName, email, phone, isAdmin, user.selectedCompany)
+                .then(() => getUsers())
+                .catch((error) => alert('Username already exists, please try again'));
+            togglePopup();
+        }
+    };
 
     const togglePopup = () => {
         setPopup(prev => ({
@@ -309,7 +330,7 @@ const Users = () => {
             companies: [user.selectedCompany]
         })
 
-        setSubmitError(false);
+        setSubmitError({ message: '', isDisplayed: false });
     }
 
     // const handleSubmit = () => {
@@ -360,25 +381,25 @@ const Users = () => {
     const addUser = (
         <AddUserDiv>
             <div className={isMobile ? 'mobile' : ''} id='name'>
-                <input id = "firstNameInput" type='text' name='firstName' placeholder='first name' />
-                <input id = "lastNameInput" type='text' name='lastName' placeholder='last name' />
+                <input id="firstNameInput" type='text' name='firstName' placeholder='first name' />
+                <input id="lastNameInput" type='text' name='lastName' placeholder='last name' />
             </div>
-            <input id = "emailInput" type='text' name='email' placeholder='email' />
-            <input id = "phoneInput" type='text' name='phone' placeholder='phone' />
-            <input id = "usernameInput" type='text' name='username' placeholder='username' />
+            <input id="emailInput" type='text' name='email' placeholder='email' />
+            <input id="phoneInput" type='text' name='phone' placeholder='phone' />
+            <input id="usernameInput" type='text' name='username' placeholder='username' />
             <div className={isMobile ? 'mobile' : ''} id='password'>
-                <input id = "passwordInput" type='password' name='password' placeholder='password' />
-                <input type='password' name='confirmPassword' placeholder='confirm password' />
+                <input id="passwordInput" type='password' name='password' placeholder='password' />
+                <input id="confirmPasswordInput" type='password' name='confirmPassword' placeholder='confirm password' />
             </div>
             <h3>Make user an admin role?</h3>
             <Dropdown
                 name='isAdmin'
                 id='isAdmin'
                 className={`add-user ${isMobile ? 'mobile-dropdown' : ''}`}
-                selectOption={null} options={booleanOptions}
+                options={booleanOptions}
             />
             <Button id='submit-btn' bg='#1BA098' c='#FFFFFF' w='13em' h='3em' onClick={handleSubmit}>Submit</Button>
-            {submitError && <p id='submit-error'>Something went wrong.<br />Please check your inputs and try again.</p>}
+            {submitError.isDisplayed && <p id='submit-error'>{submitError.message}</p>}
         </AddUserDiv>
     )
 
