@@ -42,7 +42,8 @@ const NavBar = () => {
             onKeyDown={toggleDrawer(anchor, false)}
         >
             <List style={{ textAlign: "center", background: "#051622" }} sx={{ width: '100%' }}>
-                {["Announcements", "Projects", "Teams", "Users","Company"].map((text, index) => (
+                {["Announcements", "Projects", "Teams"].concat(user.isAdmin ? ["Users", "Company"] : []).map((text, index) => (
+                    
                     <ListItem key={text} disablePadding
                         sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}
                     >
