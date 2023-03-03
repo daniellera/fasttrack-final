@@ -93,21 +93,14 @@ const Projects = () => {
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
 
   const getProjects = async () =>{
-    console.log("This is the user selected team:")
-    console.log(user.selectedTeam)
-    await getTeamProjects(user.selectedCompany, user.selectedTeam)
-    // await getTeamProjects(user.selectedCompany, 17) //work around until selected team is working
+    await getTeamProjects(user.selectedCompany, user.selectedTeam.id)
     .then((serverResponse) => {
-      console.log("this is the server response:")
-      console.log(serverResponse.data)
-      console.log(parseTeamProjectsDto(serverResponse.data))
       setProjects(parseTeamProjectsDto(serverResponse.data))
     })
     .catch((error) => console.log(error))
   }
 
   const handleCreateProject = async () => {
-    console.log("I am creating a project");
     let newProjectName = document.getElementById("newProjectName").value;
     let newProjectDescription = document.getElementById("newDescription").value;
     if (newProjectName.length === 0 || newProjectDescription.length === 0) {
@@ -121,7 +114,7 @@ const Projects = () => {
         newProjectName,
         newProjectDescription,
         true,
-        user.selectedTeam
+        user.selectedTeam.id
       )
         // await(createProject(newProjectName, newProjectDescription, true, 17))//work around until selected team is working
         .then(() => getProjects())
@@ -133,8 +126,6 @@ const Projects = () => {
 
   useEffect(() => {
     getProjects();
-    console.log("My user state is this:");
-    console.log(user);
   }, []);
 
   const togglePopup = () => {
@@ -164,10 +155,10 @@ const Projects = () => {
             )}
           </Link>
           {!isMobile ? (
-            <h1>Projects for Team {user.selectedTeam}</h1>
+            <h1>Projects for Team {user.selectedTeam.teamName}</h1>
           ) : (
             <h1 style={{ fontSize: "25px" }}>
-              Projects for {user.selectedTeam}
+              Projects for {user.selectedTeam.teamName}
             </h1>
           )}
         </StyledProjects>
