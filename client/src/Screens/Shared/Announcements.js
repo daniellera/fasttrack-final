@@ -13,8 +13,9 @@ import { createAnnouncementObject } from "../../Services/objects";
 import {
   getCompanyAnnouncements,
   createAnnouncement,
+  getAllCompanyProjects
 } from "../../Services/apiCalls";
-import { parseCompanyAnouncementsDto, parseDate } from "../../Services/helpers";
+import { parseCompanyAnouncementsDto, parseDate, parseTeamProjectsDto } from "../../Services/helpers";
 
 
 const StyledAnnouncements = styled.div`
@@ -80,13 +81,24 @@ const Announcements = () => {
   );
   const [user] = useRecoilState(userState);
   const [announcements, setAnnouncements] = useRecoilState(announcementsState);
+  const [allProjects, setAllProjects] = useRecoilState(allProjectsState)
   
 
   //On initial load and whenever the announcement state is changed, make a call to the backend to update anouncements.
   useEffect(() => {
     getAnnouncements();
-    
+    getAllProjects();
   }, []);
+
+  
+    const getAllProjects = async () => {
+        await getAllCompanyProjects()
+        .then((serverResponse) => {
+            setAllProjects(parseTeamProjectsDto(serverResponse.data))
+        })
+        .catch((error) => console.log(error));
+    }
+
 
   const getAnnouncements = async () => {
     // console.log(user);
