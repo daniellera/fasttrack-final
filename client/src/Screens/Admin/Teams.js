@@ -3,7 +3,7 @@ import { useRecoilState } from "recoil";
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import NavBar from "../../Components/NavBar";
-import { userState, teamsState, userRegistryState } from "../../globalstate";
+import { userState, teamsState, userRegistryState, projectsState } from "../../globalstate";
 import "../../Teams.css";
 import TeamBox from "../../Components/TeamBox";
 import Popup from "../../Components/Popup";
@@ -51,6 +51,7 @@ const Teams = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [teamsSelected, setTeamsSelected] = useState([]);
   const [userRegistry, setUserRegistry] = useRecoilState(userRegistryState)
+  const [projects, setProjects] = useRecoilState(projectsState)
 
   const togglePopup = () => {
     setIsPopupOpen(!isPopupOpen);
@@ -125,7 +126,7 @@ const Teams = () => {
   const getTeams = async () => {
     await getCompanyTeams(user.selectedCompany)
       .then((serverResponse) => {
-        setTeams(parseCompanyTeamsDto(serverResponse.data));
+        setTeams(parseCompanyTeamsDto(serverResponse.data, projects));
       })
       .catch((error) => console.log(error));
   };

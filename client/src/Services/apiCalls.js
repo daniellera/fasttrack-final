@@ -17,8 +17,6 @@ export const getTeamProjects = async (companyId, teamId) => {
 };
 
 export const getCompanyUsers = async (companyId) => {
-  console.log("I am getting users by this company id")
-  console.log(companyId)
   return await api.get("/company/" + companyId + "/users");
 };
 
@@ -30,8 +28,6 @@ export const getAllCompanyProjects = async () => {
 
 //----------Post Requests----------\\
 export const login = async (username, password) => {
-  console.log(username)
-  console.log(password)
   return await api.post("/users/login", {
     username: username,
     password: password,
@@ -39,8 +35,6 @@ export const login = async (username, password) => {
 };
 
 export const createTeam = async (teamName, description, companyId, teamMembers) => {
-  console.log("This is team members")
-  console.log(teamMembers)
   let memberObjects = []
   for(let memberId of teamMembers.members){
     memberObjects.push({id: memberId})

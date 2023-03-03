@@ -10,7 +10,7 @@ import {
 export const countTeamProjects = (projectsDto, teamId) => {
   let result = 0;
   for (let project of projectsDto) {
-    result = project.team.id === teamId ? result + 1 : result;
+    result = project.teamId == teamId ? result + 1 : result;
   }
   return result;
 };
@@ -53,51 +53,36 @@ export const parseCompanyAnouncementsDto = (announcementsDto) => {
 }
 
 //This is to count projects. I will figure out a better implementation.
-// export const parseCompanyTeamsDto = (companyTeamsDto, projectsDto) => {
-//   let result = [];
-//   for (let team of companyTeamsDto) {
-//     let usersToAdd = [];
-//     let qtyProjectsToAdd = countTeamProjects(projectsDto, team.id);
-//     for (let user of team.users) {
-//       usersToAdd.push(
-//         createUserRegistryObject(
-//           user.id,
-//           user.profile.firstName,
-//           user.profile.lastName,
-//           user.profile.email,
-//           user.profile.phone,
-//           user.active,
-//           user.status
-//         )
-//       );
-//     }
-//     result.push(
-//       createTeamObject(team.id, team.name, qtyProjectsToAdd, usersToAdd)
-//     );
-//   }
-//   return result;
-// };
-
-// export const parseCompanyAnouncementsDto = (announcementsDto) => {
-//   let _ = require('lodash');
-//   let sortedAccouncementsDto = _.orderBy(announcementsDto, ['date'], ['desc'])
-//   let result = [];
-
-export const parseCompanyTeamsDto = (companyTeamsDto) => {
-  let _ = require('lodash');
-  let sortedCompanyTeamsDto = _.orderBy(companyTeamsDto, ['name'], ['asc'])
+export const parseCompanyTeamsDto = (companyTeamsDto, projectsDto) => {
   let result = [];
-  for (let team of sortedCompanyTeamsDto) {
+  for (let team of companyTeamsDto) {
     let usersToAdd = [];
+    let qtyProjectsToAdd = countTeamProjects(projectsDto, team.id);
     for (let user of team.teammates) {
       usersToAdd.push(user.profile.firstName + " " + user.profile.lastName[0] + ".")
     }
     result.push(
-      createTeamObject(team.id, team.name, "[#]", usersToAdd)
+      createTeamObject(team.id, team.name, qtyProjectsToAdd, usersToAdd)
     );
   }
   return result;
 };
+
+// export const parseCompanyTeamsDto = (companyTeamsDto) => {
+//   let _ = require('lodash');
+//   let sortedCompanyTeamsDto = _.orderBy(companyTeamsDto, ['name'], ['asc'])
+//   let result = [];
+//   for (let team of sortedCompanyTeamsDto) {
+//     let usersToAdd = [];
+//     for (let user of team.teammates) {
+//       usersToAdd.push(user.profile.firstName + " " + user.profile.lastName[0] + ".")
+//     }
+//     result.push(
+//       createTeamObject(team.id, team.name, "[#]", usersToAdd)
+//     );
+//   }
+//   return result;
+// };
 
 export const parseTeamProjectsDto = (projectsDto) => {
   let _ = require('lodash');
