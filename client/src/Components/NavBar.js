@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom';
 import CloseIcon from '@mui/icons-material/Close';
 import { userState } from '../globalstate';
 import { useRecoilState } from 'recoil';
-
+import logo from '../Assets/logo.png';
 const NavBar = () => {
     const [user, setUser] = useRecoilState(userState);
     const [state, setState] = React.useState({
@@ -40,9 +40,10 @@ const NavBar = () => {
             role="presentation"
             onClick={toggleDrawer(anchor, false)}
             onKeyDown={toggleDrawer(anchor, false)}
-        >
-            <List style={{ textAlign: "center", background: "#051622" }} sx={{ width: '100%' }}>
-                {["Announcements", "Projects", "Teams", "Users","Company"].map((text, index) => (
+        > 
+            <List style={{ textAlign: "center", background: "#051622" }} sx={{ width: '100%' }}> 
+            {user.isAdmin ?
+                ["Announcements", "Projects", "Teams", "Users","Company"].map((text, index) => (
                     <ListItem key={text} disablePadding
                         sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}
                     >
@@ -51,8 +52,17 @@ const NavBar = () => {
                                 <ListItemText style={{ color: "#1ba098" }} primary={text} />
                             </ListItemButton>
                         </Link>
-                    </ListItem>
-                ))}
+                    </ListItem> 
+                )) : ["Announcements", "Projects", "Teams"].map((text, index) => (
+                    <ListItem key={text} disablePadding
+                        sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}
+                    >
+                        <Link to={"/" + text.toLowerCase()} style={{ textDecoration: "none", color: "black" }}>
+                            <ListItemButton sx={{ width: '100%' }}>
+                                <ListItemText style={{ color: "#1ba098" }} primary={text} />
+                            </ListItemButton>
+                        </Link>
+                    </ListItem>))}  
                 <ListItem key={"logout"} disablePadding
                     sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}
                 >
@@ -70,8 +80,10 @@ const NavBar = () => {
 
 
     return (
-        <div style={{ height: "8vh", color: "#1ba098", background: "#051622", paddingTop: ".5%" }}>
-            {user.isAdmin ? <h1 style={{ color: "palevioletred", fontSize: "1.75rem" }}>Acting as Admin</h1> : null}
+        <div style={{ height: "8vh", color: "#1ba098", background: "#051622", paddingTop: "0%" }}>
+            
+            <h1 style={{ color: "#f24e1e", fontSize: "1.75rem", display: "flex", alignItems: "center" }}><img src={logo} style={{height: "7vh", marginLeft: "20px", marginRight: "20px"}}/>{user.isAdmin ? `Acting as Admin` : user.firstName + " " + user.lastName}</h1>
+            
             {toggled ?
                 <Button style={{ position: 'absolute', right: "2%", top: "1%", zIndex: "100" }} onClick={toggleDrawer(anchor, true)}><MenuIcon style={{ height: "5vh", width: "5vw" }} /></Button>
                 :
