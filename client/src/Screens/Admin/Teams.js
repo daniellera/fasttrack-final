@@ -202,12 +202,13 @@ const Teams = () => {
                       <br />
                       <br />
 
-
                       <div className="form-group">
                         <label htmlFor="teamMembers">Members:</label>
-                        <select
+                        <StyledSelect
+                        style={{ width: "50%", height: "100%" }}
                           id="teamMembers"
                           name="members"
+                          required
                           multiple
                           // value={newTeam.members}
                           onChange={(event) =>
@@ -222,11 +223,9 @@ const Teams = () => {
                               {user.firstName + " " + user.lastName[0] + "."}
                             </option>
                           ))}
-                        </select>
+                        </StyledSelect>
                       </div>
-
-
-                      <StyledSelect name="member" id="member" required>
+                      {/* <StyledSelect name="member" id="member" required>
                         <option value="" disabled selected hidden>
                           Pick an option
                         </option>
@@ -237,7 +236,7 @@ const Teams = () => {
                             </option>
                           ))
                         )}
-                      </StyledSelect>
+                      </StyledSelect> */}
                     </div>
                     <Button
                       onClick={handleCreateTeam}
