@@ -31,8 +31,9 @@ export const parseDate = (date) => {
     11: "December",
   };
   let month = String(intToMonth[date.getMonth()]);
-  let day = String(3);
+  let day = date.getDate();
   let year = String(date.getFullYear());
+  console.log(day)
   return month + " " + day + ", " + year;
 };
 
