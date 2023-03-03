@@ -17,10 +17,13 @@ export const getTeamProjects = async (companyId, teamId) => {
 };
 
 export const getCompanyUsers = async (companyId) => {
-  console.log("I am getting users by this company id")
-  console.log(companyId)
   return await api.get("/company/" + companyId + "/users");
 };
+
+export const getAllProjects = async () => {
+  return await api.get("/projects");
+};
+
 
 //----------Post Requests----------\\
 export const login = async (username, password) => {

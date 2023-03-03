@@ -93,20 +93,13 @@ const Teams = () => {
   }, []);
 
   const handleClick = (teamClicked) => {
-    // console.log("I clicked this")
-    // console.log(teamClicked)
     let teamClickedId = teamClicked.currentTarget.id
     let teamObject;
     for(let team of teams){
-      // console.log("This is running")
-      // console.log(team.id)
-      // console.log(teamClickedId)
       if(team.id == teamClickedId){
         teamObject = {...team}
       }
     }
-    // console.log(teamObject)
-    //
     setUser({ ...user, selectedTeam: teamObject});
   };
 
@@ -114,9 +107,7 @@ const Teams = () => {
   const getTeams = async () => {
     await getCompanyTeams(user.selectedCompany)
       .then((serverResponse) => {
-        console.log(serverResponse.data);
         setTeams(parseCompanyTeamsDto(serverResponse.data));
-        // console.log("announcements state was set");
       })
       .catch((error) => console.log(error));
   };
