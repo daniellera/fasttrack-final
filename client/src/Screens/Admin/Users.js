@@ -285,6 +285,7 @@ const Users = () => {
             lastName.length === 0 ||
             phone.length === 0 ||
             password.length === 0 ||
+            confirmPassword.length === 0 ||
             username.length === 0
         ) {
             setSubmitError({ message: 'All fields are required', isDisplayed: true })
