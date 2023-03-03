@@ -52,7 +52,6 @@ export const parseCompanyAnouncementsDto = (announcementsDto) => {
 //This is to count projects. I will figure out a better implementation.
 export const parseCompanyTeamsDto = (companyTeamsDto, projectsDto) => {
   let _ = require('lodash');
-  console.log(companyTeamsDto)
   let sortedCompanyTeamsDto = _.orderBy(companyTeamsDto, ['name'], ['asc'])
   let result = [];
   for (let team of sortedCompanyTeamsDto) {
@@ -103,8 +102,10 @@ export const parseTeamProjectsDto = (projectsDto) => {
 };
 
 export const parseCompanyUsersDto = (companyUsersDto) => {
+  let _ = require('lodash');
+  let sortedCompanyUsersDto = _.orderBy(companyUsersDto, ['profile.firstName'], ['asc'])
   let result = [];
-  for (let user of companyUsersDto) {
+  for (let user of sortedCompanyUsersDto) {
     result.push(
       createUserRegistryObject(
         user.id,
