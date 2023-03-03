@@ -95,7 +95,7 @@ const Projects = () => {
   const getProjects = async () =>{
     // console.log("This is the user selected team:")
     // console.log(user.selectedTeam)
-    await getTeamProjects(user.selectedCompany, user.selectedTeam)
+    await getTeamProjects(user.selectedCompany, user.selectedTeam.id)
     // await getTeamProjects(user.selectedCompany, 17) //work around until selected team is working
     .then((serverResponse) => {
       // console.log("this is the server response:")
@@ -121,7 +121,7 @@ const Projects = () => {
         newProjectName,
         newProjectDescription,
         true,
-        user.selectedTeam
+        user.selectedTeam.id
       )
         // await(createProject(newProjectName, newProjectDescription, true, 17))//work around until selected team is working
         .then(() => getProjects())
@@ -164,10 +164,10 @@ const Projects = () => {
             )}
           </Link>
           {!isMobile ? (
-            <h1>Projects for Team {user.selectedTeam}</h1>
+            <h1>Projects for Team {user.selectedTeam.teamName}</h1>
           ) : (
             <h1 style={{ fontSize: "25px" }}>
-              Projects for {user.selectedTeam}
+              Projects for {user.selectedTeam.teamName}
             </h1>
           )}
         </StyledProjects>

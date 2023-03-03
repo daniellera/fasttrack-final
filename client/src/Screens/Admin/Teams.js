@@ -95,10 +95,19 @@ const Teams = () => {
   const handleClick = (teamClicked) => {
     // console.log("I clicked this")
     // console.log(teamClicked)
-    console.log("This was the event:")
-    console.log(teamClicked)
-    setUser({ ...user, selectedTeam: teamClicked.currentTarget.id});
-    // window.location.replace('/projects')
+    let teamClickedId = teamClicked.currentTarget.id
+    let teamObject;
+    for(let team of teams){
+      // console.log("This is running")
+      // console.log(team.id)
+      // console.log(teamClickedId)
+      if(team.id == teamClickedId){
+        teamObject = {...team}
+      }
+    }
+    // console.log(teamObject)
+    //
+    setUser({ ...user, selectedTeam: teamObject});
   };
 
   //make request to backend to get teams
