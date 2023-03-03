@@ -44,25 +44,21 @@ const NavBar = () => {
         >
             <List style={{ textAlign: "center", background: "#051622" }} sx={{ width: '100%' }}>
                 {["Announcements", "Projects", "Teams"].concat(user.isAdmin ? ["Users", "Company"] : []).map((text, index) => (
-
-
-
-       // > 
-          //  <List style={{ textAlign: "center", background: "#051622" }} sx={{ width: '100%' }}> 
+                    
+    //    > 
+        //    <List style={{ textAlign: "center", background: "#051622" }} sx={{ width: '100%' }}> 
         //    {user.isAdmin ?
-             //   ["Announcements", "Projects", "Teams", "Users","Company"].map((text, index) => (
-               //     <ListItem key={text} disablePadding
-                 //       sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}
-               //     >
-                    //    <Link to={"/" + text.toLowerCase()} style={{ textDecoration: "none", color: "black" }}>
-                    //        <ListItemButton sx={{ width: '100%' }}>
-                  //              <ListItemText style={{ color: "#1ba098" }} primary={text} />
-                 //           </ListItemButton>
-                //        </Link>
-               //     </ListItem> 
-            //    )) : ["Announcements", "Projects", "Teams"].map((text, index) => (
-                
-                
+        //        ["Announcements", "Projects", "Teams", "Users","Company"].map((text, index) => (
+        //            <ListItem key={text} disablePadding
+        //                sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}
+        //            >
+        //                <Link to={"/" + text.toLowerCase()} style={{ textDecoration: "none", color: "black" }}>
+        //                    <ListItemButton sx={{ width: '100%' }}>
+        //                        <ListItemText style={{ color: "#1ba098" }} primary={text} />
+        //                    </ListItemButton>
+        //                </Link>
+        //            </ListItem> 
+        //        )) : ["Announcements", "Projects", "Teams"].map((text, index) => (
 
                     <ListItem key={text} disablePadding
                         sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}
