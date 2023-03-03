@@ -51,8 +51,11 @@ export const parseCompanyAnouncementsDto = (announcementsDto) => {
 
 //This is to count projects. I will figure out a better implementation.
 export const parseCompanyTeamsDto = (companyTeamsDto, projectsDto) => {
+  let _ = require('lodash');
+  console.log(companyTeamsDto)
+  let sortedCompanyTeamsDto = _.orderBy(companyTeamsDto, ['name'], ['asc'])
   let result = [];
-  for (let team of companyTeamsDto) {
+  for (let team of sortedCompanyTeamsDto) {
     let usersToAdd = [];
     let qtyProjectsToAdd = countTeamProjects(projectsDto, team.id);
     for (let user of team.teammates) {
