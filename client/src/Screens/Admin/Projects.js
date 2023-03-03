@@ -92,13 +92,13 @@ const Projects = () => {
 
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
 
-  const getProjects = async () =>{
+  const getProjects = async () => {
     await getTeamProjects(user.selectedCompany, user.selectedTeam.id)
-    .then((serverResponse) => {
-      setProjects(parseTeamProjectsDto(serverResponse.data))
-    })
-    .catch((error) => console.log(error))
-  }
+      .then((serverResponse) => {
+        setProjects(parseTeamProjectsDto(serverResponse.data));
+      })
+      .catch((error) => console.log(error));
+  };
 
   const handleCreateProject = async () => {
     let newProjectName = document.getElementById("newProjectName").value;
@@ -155,7 +155,7 @@ const Projects = () => {
             )}
           </Link>
           {!isMobile ? (
-            <h1>Projects for Team {user.selectedTeam.teamName}</h1>
+            <h1>Projects for {user.selectedTeam.teamName}</h1>
           ) : (
             <h1 style={{ fontSize: "25px" }}>
               Projects for {user.selectedTeam.teamName}
