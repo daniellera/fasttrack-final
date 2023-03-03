@@ -3,13 +3,13 @@ import { useRecoilState } from "recoil";
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import NavBar from "../../Components/NavBar";
-import { userState, teamsState, userRegistryState, projectsState } from "../../globalstate";
+import { userState, teamsState, userRegistryState, allProjectsState } from "../../globalstate";
 import "../../Teams.css";
 import TeamBox from "../../Components/TeamBox";
 import Popup from "../../Components/Popup";
 import Button from "../../Components/Button";
-import { createTeam, getCompanyTeams, getCompanyUsers } from "../../Services/apiCalls";
-import { parseCompanyTeamsDto, parseCompanyUsersDto } from "../../Services/helpers";
+import { createTeam, getCompanyTeams, getCompanyUsers, getAllCompanyProjects } from "../../Services/apiCalls";
+import { parseCompanyTeamsDto, parseCompanyUsersDto, parseTeamProjectsDto } from "../../Services/helpers";
 
 const StyledSelect = styled.select`
   width: 163px;
@@ -51,7 +51,7 @@ const Teams = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [teamsSelected, setTeamsSelected] = useState([]);
   const [userRegistry, setUserRegistry] = useRecoilState(userRegistryState)
-  const [projects, setProjects] = useRecoilState(projectsState)
+  const [allProjects, setAllProjects] = useRecoilState(allProjectsState)
 
   const togglePopup = () => {
     setIsPopupOpen(!isPopupOpen);
@@ -59,20 +59,24 @@ const Teams = () => {
 
   useEffect(() => {
     getUsers()
+    getAllProjects();
   }, [])
+
+    const getAllProjects = async () => {
+        await getAllCompanyProjects()
+        .then((serverResponse) => {
+            setAllProjects(parseTeamProjectsDto(serverResponse.data))
+        })
+        .catch((error) => console.log(error));
+    }
 
   const getUsers = async () => {
     await getCompanyUsers(user.selectedCompany)
       .then((serverResponse) => {
-        console.log(serverResponse.data)
         setUserRegistry(parseCompanyUsersDto(serverResponse.data))
-        // console.log("user registry state was set")
-
       })
       .catch((error) => console.log(error))
   }
-
-
   // const [newTeam, setNewTeam] = useState({
   //   name: "",
   //   projects: [""],
@@ -126,7 +130,7 @@ const Teams = () => {
   const getTeams = async () => {
     await getCompanyTeams(user.selectedCompany)
       .then((serverResponse) => {
-        setTeams(parseCompanyTeamsDto(serverResponse.data, projects));
+        setTeams(parseCompanyTeamsDto(serverResponse.data, allProjects));
       })
       .catch((error) => console.log(error));
   };

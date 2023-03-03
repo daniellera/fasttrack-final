@@ -39,14 +39,10 @@ export const parseDate = (date) => {
 //----------Parsing Data From Backend----------\\
 export const parseCompanyAnouncementsDto = (announcementsDto) => {
   let _ = require('lodash');
-  console.log("This is my list of dates")
-  console.log(announcementsDto)
   let sortedAccouncementsDto = _.orderBy(announcementsDto, ['date'], ['desc'])
   let result = [];
 
   for (let announcement of sortedAccouncementsDto) {
-    console.log("This is my date object")
-    console.log(announcement.date)
       result.push(createAnnouncementObject(announcement.id, announcement.author.profile.firstName + " " + announcement.author.profile.lastName, parseDate(new Date(announcement.date.replace(' ', 'T'))), announcement.title, announcement.message));
   }
   return result;

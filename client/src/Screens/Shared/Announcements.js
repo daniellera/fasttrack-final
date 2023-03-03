@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { useMediaQuery } from "react-responsive";
 
 import NavBar from "../../Components/NavBar";
-import { userState, announcementsState } from "../../globalstate";
+import { userState, announcementsState, allProjectsState } from "../../globalstate";
 import Button from "../../Components/Button";
 import Announcement from "../../Components/Announcement";
 import Popup from "../../Components/Popup";
@@ -15,6 +15,7 @@ import {
   createAnnouncement,
 } from "../../Services/apiCalls";
 import { parseCompanyAnouncementsDto, parseDate } from "../../Services/helpers";
+
 
 const StyledAnnouncements = styled.div`
   width: 100%;
@@ -79,10 +80,12 @@ const Announcements = () => {
   );
   const [user] = useRecoilState(userState);
   const [announcements, setAnnouncements] = useRecoilState(announcementsState);
+  
 
   //On initial load and whenever the announcement state is changed, make a call to the backend to update anouncements.
   useEffect(() => {
     getAnnouncements();
+    
   }, []);
 
   const getAnnouncements = async () => {

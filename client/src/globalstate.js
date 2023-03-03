@@ -150,6 +150,34 @@ export const projectsState = atom({
   ],
 });
 
+export const allProjectsState = atom({
+  key: "allProjectsState",
+  default: [
+    //GET company/{id}/teams/{id}/projects, takes company id and team id
+    {
+      id: "[PROJECT 1 ID]",
+      projectName: "[PROJECT 1 NAME]",
+      isActive: true,
+      projectDecription: "[PROJECT 1 DESCRIPTION]",
+      team: "[TEAM ID ASSIGNED TO PROJECT]",
+    },
+    {
+      id: "[PROJECT 2 ID]",
+      projectName: "[PROJECT 2 NAME]",
+      isActive: true,
+      projectDecription: "[PROJECT 2 DESCRIPTION]",
+      teamId: "[TEAM ID ASSIGNED TO PROJECT]",
+    },
+    {
+      id: "[PROJECT 3 ID]",
+      projectName: "[PROJECT 3 NAME]",
+      isActive: false,
+      projectDecription: "[PROJECT 3 DESCRIPTION]",
+      teamId: "[TEAM ID ASSIGNED TO PROJECT]",
+    },
+  ],
+});
+
 export const userRegistryState = atom({
   key: "userRegistryState",
   default: [

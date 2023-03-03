@@ -1,8 +1,9 @@
 import { Navigate } from 'react-router-dom'
 import { useRecoilState } from 'recoil'
-import { userState, companyState } from '../../globalstate'
+import { userState, allProjectsState } from '../../globalstate'
 import styled from 'styled-components'
 import Dropdown from '../../Components/Dropdown'
+
 
 const CompanyWrapper = styled.div`
     display: flex;
@@ -32,7 +33,7 @@ const CompanyWrapper = styled.div`
 
 const CompanyScreen = () => {
     const [user, setUser] = useRecoilState(userState)
-    // const [companies, setCompanies] = useRecoilState(companyState)
+    
 
     const companyOptions = user.companies.map(
         (company, index) => <option key={index} value={index}>{company.name}</option>
@@ -43,6 +44,7 @@ const CompanyScreen = () => {
             ...prev,
             selectedCompany: user.companies[event.target.value].id
         }))
+        
         window.location.replace('/announcements')
     }
 

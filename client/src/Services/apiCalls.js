@@ -2,7 +2,6 @@ import api from "./api";
 
 //----------Get Requests----------\\
 export const getCompanyAnnouncements = async (companyId) => {
-  console.log(companyId);
   return await api.get("/company/" + companyId + "/announcements");
 };
 
